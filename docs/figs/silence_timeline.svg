@@ -2,7 +2,7 @@
   <rect width="100%" height="100%" fill="#ffffff"/>
 
   <text x="20" y="26" font-size="13.5" font-weight="700" fill="#1f2328">一次「异常静默」事件的完整生命周期</text>
-  <text x="20" y="42" font-size="9.5" fill="#6b7280">同一个事件：只问 1 次、只推 1 次；人重新出现或门开才解锁</text>
+  <text x="20" y="42" font-size="9.5" fill="#6b7280">同一个事件：至多问 2 句（询问 + 指令）、只推 1 次；人重新出现或门开才解锁</text>
 
   <!-- 左侧行标签 -->
   <text x="40" y="72" font-size="9.5" fill="#4b5563">雷达帧</text>
@@ -106,12 +106,14 @@
   <g stroke-width="1.2">
     <line x1="100" y1="100" x2="100" y2="150" stroke="#4b5563"/>
     <line x1="217" y1="100" x2="217" y2="150" stroke="#e1a23c"/>
+    <line x1="237" y1="106" x2="237" y2="150" stroke="#e1a23c" stroke-dasharray="3 2"/>
     <line x1="256" y1="100" x2="256" y2="150" stroke="#d94b4b"/>
     <line x1="490" y1="100" x2="490" y2="150" stroke="#2f9e63"/>
   </g>
   <g>
     <circle cx="100" cy="150" r="3.2" fill="#4b5563"/>
     <circle cx="217" cy="150" r="3.2" fill="#e1a23c"/>
+    <circle cx="237" cy="150" r="2.6" fill="#e1a23c"/>
     <circle cx="256" cy="150" r="3.2" fill="#d94b4b"/>
     <circle cx="490" cy="150" r="3.2" fill="#2f9e63"/>
   </g>
@@ -119,9 +121,10 @@
   <!-- 事件标签 -->
   <g font-size="9" fill="#1f2328">
     <text x="104" y="172">t=0 人最后一次出现</text>
-    <text x="221" y="172">t=90 开口问候</text>
-    <text x="260" y="194">t=120 没回应 → 推送家属（1 次）</text>
-    <text x="494" y="194">锁存，不再重复</text>
+    <text x="221" y="172">t=90 问候</text>
+    <text x="242" y="194">t=105 补问（改指令式）</text>
+    <text x="242" y="216">t=120 仍无回应 → 推送家属（1 次）</text>
+    <text x="494" y="216">锁存，不再重复</text>
   </g>
   <g stroke="#cbd2da" stroke-width="0.8">
     <line x1="104" y1="164" x2="104" y2="156"/>

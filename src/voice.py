@@ -22,7 +22,12 @@ PHRASES = {
     "fault":      "fault.wav",       # 我这边的雷达好像没连上，请看一下线。
     "away":       "away.wav",        # 您要出门呀？路上慢点。
     "sos":        "sos.wav",         # 紧急求助！请帮忙拨打 120 或联系家属！
+    "checkin":    "checkin.wav",     # 奶奶，我来看看您。您拍一下手边的键，我就放心了。
 }
+
+# 某一句还没录时的退路。点名用 ask.wav 顶上：内容不完全贴合，
+# 但「有人在问」这件事必须发生 —— 不能因为少录一句就让点名变成哑巴。
+FALLBACK = {"checkin": "ask"}
 
 
 def play_file(path):
@@ -56,6 +61,10 @@ def speak(text, key=None, strict=False):
     """
     if key and key in PHRASES:
         if play_file(os.path.join(AUDIO_DIR, PHRASES[key])):
+            return "local"
+        alt = FALLBACK.get(key)
+        if alt and play_file(os.path.join(AUDIO_DIR, PHRASES[alt])):
+            print("[提示] audio/%s 缺失，本次用 %s 代替。" % (PHRASES[key], PHRASES[alt]))
             return "local"
         if strict:
             print("[!!] 安全语音缺失：audio/%s —— 这一句没有播出去。"

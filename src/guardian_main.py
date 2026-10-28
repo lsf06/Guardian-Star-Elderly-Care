@@ -83,8 +83,10 @@ def main():
             hit_sos = sos["flag"]
             sos["flag"] = False
 
+            lt = time.localtime(now)
+            now_tod = lt.tm_hour * 3600 + lt.tm_min * 60 + lt.tm_sec
             events = g.update(now, seen=(last_state != 0), door_open=door_open,
-                              pressed=hit, frame_ok=bool(frames))
+                              pressed=hit, frame_ok=bool(frames), now_tod=now_tod)
 
             # SOS 优先级最高：不看雷达、不看门磁、不看状态机，按下就是按下
             if hit_sos:
@@ -95,6 +97,12 @@ def main():
             for kind, text in events:
                 if kind == "ask":
                     voice.speak(cfg.ask_text, "ask", strict=True)
+                elif kind == "checkin":
+                    # 每日点名：雷达看得见人，但不知道他还能不能动。
+                    # 这是设备唯一能覆盖「人在、但动不了」的手段。
+                    voice.speak(cfg.checkin_text, "checkin", strict=True)
+                elif kind == "ask_again":
+                    voice.speak(cfg.ask_text_again, "ask_again", strict=True)
                 elif kind == "resolved":
                     voice.speak(cfg.resolved_text, "resolved", strict=True)
                 elif kind == "escalate":

@@ -50,6 +50,7 @@ def main():
     cfg = Config(
         silence=args.silence,
         answer_window=8.0,
+        second_ask_after=4.0,
         away_confirm=10.0,
         suppress_short=20.0,
         heartbeat=5.0,
@@ -79,13 +80,16 @@ def main():
           % (g.counts["ask"], g.counts["escalate"], g.counts["chat"]))
 
     # ---- 回归测试：锁存是否生效 ----------------------------------------
-    asks = [x for x in log if x[1] == "ask"]
+    asks = [x for x in log if x[1] in ("ask", "ask_again")]
     esc = [x for x in log if x[1] == "escalate"]
-    after = [x for x in log if x[0] > 300 and x[1] in ("ask", "escalate")]
+    first_esc = esc[0][0] if esc else None
+    after = [x for x in log if x[1] in ("ask", "ask_again", "escalate")
+             and first_esc is not None and x[0] > first_esc and x[0] < 600]
     ok = True
 
-    if len(asks) > 2:
-        print("FAIL: 问候 %d 次，锁存失效（应 <= 2）" % len(asks))
+    # 剧本里有两段静默：96 秒那段被按键消解，216 秒那段升级。每段最多问 2 句。
+    if len(asks) > 4:
+        print("FAIL: 一共问了 %d 句，锁存失效（两段静默 × 每段 2 句 = 4）" % len(asks))
         ok = False
     if len(esc) > 1:
         print("FAIL: 推送 %d 次，升级未锁存（应 <= 1）" % len(esc))
@@ -124,6 +128,48 @@ def main():
     later = [x for x in qlog if x[1] == "ask" and x[0] > 60]
     if not later:
         print("FAIL: 按键消解后系统永久沉默，老人此时真的出事也不会被发现（漏报）")
+        ok = False
+
+    # ---- 回归测试：人在场但动不了，点名必须在有界时间内发现 -------------
+    # 这是整个项目最危险的洞。倒地不起、仍在呼吸的人，雷达一直看得见，
+    # 静默判定永远不触发。没有点名，设备对最危险的场景一句话都不会说 ——
+    # 而「买它干什么」这个问题，正是从这里来的。
+    ccfg = Config(silence=20, answer_window=8, suppress_short=20)
+    gc = Guardian(ccfg, t0=0.0)
+    clog = []
+    t = 0.0
+    for minute in range(8 * 60, 21 * 60):      # 08:00 -> 21:00，一分钟一步
+        for k, _ in gc.update(t, seen=True, now_tod=float(minute * 60)):
+            clog.append((minute, k))
+        t += 60.0
+    first_ci = [x for x in clog if x[1] == "checkin"]
+    if not first_ci:
+        print("FAIL: 全天人在场但没有点名 —— 人倒地不动时设备永久沉默")
+        ok = False
+    elif first_ci[0][0] > 9 * 60 + 5:
+        print("FAIL: 点名没有在 09:00 附近发生（实际 %02d:%02d）"
+              % (first_ci[0][0] // 60, first_ci[0][0] % 60))
+        ok = False
+    if not any(x[1] == "escalate" for x in clog):
+        print("FAIL: 点名无人应答，却没有推送家属")
+        ok = False
+
+    # ---- 回归测试：点名时按了键，不能推送，且要留下「今日平安」------------
+    gb = Guardian(ccfg, t0=0.0)
+    blog = []
+    t = 0.0
+    for minute in range(8 * 60, 10 * 60):
+        pressed = (minute == 9 * 60 + 1)       # 点名后一分钟内按下去了
+        for k, _ in gb.update(t, seen=True, pressed=pressed,
+                              now_tod=float(minute * 60)):
+            blog.append((minute, k))
+        t += 60.0
+    if any(x[1] == "escalate" for x in blog):
+        print("FAIL: 老人按时按了键，仍然推送了家属（误报）")
+        ok = False
+    if gb.counts["checkin_ok"] != 1:
+        print("FAIL: 点名后按键没有计入 checkin_ok —— 家属端看不到「今日平安」，")
+        print("      也就无法通过「今天没收到平安」发现设备被拔了")
         ok = False
 
     print("回归测试: " + ("PASS" if ok else "FAIL"))

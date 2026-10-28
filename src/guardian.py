@@ -16,6 +16,10 @@
 #   6. 占比判定：用「窗口内无人的帧占比」而不是「连续多少秒没看到」。
 #      —— 没有它，一次偶发误检就把计时器清零，真正的屏息永远触发不了。
 #         这个坑是真跑数据才会发现的：8% 的杂散帧足以让连续判定彻底失效。
+#   7. 每日点名：静默判定只抓得到「人从雷达里消失」，抓不到「人还在、但动不了」。
+#      —— 没有它，倒地不起仍在呼吸的人，设备到死都不会说一句话。
+#         点名把承诺从「无界」变成「有界」：最长到下一次点名，一定有人知道。
+#         它同时让「设备被拔掉」变成可观测事件：家属收不到「今日平安」。
 
 from collections import deque
 from dataclasses import dataclass
@@ -26,6 +30,10 @@ class Config:
     silence: float = 90.0            # 观察窗口长度（产品 90s，演示 20s）
     absent_ratio: float = 0.2        # 窗口内「看得到」的帧占比低于此值，判为消失
     answer_window: float = 30.0      # 问候后等多久算无应答（不要用 15s，老人找眼镜都不够）
+    second_ask_after: float = 15.0   # 第一次问候后多久补问一句（ask_again）。
+    #   必须 < answer_window，否则第二句永远来不及说。
+    #   这一句不是重复：第一句是「您还好吗」，第二句是「您按一下手边的键好吗」——
+    #   从询问变成指令，对听力不好、反应慢的老人是完全不同的两句话。
     away_confirm: float = 10.0       # 门开超过多久判为离家。必须 < silence，否则问候会抢在门磁前面
     suppress_short: float = 120.0    # 短时开关门后压制多久
     after_resolve_quiet: float = 600.0
@@ -36,14 +44,31 @@ class Config:
     heartbeat: float = 5.0           # 多久收不到帧判设备异常
     speech_freeze: float = 3.0       # 播报后冻结判定多久（防自激）
     startup_check: float = 60.0      # 上电多久未检测到人给出提示
+    # ---- 每日点名（补的是整个项目最大的洞）----------------------------
+    # 静默判定只认一件事：人从雷达里消失了。
+    # 但「倒地不起、仍在呼吸」的人，雷达一直看得见，占比判定永远不触发，
+    # 于是设备对最危险的场景一言不发 —— 客户会当场问：那我买它干什么。
+    # 点名把「无界盲区」变成「有界上限」：人在但不应答，最长到下一次点名必被发现。
+    # 它同时解决第二个问题：设备被拔掉/坏了，家属端收不到「今日平安」，
+    # 也就成了可观测事件 —— 而这恰恰是市面设备最常见的真实死法。
+    checkin_times: tuple = (9, 20)   # 每天主动点名的整点（24 小时制）
+    checkin_text: str = "奶奶，我来看看您。您拍一下手边的键，我就放心了。"
+    escalate_hold: float = 1800.0    # 点名升级后锁存多久，之后允许重新判定
     max_asks_per_visit: int = 2      # 同一次在家最多问候几次。
     #   设成 2：第一次问，没回应就升级；之后再问也不会有新信息，
     #   只会变成骚扰。它同时兜住「按键消解 -> 冷却到 -> 再问」这个环路，
     #   否则老人每按一次键，20 秒后又被问一句「您还好吗」。
     ask_text: str = "奶奶，有一阵子没看到您了，您还好吗？"
-    ask_text_again: str = "您还好吗？拍拍这个按钮就行。"
+    ask_text_again: str = "我有点担心，您按一下手边的键好吗？"
     resolved_text: str = "好的，您没事就好。"
     push_text: str = "老人较长时间未活动且未回应问候，建议致电确认。"
+
+
+def _crossed(prev, cur, target):
+    """prev -> cur 这段里有没有跨过 target（秒）。要处理跨零点。"""
+    if prev <= cur:
+        return prev <= target < cur
+    return target >= prev or target < cur
 
 
 class Guardian:
@@ -57,6 +82,7 @@ class Guardian:
         self.last_seen = t0
         self.last_frame = t0
         self.ask_at = 0.0
+        self.ep_start = 0.0     # 本次事件第一句的时间：升级与补问都从它算起
         self.door_since = None
         self.armed = False          # 本次在家期间见过人
         self.ever_seen = False
@@ -64,7 +90,12 @@ class Guardian:
         self.suppress_until = 0.0   # 冷却截止
         self.startup_warned = False
         self.hist = deque()         # (t, seen) 滑动窗口，用来算「看不到人」的占比
-        self.counts = {"ask": 0, "escalate": 0, "chat": 0, "fault": 0}
+        self.tod_prev = None        # 上一次的「当天秒数」，用来判断有没有跨过点名时刻
+        self.checkin_due = False    # 已跨过点名时刻，等一个「人在场」的时机
+        self.ask_kind = None        # "silence" 或 "checkin"：决定这次事件靠什么结束
+        self.asked_again = False    # 本次事件里第二句补问说过了没有
+        self.counts = {"ask": 0, "escalate": 0, "chat": 0, "fault": 0,
+                       "checkin": 0, "checkin_ok": 0}
 
     def occupancy(self, now):
         """返回 (窗口内看得到的帧占比, 窗口实际跨度秒数)。"""
@@ -78,8 +109,13 @@ class Guardian:
         return seen / len(self.hist), span
 
     # ------------------------------------------------------------------
-    def update(self, now, seen=None, door_open=False, pressed=False, frame_ok=True):
-        """喂一帧状态，返回事件列表 [(kind, text), ...]。"""
+    def update(self, now, seen=None, door_open=False, pressed=False, frame_ok=True,
+               now_tod=None):
+        """喂一帧状态，返回事件列表 [(kind, text), ...]。
+
+        now_tod 是「当天已过秒数」(0..86400)。传 None 就关闭点名，
+        这样已有的测试与演示可以完全不变。
+        """
         cfg = self.cfg
         ev = []
 
@@ -90,6 +126,7 @@ class Guardian:
             if self.mode != "FAULT":
                 self.mode = "FAULT"
                 self.episode = None
+                self.ask_kind = None
                 self.counts["fault"] += 1
                 ev.append(("fault", "雷达超过 %d 秒没有输出，设备异常，请检查接线"
                            % int(cfg.heartbeat)))
@@ -105,6 +142,16 @@ class Guardian:
             seen = False
         self.hist.append((now, seen))
 
+        # 0) 有没有跨过点名时刻 -------------------------------------------
+        # 用「当天秒数」而不是运行时长：设备重启不会把点名时刻整体推后，
+        # 家属也永远能预期「早上九点它会问一句」。
+        if now_tod is not None:
+            if self.tod_prev is not None:
+                for hh in cfg.checkin_times:
+                    if _crossed(self.tod_prev, float(now_tod), float(hh) * 3600.0):
+                        self.checkin_due = True
+            self.tod_prev = float(now_tod)
+
         # 1.5) resolved 冷却到期必须回到 None ------------------------------
         # 按键只证明「那一刻清醒」，不证明「之后没事」。
         # 如果 resolved 一直挂着，那么老人拍完键、随后真的失去意识时，
@@ -112,6 +159,7 @@ class Guardian:
         # 这是最坏的失效方式：它发生在设备刚刚被证明「工作正常」之后。
         if self.episode == "resolved" and now >= self.suppress_until:
             self.episode = None
+            self.ask_kind = None
 
         # 2) 门磁 --------------------------------------------------------
         if door_open:
@@ -120,6 +168,8 @@ class Guardian:
             if (now - self.door_since >= cfg.away_confirm) and self.mode != "AWAY":
                 self.mode = "AWAY"
                 self.episode = None
+                self.ask_kind = None
+                self.checkin_due = False   # 人已经出门了，别在他回来时补问一句
                 self.armed = False
                 self.suppress_until = 0.0
                 ev.append(("away", "门已开启超过 %d 秒，判定为离家" % int(cfg.away_confirm)))
@@ -148,8 +198,11 @@ class Guardian:
             self.armed = True
             self.ever_seen = True
             self.suppress_until = 0.0
-            if self.episode is not None:
+            # 「人回来了」只对静默事件成立。点名事件里人本来一直在场，
+            # 凭什么因为雷达还看得见他，就判定他没事？—— 那正是这个洞本身。
+            if self.episode is not None and self.ask_kind != "checkin":
                 self.episode = None              # 人回来了，本次事件结束
+                self.ask_kind = None
             if self.mode == "AWAY":
                 self.mode = "HOME"
                 ev.append(("home", "雷达看到人，判定已回家"))
@@ -162,8 +215,18 @@ class Guardian:
             self.last_seen = now
             self.armed = True
             self.ever_seen = True
+            # 人刚按过键：他不但能动，而且刚刚表达过。
+            # 今天这次点名就此免掉，否则就是「刚聊完天又被问您还好吗」。
+            if self.checkin_due:
+                self.checkin_due = False
+                self.counts["checkin_ok"] += 1
             if self.episode in ("asking", "escalated"):
+                if self.ask_kind == "checkin":
+                    # 家属端每天要看到的就是这一条「人按了、人没事」。
+                    # 收不到它，说明设备本身出了问题 —— 这比报警更有用。
+                    self.counts["checkin_ok"] += 1
                 self.episode = "resolved"
+                self.ask_kind = None
                 self.suppress_until = now + cfg.after_resolve_quiet
                 self.counts_inc("ask_ok")
                 ev.append(("resolved", cfg.resolved_text))
@@ -186,17 +249,59 @@ class Guardian:
                 and span >= cfg.silence * 0.9        # 窗口必须基本填满
                 and occ <= cfg.absent_ratio):        # 而不是「连续 N 秒没看到」
             self.episode = "asking"
+            self.ask_kind = "silence"
+            self.asked_again = False
             self.ask_at = now
+            self.ep_start = now
             self.visit_asks += 1
             self.suppress_until = now + cfg.speech_freeze
             self.counts["ask"] += 1
             ev.append(("ask", cfg.ask_text))
 
-        # 6) 无应答升级（只升一次，之后锁存到人出现或门开）-----------------
-        elif self.episode == "asking" and now - self.ask_at >= cfg.answer_window:
+        # 6) 补问一句（从「您还好吗」变成「您按一下键好吗」）----------------
+        elif (self.episode == "asking"
+                and not self.asked_again
+                and now - self.ep_start >= cfg.second_ask_after):
+            self.asked_again = True
+            self.suppress_until = now + cfg.speech_freeze
+            self.counts["ask"] += 1
+            ev.append(("ask_again", cfg.ask_text_again))
+
+        # 6.2) 无应答升级（只升一次，之后锁存到人出现或门开）-----------------
+        # 从**第一句**开始计时，所以补问不会把 30 秒拖成 45 秒。
+        elif self.episode == "asking" and now - self.ep_start >= cfg.answer_window:
             self.episode = "escalated"
             self.counts["escalate"] += 1
             ev.append(("escalate", cfg.push_text))
+
+        # 6.5) 到点点名 --------------------------------------------------
+        # 这一条补的就是「人在、但一动不动也不应答」——静默判定永远抓不到它，
+        # 因为雷达一直看得见人，占比永远不达标。
+        # 放在 elif 链里，是为了避免点名和静默在同一帧各问一次。
+        elif self.checkin_due:
+            self.checkin_due = False
+            if (self.mode == "HOME"
+                    and self.armed
+                    and self.episode is None
+                    and now >= self.suppress_until
+                    and self.occupancy(now)[0] > cfg.absent_ratio):  # 人在场才点名
+                self.episode = "asking"
+                self.ask_kind = "checkin"
+                self.asked_again = False
+                self.ask_at = now
+                self.ep_start = now
+                self.suppress_until = now + cfg.speech_freeze
+                self.counts["checkin"] += 1
+                ev.append(("checkin", cfg.checkin_text))
+            # 人不在场就不点名：那种情况交给静默路径，别冲空房间说话。
+
+        # 6.6) 点名升级后的锁存释放 ----------------------------------------
+        # 静默事件的锁存靠「人重新出现」解锁；点名事件里人一直在场，
+        # 没有这个出口就会永久免疫 —— 又是一个「拍完键从此沉默」的同款漏洞。
+        if (self.episode == "escalated" and self.ask_kind == "checkin"
+                and now - self.ep_start >= cfg.escalate_hold):
+            self.episode = None
+            self.ask_kind = None
 
         # 7) 启动自检 ----------------------------------------------------
         if (not self.ever_seen) and (not self.startup_warned) \
@@ -218,4 +323,6 @@ class Guardian:
             "armed": self.armed,
             "last_seen": round(self.last_seen, 1),
             "suppress_until": round(self.suppress_until, 1),
+            "ask_kind": self.ask_kind,
+            "checkin_due": self.checkin_due,
         }

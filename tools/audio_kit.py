@@ -30,6 +30,12 @@ KITS = [
     ("sos",       "sos.wav",       "紧急求助！请帮忙拨打 120 或联系家属！", 1.5, 12.0),
 ]
 
+# 可选项：录了就用，没录会自动退回 ask.wav。
+# 但不录它，每日点名听起来就像「有一阵子没看到您了」——早上九点说这句很奇怪。
+OPTIONAL = [
+    ("checkin",   "checkin.wav",   "奶奶，我来看看您。您拍一下手边的键，我就放心了。", 2.0, 12.0),
+]
+
 
 def probe(path):
     """返回 (ok, 描述, 详情 dict)。只读 WAV 头，不需要解码库。"""
@@ -65,47 +71,55 @@ def check():
     print("文件               状态  采样率  声道   时长   问题")
     print("-" * 80)
     bad = 0
-    for key, fn, text, lo, hi in KITS:
-        path = os.path.join(AUDIO, fn)
-        ok, msg, d = probe(path)
-        issues = []
-        if not ok:
-            issues.append(msg)
-        else:
-            if d["rate"] != 16000:
-                issues.append("采样率 %d（建议 16000）" % d["rate"])
-            if d["ch"] != 1:
-                issues.append("%d 声道（建议单声道）" % d["ch"])
-            if d["sw"] != 2:
-                issues.append("%d 字节/样本（建议 16 bit）" % d["sw"])
-            if not (lo <= d["dur"] <= hi):
-                issues.append("时长 %.1fs 超出 %.1f–%.1fs" % (d["dur"], lo, hi))
-            if d["sw"] == 2:
-                if d["peak"] == 0:
-                    issues.append("整段静音")
-                elif d["peak"] >= 32000:
-                    issues.append("削波（录爆了，站远一点）")
-                elif d["peak"] < 1200:
-                    issues.append("音量过小（峰值 %d，靠近手机或大声点）" % d["peak"])
-        if issues:
-            bad += 1
-        print("%-18s %-5s %-7s %-5s %-6s %s" % (
-            fn, "OK" if not issues else "!!",
-            d.get("rate", "-") if ok else "-",
-            d.get("ch", "-") if ok else "-",
-            ("%.1fs" % d["dur"]) if ok else "-",
-            "；".join(issues) if issues else text[:16] + "…"))
+    for group, optional in ((KITS, False), (OPTIONAL, True)):
+        for key, fn, text, lo, hi in group:
+            path = os.path.join(AUDIO, fn)
+            ok, msg, d = probe(path)
+            issues = []
+            if not ok:
+                issues.append(msg)
+            else:
+                if d["rate"] != 16000:
+                    issues.append("采样率 %d（建议 16000）" % d["rate"])
+                if d["ch"] != 1:
+                    issues.append("%d 声道（建议单声道）" % d["ch"])
+                if d["sw"] != 2:
+                    issues.append("%d 字节/样本（建议 16 bit）" % d["sw"])
+                if not (lo <= d["dur"] <= hi):
+                    issues.append("时长 %.1fs 超出 %.1f–%.1fs" % (d["dur"], lo, hi))
+                if d["sw"] == 2:
+                    if d["peak"] == 0:
+                        issues.append("整段静音")
+                    elif d["peak"] >= 32000:
+                        issues.append("削波（录爆了，站远一点）")
+                    elif d["peak"] < 1200:
+                        issues.append("音量过小（峰值 %d，靠近手机或大声点）" % d["peak"])
+            if issues:
+                if optional and issues == [msg] and msg == "缺失":
+                    # 可选项没录不算不合格，运行时会自动退回 ask.wav
+                    print("%-18s %-5s %-7s %-5s %-6s %s" % (
+                        fn, "缺(可选)", "-", "-", "-", "未录，点名将用 ask.wav 代替"))
+                    continue
+                bad += 1
+            print("%-18s %-5s %-7s %-5s %-6s %s" % (
+                fn, "OK" if not issues else "!!",
+                d.get("rate", "-") if ok else "-",
+                d.get("ch", "-") if ok else "-",
+                ("%.1fs" % d["dur"]) if ok else "-",
+                "；".join(issues) if issues else text[:16] + "…"))
     print("-" * 78)
     if bad == 0:
-        print("六个文件全部合格。拷到树莓派 audio/ 下，设备就能出声。")
+        print("%d 个必需文件全部合格。拷到树莓派 audio/ 下，设备就能出声。" % len(KITS))
     else:
         print("有 %d 个文件需要处理。转换：python tools/audio_kit.py 你的录音.m4a <键名>" % bad)
-        print("键名：%s" % " / ".join(k for k, _f, _t, _l, _h in KITS))
+        print("键名：%s" % " / ".join([k for k, _f, _t, _l, _h in KITS]
+                                      + ["%s(可选)" % k for k, _f, _t, _l, _h in OPTIONAL]))
     return 0 if bad == 0 else 1
 
 
 def convert(src, key, trim=None):
     names = {k: f for k, f, _t, _l, _h in KITS}
+    names.update({k: f for k, f, _t, _l, _h in OPTIONAL})
     if key not in names:
         print("键名只能是：%s" % " / ".join(names))
         return 2
