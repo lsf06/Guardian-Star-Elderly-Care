@@ -6,7 +6,7 @@
 |---|---|---|---|---|
 | 雷达 | **HLK-LD2410C** | `LD2410C 毫米波雷达模块` | 25–35 | 24GHz FMCW，UART 256000 8N1。**别买 LD2410S**（超低功耗版，接口不同）。B 版也有 UART，只是多了蓝牙、板子大一点，买错也能用 |
 | 门磁 | 有线干簧管 MC-38 | `门磁 有线 MC-38` | 3–8 | 任意带 DO 的都能用。**不要买"常闭型"**——各家"常开/常闭"指"无磁时"的状态，标法不统一，装好后实测电平 |
-| 屏幕 | 0.96" OLED SSD1306 I2C | `0.96寸 OLED I2C 白` | 10–15 | 不要用 LCD1602：80×36 字符屏 + 16 脚并口，装不进盒子，第三排看不清 |
+| 屏幕 | ~~0.96" OLED SSD1306 I2C~~ | — | ~~10–15~~ | **本条已作废：代码里没有任何 OLED 驱动，装上就是黑屏。** 答辩时若被问"屏上显示什么"，会当场露馅。要么不买，要么先实现 `luma.oled` 再谈。 |
 | 按键 | Ø60 自复位 ×2 | `60mm 圆形按钮 自复位` | 12–24 | **自复位**，不要自锁。一个绿色（确认/聊天），一个红色（SOS）。红键接 `--pin-sos`，代码里已经独立处理，优先级高于状态机 |
 | 外壳 | ABS 150×100×70 | `防水接线盒 150*100*70` | 12–20 | 70mm 高。60mm 塞不进 6mm 天线空腔 + Pi5 + 走线 |
 | 铜箔 | 导电胶带 5m | `铜箔胶带 导电 屏蔽` | 8–12 | 贴雷达背面挡后瓣，顺手挡掉喇叭与风扇。省三天调试 |
@@ -42,6 +42,23 @@ dtparam=uart0=on
 - **不要加 `dtparam=uart0_console`**：那行会把串口变成登录控制台，正好占掉你要用的口，程序会一直报"设备被占用"
 - 设备名是 **`/dev/ttyAMA0`**，不是 `ttyS0`，也不是 `serial0`
 - GPIO 必须用 `gpiozero`（系统自带，底层 lgpio）。`RPi.GPIO` 在 Pi 5 上**必定崩溃**——GPIO 已移到 RP1 芯片，它通过 `/dev/mem` 访问寄存器，根本够不到
+- 依赖：`sudo apt install -y alsa-utils python3-pip` 然后 `pip3 install pyserial --break-system-packages`（Bookworm 会拦裸 pip）
+
+### 音频出口（Pi 5 必看）
+
+**Pi 5 没有 3.5 mm 耳机孔。** `voice.py` 用 `aplay` 播 WAV，默认设备如果是 HDMI，全程无声且**不报错**——你会去怀疑 WAV 格式和代码，其实只是没接线。
+
+```bash
+aplay -l                            # 找 USB 声卡编号，通常是 card 1
+speaker-test -t sine -f 440 -l 1    # 能听到"嘟"就通了
+```
+
+没声音就建 `~/.asoundrc`（编号按上一步改）：
+
+```conf
+pcm.!default { type plug; slave.pcm "plughw:1,0" }
+ctl.!default { type hw; card 1 }
+```
 
 ## 四、摆放（这一条决定它能不能工作）
 
@@ -67,7 +84,7 @@ LD2410 共 9 个距离门，每门 0.75 m。**G0（0–0.75 m）与 G1（0.75–
 2. `python src/test_radar.py --port /dev/ttyAMA0` → 应看到 **10 帧/秒**
 3. 裸板在 **0.8 / 2.4 / 3.8 m** 各测 60 秒静止能量 → 0.8 m 那组会塌下去，这就是摆放规范的实测依据
 4. `python src/test_door.py --pin 18` → 实测开门电平
-5. 五组采集：`empty` / `sit` / `moving` / `breathhold` / `lie`，各 3 分钟
-6. 装壳、接门磁、跑 `guardian_main.py`
+5. 六组采集：`empty` / `sit` / `moving` / `breathhold` / `lie` / `exit`。**`sit` 要攒到 2 小时**，否则"每天误问候几次"是外推出来的假数字；`exit` 需要门磁接好
+6. 装壳、接门磁、跑 `guardian_main.py`（红键记得 `--pin-sos 27`，默认是 None＝没接）
 
 **顺序反了，出问题时你分不清是壳挡了、线松了，还是逻辑错了。**
