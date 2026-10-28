@@ -4,6 +4,10 @@ pyserial>=3.5
 # 可选：在线语音合成（仅用于陪聊，安全播报用本地 WAV）
 # edge-tts>=6.1
 
+# 可选：录音转码（tools/audio_kit.py 用）。有系统 ffmpeg 就不需要它。
+# 手机录的 m4a 要转成 16k 单声道 WAV，二者至少装一个。Windows 上没有 ffmpeg 时装这个：
+# av>=14
+
 # 可选：离线中文语音识别（树莓派 5 可跑，需另下载模型）
 # sherpa-onnx>=1.10
 
