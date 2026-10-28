@@ -13,15 +13,20 @@
 #   4. 出门：门开 >= away_confirm 判离家；短时开关门压制 suppress_short 秒。
 #      —— 没有它，一次拿快递就让系统误判一整天。
 #   5. 启动自检：上电后迟迟看不到人 -> 提示摆放位置，而不是安静地什么都不做。
+#   6. 占比判定：用「窗口内无人的帧占比」而不是「连续多少秒没看到」。
+#      —— 没有它，一次偶发误检就把计时器清零，真正的屏息永远触发不了。
+#         这个坑是真跑数据才会发现的：8% 的杂散帧足以让连续判定彻底失效。
 
+from collections import deque
 from dataclasses import dataclass
 
 
 @dataclass
 class Config:
-    silence: float = 90.0            # 静默多久触发问候（产品 90s，演示 20s）
+    silence: float = 90.0            # 观察窗口长度（产品 90s，演示 20s）
+    absent_ratio: float = 0.2        # 窗口内「看得到」的帧占比低于此值，判为消失
     answer_window: float = 30.0      # 问候后等多久算无应答（不要用 15s，老人找眼镜都不够）
-    away_confirm: float = 30.0       # 门开超过多久判为离家
+    away_confirm: float = 10.0       # 门开超过多久判为离家。必须 < silence，否则问候会抢在门磁前面
     suppress_short: float = 120.0    # 短时开关门后压制多久
     heartbeat: float = 5.0           # 多久收不到帧判设备异常
     speech_freeze: float = 3.0       # 播报后冻结判定多久（防自激）
@@ -48,7 +53,19 @@ class Guardian:
         self.ever_seen = False
         self.suppress_until = 0.0   # 冷却截止
         self.startup_warned = False
+        self.hist = deque()         # (t, seen) 滑动窗口，用来算「看不到人」的占比
         self.counts = {"ask": 0, "escalate": 0, "chat": 0, "fault": 0}
+
+    def occupancy(self, now):
+        """返回 (窗口内看得到的帧占比, 窗口实际跨度秒数)。"""
+        cfg = self.cfg
+        while self.hist and now - self.hist[0][0] > cfg.silence:
+            self.hist.popleft()
+        if not self.hist:
+            return 0.0, 0.0
+        span = now - self.hist[0][0]
+        seen = sum(1 for _, s in self.hist if s)
+        return seen / len(self.hist), span
 
     # ------------------------------------------------------------------
     def update(self, now, seen=None, door_open=False, pressed=False, frame_ok=True):
@@ -74,6 +91,9 @@ class Guardian:
 
         if seen is not None:
             seen = bool(seen)
+        else:
+            seen = False
+        self.hist.append((now, seen))
 
         # 2) 门磁 --------------------------------------------------------
         if door_open:
@@ -100,6 +120,11 @@ class Guardian:
 
         # 3) 看到人 ------------------------------------------------------
         if seen:
+            if not self.armed:
+                # 刚上电，或刚从离家模式回来：窗口里的历史不算数。
+                # 不清空的话，上电前那 60 秒「无人」会被算成静默，一看到人就立刻问候。
+                self.hist.clear()
+                self.hist.append((now, True))
             self.last_seen = now
             self.armed = True
             self.ever_seen = True
@@ -124,11 +149,13 @@ class Guardian:
                 ev.append(("chat", ""))          # 唤醒对话，不属于安全路径
 
         # 5) 触发 --------------------------------------------------------
+        occ, span = self.occupancy(now)
         if (self.mode == "HOME"
                 and self.armed
                 and self.episode is None
                 and now >= self.suppress_until
-                and now - self.last_seen >= cfg.silence):
+                and span >= cfg.silence * 0.9        # 窗口必须基本填满
+                and occ <= cfg.absent_ratio):        # 而不是「连续 N 秒没看到」
             self.episode = "asking"
             self.ask_at = now
             self.suppress_until = now + cfg.speech_freeze

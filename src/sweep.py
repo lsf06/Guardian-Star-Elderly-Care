@@ -117,6 +117,9 @@ def main():
     print()
     print("已写入 %s。用它画双纵轴折线图，标出你选的 T。" % args.out)
     print("选点的原则不是「检出率最高」，是「在可接受的打扰次数里，检出率最高」。")
+    longest = max((v[-1]["t"] - v[0]["t"]) for v in sessions.values() if v)
+    print("注意：本次最长会话 %.0f 秒。T 超过会话时长的一半时，那一行没有意义"
+          "（窗口填不满），补数据或去掉这几个 T。" % longest)
 
 
 if __name__ == "__main__":
