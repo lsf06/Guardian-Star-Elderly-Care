@@ -1,0 +1,10 @@
+# 必需（接硬件才需要；无硬件跑 mock_run / selftest 不需要任何依赖）
+pyserial>=3.5
+
+# 可选：在线语音合成（仅用于陪聊，安全播报用本地 WAV）
+# edge-tts>=6.1
+
+# 可选：离线中文语音识别（树莓派 5 可跑，需另下载模型）
+# sherpa-onnx>=1.10
+
+# 系统自带，不要 pip 安装：gpiozero（Pi 5 上 RPi.GPIO 不可用）

@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+"""语音层。安全播报永远不依赖网络。
+
+三级降级：
+  1. audio/*.wav   —— 手机录的真人语音，aplay 直接播。延迟最低，断网也能用。
+  2. edge-tts      —— 需要联网，音质好，仅用于「陪聊」这类非安全场景。
+  3. print         —— 什么都没有时，至少让日志里有记录。
+
+铁律：问候、消解、升级这三句必须走第 1 级。
+用云 TTS 播报安全提示，等于把「老人有没有被问到」交给网络。
+"""
+import os
+import subprocess
+
+AUDIO_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "audio")
+
+# 键 -> 音频文件名。录制时对着手机念，存成 16kHz 单声道 WAV。
+PHRASES = {
+    "ask":        "ask.wav",         # 奶奶，有一阵子没看到您了，您还好吗？
+    "ask_again":  "ask_again.wav",   # 您还好吗？拍拍这个按钮就行。
+    "resolved":   "resolved.wav",    # 好的，您没事就好。
+    "fault":      "fault.wav",       # 我这边的雷达好像没连上，请看一下线。
+    "away":       "away.wav",        # 您要出门呀？路上慢点。
+}
+
+
+def play_file(path):
+    if not os.path.exists(path):
+        return False
+    for cmd in (["aplay", "-q", path], ["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", path]):
+        try:
+            subprocess.run(cmd, check=True, timeout=20,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            return True
+        except Exception:
+            continue
+    return False
+
+
+def speak(text, key=None):
+    """优先本地音频，其次在线合成，最后打印。返回实际使用的方式。"""
+    if key and key in PHRASES:
+        if play_file(os.path.join(AUDIO_DIR, PHRASES[key])):
+            return "local"
+    try:
+        import asyncio
+        import edge_tts
+
+        os.makedirs(AUDIO_DIR, exist_ok=True)
+        out = os.path.join(AUDIO_DIR, "_cache.mp3")
+        asyncio.run(edge_tts.Communicate(text, "zh-CN-XiaoxiaoNeural").save(out))
+        if play_file(out):
+            return "edge-tts"
+    except Exception:
+        pass
+    print("[SPEAK] %s" % text)
+    return "print"
+
+
+def chat(text, timeout=20):
+    """调用大模型。没有配 API Key 时返回一句兜底话，绝不抛异常。
+
+    注意：这条路径属于「陪伴」，不属于「安全」。
+    它挂了、断网了、限流了，设备的守护功能必须完全不受影响。
+    """
+    key = os.environ.get("DEEPSEEK_API_KEY", "").strip()
+    if not key:
+        return "（未配置 DEEPSEEK_API_KEY）我在呢，您慢慢说。"
+
+    import json
+    import urllib.request
+
+    body = json.dumps({
+        "model": "deepseek-chat",
+        "messages": [
+            {"role": "system", "content":
+             "你是一位耐心、语速慢、用词简单的陪伴助手，面对的是七八十岁的老人。"
+             "每次回答不超过两句话，不超过 40 个字。不要用专业术语，不要用英文。"
+             "如果对方提到身体不适、摔倒、疼痛、胸闷，立刻提醒他按红色求助键或让家人打 120。"},
+            {"role": "user", "content": text},
+        ],
+        "temperature": 0.7,
+        "max_tokens": 120,
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://api.deepseek.com/chat/completions",
+        data=body,
+        headers={"Content-Type": "application/json", "Authorization": "Bearer " + key},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            data = json.loads(r.read().decode("utf-8"))
+        return data["choices"][0]["message"]["content"].strip()
+    except Exception as e:
+        print("[CHAT] 调用失败：%s" % e)
+        return "我这边有点听不清，您再说一遍好不好？"
+
+
+def push_family(text):
+    """推送给家属。这里只留接口，实际用 PushPlus / 企业微信机器人。
+
+    没配置就打印 —— 但请在文档里明确写：未配置推送时，本设备只有本地语音提醒。
+    不要像某些方案那样，明明没有通知动作，却播报「已通知家属」。
+    """
+    token = os.environ.get("PUSHPLUS_TOKEN", "").strip()
+    if not token:
+        print("[PUSH] %s" % text)
+        return False
+    import json
+    import urllib.request
+
+    body = json.dumps({"token": token, "title": "居家关怀提醒", "content": text}).encode("utf-8")
+    req = urllib.request.Request("https://www.pushplus.plus/send", data=body,
+                                 headers={"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=10) as r:
+            return r.status == 200
+    except Exception as e:
+        print("[PUSH] 失败：%s" % e)
+        return False

@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 音频缓存：录制的安全播报请自己备份，不要指望仓库
+audio/_cache.mp3
+audio/*.wav
+
+# 本地配置与密钥
+.env
+*.local
+
+# 原始采集数据默认不入库（体积大且含个人信息）；需要公开时单独放 samples/
+data/*.csv
+!data/sample.csv
+raw*.bin
+
+# 系统杂项
+.DS_Store
+Thumbs.db
+~$*

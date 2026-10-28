@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="60" y="26" font-size="14" font-weight="600" fill="#1a1f2b">打扰预算 vs 检出率（示意，待替换为实测）</text>
+
+  <!-- 绘图区 60..640 x, 40..340 y -->
+  <line x1="60" y1="340" x2="640" y2="340" stroke="#c9cfda"/>
+  <line x1="60" y1="40"  x2="60"  y2="340" stroke="#c9cfda"/>
+  <line x1="640" y1="40" x2="640" y2="340" stroke="#c9cfda"/>
+
+  <!-- 网格 -->
+  <g stroke="#eef1f6">
+    <line x1="60" y1="270" x2="640" y2="270"/>
+    <line x1="60" y1="200" x2="640" y2="200"/>
+    <line x1="60" y1="130" x2="640" y2="130"/>
+    <line x1="60" y1="60"  x2="640" y2="60"/>
+  </g>
+
+  <!-- 左轴刻度：问候次数/24h，0..20 -->
+  <g font-size="10" fill="#5b6472" text-anchor="end">
+    <text x="54" y="344">0</text>
+    <text x="54" y="274">5</text>
+    <text x="54" y="204">10</text>
+    <text x="54" y="134">15</text>
+    <text x="54" y="64">20</text>
+  </g>
+  <text x="16" y="190" font-size="10" fill="#c0392b" transform="rotate(-90 16 190)" text-anchor="middle">误问候 次/24h</text>
+
+  <!-- 右轴刻度：百分比 0..100 -->
+  <g font-size="10" fill="#5b6472" text-anchor="start">
+    <text x="646" y="344">0%</text>
+    <text x="646" y="274">25%</text>
+    <text x="646" y="204">50%</text>
+    <text x="646" y="134">75%</text>
+    <text x="646" y="64">100%</text>
+  </g>
+  <text x="702" y="190" font-size="10" fill="#1d4e89" transform="rotate(90 702 190)" text-anchor="middle">检出率</text>
+
+  <!-- x 轴标签 -->
+  <g font-size="10" fill="#5b6472" text-anchor="middle">
+    <text x="80"  y="356">15</text>
+    <text x="170" y="356">30</text>
+    <text x="260" y="356">45</text>
+    <text x="350" y="356">60</text>
+    <text x="440" y="356">90</text>
+    <text x="530" y="356">120</text>
+    <text x="620" y="356">180</text>
+  </g>
+  <text x="350" y="376" font-size="11" fill="#5b6472" text-anchor="middle">静默阈值 T（秒）</text>
+
+  <!-- 误问候（左轴） -->
+  <polyline fill="none" stroke="#c0392b" stroke-width="2"
+    points="80,88 170,214 260,277 350,309 440,327 530,334 620,339"/>
+  <!-- 检出率（右轴） -->
+  <polyline fill="none" stroke="#1d4e89" stroke-width="2"
+    points="80,82 170,94 260,105 350,119 440,150 530,186 620,234"/>
+  <!-- 延迟（右轴，0..200s 映射） -->
+  <polyline fill="none" stroke="#8a94a6" stroke-width="1.6" stroke-dasharray="5 4"
+    points="80,316 170,294 260,273 350,252 440,210 530,168 620,84"/>
+
+  <!-- 选中工作点 T=60 -->
+  <line x1="350" y1="40" x2="350" y2="340" stroke="#c9cfda" stroke-dasharray="3 4"/>
+  <circle cx="350" cy="309" r="3.5" fill="#c0392b"/>
+  <circle cx="350" cy="119" r="3.5" fill="#1d4e89"/>
+  <text x="356" y="330" font-size="10" fill="#39414f">选定 T=60s：约 2.2 次/天，检出 79%</text>
+
+  <!-- 图例 -->
+  <g font-size="11">
+    <line x1="70" y1="398" x2="96" y2="398" stroke="#c0392b" stroke-width="2"/>
+    <text x="102" y="402" fill="#39414f">静坐误问候</text>
+    <line x1="200" y1="398" x2="226" y2="398" stroke="#1d4e89" stroke-width="2"/>
+    <text x="232" y="402" fill="#39414f">屏息检出率</text>
+    <line x1="326" y1="398" x2="352" y2="398" stroke="#8a94a6" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <text x="358" y="402" fill="#39414f">平均检出延迟</text>
+    <text x="470" y="402" fill="#8a94a6">形状为示意，数值以 sweep.py 实测为准</text>
+  </g>
+</svg>
