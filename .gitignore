@@ -21,3 +21,8 @@ raw*.bin
 .DS_Store
 Thumbs.db
 ~$*
+
+# 采集产物：每次跑 capture 都会追加，不要进仓库
+sweep_result.csv
+data/guardian*.csv
+audio/*.mp3
