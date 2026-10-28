@@ -116,7 +116,37 @@ dtparam=uart0=on
 门磁用 `gpiozero` 读（Pi 5 上 `RPi.GPIO` 会直接崩，GPIO 已移到 RP1 芯片）。
 装好后先跑 `python src/test_door.py --pin 18`，实测开门时是高电平还是低，再设 `OPEN_LEVEL`。
 
----
+## 采数据（这一步才是项目本身）
+
+五组，合计约 16 分钟。**顺序不要换，每组前重录一次 `empty`。**
+
+```bash
+python src/capture.py --label empty      --minutes 2
+python src/capture.py --label sit        --minutes 5
+python src/capture.py --label breathhold --minutes 3 --event-at 20
+python src/capture.py --label lie        --minutes 3 --event-at 20
+python src/capture.py --label exit       --minutes 3 --event-at 20 --pin-door 18
+```
+
+开始前会先自检 3 秒。**0 帧就退出，并打印六项排查顺序**——波特率写成 115200、TX/RX 没交叉、忘了共地，表现都是「安静地跑完 3 分钟、写出 0 行」，然后你才会发现。
+
+每个 `--event-at` 对应的动作：
+
+| label | 第 20 秒你要做的事 |
+|---|---|
+| `breathhold` | 屏住呼吸，尽量不动，能屏多久屏多久 |
+| `lie` | 躺到地上，不动，但**保持正常呼吸** |
+| `exit` | 起身、开门、走出去，门保持开着 30 秒 |
+
+`lie` 的预期结果是**雷达仍然看得见你**（state=2）。这个负结果不是失败，是你「不做跌倒检测」这条边界的证据。
+
+采完：
+
+```bash
+python src/sweep.py data/guardian.csv
+```
+
+输出会自己提醒两件事：静坐样本不到 30 分钟时，`误问候/24h` 是从几分钟外推的，答辩别报这个数；`empty` 和 `lie` 两列必须为 0，不为 0 说明雷达在你没动的房间里丢了人——那比误问候严重得多。
 
 ## 硬件
 

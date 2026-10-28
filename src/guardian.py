@@ -28,9 +28,18 @@ class Config:
     answer_window: float = 30.0      # 问候后等多久算无应答（不要用 15s，老人找眼镜都不够）
     away_confirm: float = 10.0       # 门开超过多久判为离家。必须 < silence，否则问候会抢在门磁前面
     suppress_short: float = 120.0    # 短时开关门后压制多久
+    after_resolve_quiet: float = 600.0
+    #   按键消解后的安静期。按键是老人明确说「我没事」，不能 20 秒后又问一遍。
+    #   但它不是永久免疫：安静期一过，若仍持续看不到人，还是要再问一次，
+    #   否则就成了「老人拍完键、随后真的倒下，系统从此沉默」。
+    #   这两个数（quiet 与 max_asks_per_visit）一起兜住这个两难。
     heartbeat: float = 5.0           # 多久收不到帧判设备异常
     speech_freeze: float = 3.0       # 播报后冻结判定多久（防自激）
     startup_check: float = 60.0      # 上电多久未检测到人给出提示
+    max_asks_per_visit: int = 2      # 同一次在家最多问候几次。
+    #   设成 2：第一次问，没回应就升级；之后再问也不会有新信息，
+    #   只会变成骚扰。它同时兜住「按键消解 -> 冷却到 -> 再问」这个环路，
+    #   否则老人每按一次键，20 秒后又被问一句「您还好吗」。
     ask_text: str = "奶奶，有一阵子没看到您了，您还好吗？"
     ask_text_again: str = "您还好吗？拍拍这个按钮就行。"
     resolved_text: str = "好的，您没事就好。"
@@ -51,6 +60,7 @@ class Guardian:
         self.door_since = None
         self.armed = False          # 本次在家期间见过人
         self.ever_seen = False
+        self.visit_asks = 0         # 本次在场已问候次数（每次重新武装清零）
         self.suppress_until = 0.0   # 冷却截止
         self.startup_warned = False
         self.hist = deque()         # (t, seen) 滑动窗口，用来算「看不到人」的占比
@@ -95,6 +105,14 @@ class Guardian:
             seen = False
         self.hist.append((now, seen))
 
+        # 1.5) resolved 冷却到期必须回到 None ------------------------------
+        # 按键只证明「那一刻清醒」，不证明「之后没事」。
+        # 如果 resolved 一直挂着，那么老人拍完键、随后真的失去意识时，
+        # 触发条件里的 episode is None 永远为假，系统会永久沉默。
+        # 这是最坏的失效方式：它发生在设备刚刚被证明「工作正常」之后。
+        if self.episode == "resolved" and now >= self.suppress_until:
+            self.episode = None
+
         # 2) 门磁 --------------------------------------------------------
         if door_open:
             if self.door_since is None:
@@ -125,6 +143,7 @@ class Guardian:
                 # 不清空的话，上电前那 60 秒「无人」会被算成静默，一看到人就立刻问候。
                 self.hist.clear()
                 self.hist.append((now, True))
+                self.visit_asks = 0          # 新的在场周期，问候配额重置
             self.last_seen = now
             self.armed = True
             self.ever_seen = True
@@ -137,15 +156,24 @@ class Guardian:
 
         # 4) 按键 --------------------------------------------------------
         if pressed:
+            # 按键是「人在」最强的证据——比雷达确定得多：能读到电平，就是有人在按。
+            # 不把它计入窗口，就会出现「老人刚拍完键，20 秒后又被问您还好吗」。
+            self.hist.append((now, True))
+            self.last_seen = now
+            self.armed = True
+            self.ever_seen = True
             if self.episode in ("asking", "escalated"):
                 self.episode = "resolved"
-                self.suppress_until = now + cfg.suppress_short
+                self.suppress_until = now + cfg.after_resolve_quiet
                 self.counts_inc("ask_ok")
                 ev.append(("resolved", cfg.resolved_text))
             elif self.mode == "HOME" and (
-                    self.episode is None
-                    or (self.episode == "resolved" and now >= self.suppress_until)):
+                    self.episode is None or self.episode == "resolved"):
+                # 已消解状态下按键，是老人主动想说话，不该被安全冷却挡住。
                 self.counts["chat"] += 1
+                # 聊完补一段安静期，但不缩短已有的安全冷却。
+                self.suppress_until = max(self.suppress_until,
+                                          now + cfg.suppress_short)
                 ev.append(("chat", ""))          # 唤醒对话，不属于安全路径
 
         # 5) 触发 --------------------------------------------------------
@@ -153,11 +181,13 @@ class Guardian:
         if (self.mode == "HOME"
                 and self.armed
                 and self.episode is None
+                and self.visit_asks < cfg.max_asks_per_visit
                 and now >= self.suppress_until
                 and span >= cfg.silence * 0.9        # 窗口必须基本填满
                 and occ <= cfg.absent_ratio):        # 而不是「连续 N 秒没看到」
             self.episode = "asking"
             self.ask_at = now
+            self.visit_asks += 1
             self.suppress_until = now + cfg.speech_freeze
             self.counts["ask"] += 1
             ev.append(("ask", cfg.ask_text))

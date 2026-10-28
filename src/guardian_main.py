@@ -10,12 +10,18 @@
 import argparse
 import os
 import sys
+import threading
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ld2410 import Decoder                 # noqa: E402
 from guardian import Config, Guardian      # noqa: E402
 import voice                               # noqa: E402
+
+# 陪聊必须是旁路。它一旦阻塞主循环，雷达就不再被读取、状态机就不再推进，
+# 而老人按下按键的那一刻，恰恰可能正是他需要被守护的时刻。
+_chat_busy = {"flag": False}
+_chat_lock = threading.Lock()
 
 
 def main():
@@ -24,6 +30,8 @@ def main():
     ap.add_argument("--baud", type=int, default=256000)
     ap.add_argument("--pin-door", type=int, default=18)
     ap.add_argument("--pin-button", type=int, default=17)
+    ap.add_argument("--pin-sos", type=int, default=None,
+                    help="红色求助键。给了才启用；不接就不假装有")
     ap.add_argument("--door-open-level", type=int, default=1, choices=[0, 1],
                     help="开门时 DO 的电平。用 test_door.py 实测后再设，不要凭猜")
     ap.add_argument("--silence", type=float, default=90.0)
@@ -36,6 +44,7 @@ def main():
 
     door = button = None
     pressed = {"flag": False}
+    sos = {"flag": False}
     if not args.no_gpio:
         from gpiozero import Button   # Pi5 必须用 gpiozero；RPi.GPIO 在 Pi5 上会直接崩
         door = Button(args.pin_door, pull_up=None, active_state=None, bounce_time=0.2)
@@ -44,6 +53,10 @@ def main():
         def _on_press():
             pressed["flag"] = True
         button.when_pressed = _on_press
+
+        if args.pin_sos is not None:
+            sos_btn = Button(args.pin_sos, pull_up=True, bounce_time=0.05)
+            sos_btn.when_pressed = lambda: sos.__setitem__("flag", True)
 
     cfg = Config(silence=args.silence)
     g = Guardian(cfg, t0=time.time())
@@ -67,25 +80,33 @@ def main():
 
             hit = pressed["flag"]
             pressed["flag"] = False
+            hit_sos = sos["flag"]
+            sos["flag"] = False
 
             events = g.update(now, seen=(last_state != 0), door_open=door_open,
                               pressed=hit, frame_ok=bool(frames))
 
+            # SOS 优先级最高：不看雷达、不看门磁、不看状态机，按下就是按下
+            if hit_sos:
+                voice.push_family("老人按下了求助键，请立即致电确认；如无应答请拨打 120。")
+                voice.speak("紧急求助！请帮帮这位老人，请帮忙拨打 120 或联系家属！", "sos")
+                print("[SOS] 已触发")
+
             for kind, text in events:
                 if kind == "ask":
-                    voice.speak(cfg.ask_text, "ask")
+                    voice.speak(cfg.ask_text, "ask", strict=True)
                 elif kind == "resolved":
-                    voice.speak(cfg.resolved_text, "resolved")
+                    voice.speak(cfg.resolved_text, "resolved", strict=True)
                 elif kind == "escalate":
                     voice.push_family(cfg.push_text)
                 elif kind == "fault":
-                    voice.speak("我这边的雷达好像没连上，请看一下线。", "fault")
+                    voice.speak("我这边的雷达好像没连上，请看一下线。", "fault", strict=True)
                 elif kind == "startup":
                     print("[提示] " + text)
                 elif kind == "away":
                     print("[状态] " + text)
                 elif kind == "chat":
-                    do_chat(args)
+                    spawn_chat(args)
                 else:
                     print("[%s] %s" % (kind, text))
 
@@ -94,6 +115,31 @@ def main():
         print("\n退出。统计：%r" % (g.counts,))
     finally:
         ser.close()
+
+
+def spawn_chat(args):
+    """把陪聊丢到后台线程。主循环必须继续读雷达。
+
+    之前这里直接同步调用 do_chat，一旦用了 --chat-mode text，
+    input() 会把整个主循环卡死几十秒：雷达帧积压、状态机停摆、
+    问候与升级全部失效。而老人按下按键的那一刻，
+    恰恰是他最可能需要被守护的时刻。
+    """
+    if _chat_busy["flag"]:
+        print("[聊天] 上一轮还没结束")
+        return
+    _chat_busy["flag"] = True
+    threading.Thread(target=_chat_worker, args=(args,), daemon=True).start()
+
+
+def _chat_worker(args):
+    try:
+        with _chat_lock:
+            do_chat(args)
+    except Exception as e:
+        print("[聊天] 异常：%s" % e)
+    finally:
+        _chat_busy["flag"] = False
 
 
 def do_chat(args):

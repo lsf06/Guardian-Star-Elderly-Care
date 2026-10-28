@@ -56,8 +56,36 @@ def main():
         w.writerow(HEAD)
 
     dec = Decoder()
+
+    # 前置自检：3 秒内一帧都没有，就不要假装在采集。
+    # 波特率写错（115200 vs 256000）、TX/RX 接反、没共地，
+    # 表现都是「安静地跑完 3 分钟，写出 0 行」，然后你才会发现。
+    # 那 3 分钟不是最贵的，最贵的是你以为自己采到了。
+    print("自检 3 秒，确认雷达在输出……")
+    probe = []
+    pt = time.time()
+    while time.time() - pt < 3.0:
+        c = ser.read(256)
+        if c:
+            probe += dec.feed(c)
+    if not probe:
+        print()
+        print("3 秒内 0 帧。按这个顺序查，不要跳：")
+        print("  1. 接线：雷达 TX -> GPIO15(Pin10)，雷达 RX -> GPIO14(Pin8)，交叉接")
+        print("  2. 供电：VCC 接 5V（Pin2/4），不是 3.3V")
+        print("  3. 共地：雷达 GND 与树莓派 GND 必须连通")
+        print("  4. 端口：Pi5 是 /dev/ttyAMA0，不是 /dev/ttyS0 或 /dev/serial0")
+        print("  5. 波特率：LD2410 默认 256000，不是 115200")
+        print("  6. config.txt 只写 dtparam=uart0=on，不要写 uart0_console")
+        print("先跑 python src/test_radar.py 确认能看到帧。")
+        ser.close()
+        return 3
+    print("自检通过：3 秒内 %d 帧。丢弃自检帧，正式计时从现在开始。" % len(probe))
+
     t0 = time.time()
     total = events = 0
+    last_report = -10.0
+    last_state = 0
     print("开始 %s，%.1f 分钟，事件 @ %s 秒。Ctrl-C 提前结束。"
           % (session, args.minutes, args.event_at))
 
@@ -69,6 +97,7 @@ def main():
                 break
             chunk = ser.read(256)
             for fr in (dec.feed(chunk) if chunk else []):
+                last_state = fr["state"]
                 door_open = 1 if (door is not None and
                                   (1 if door.is_active else 0) == args.door_open_level) else 0
                 phase = "event" if (args.event_at is not None and t >= args.event_at) else "pre"
@@ -78,9 +107,10 @@ def main():
                 total += 1
                 if phase == "event":
                     events += 1
-            if int(t) % 10 == 0 and total and int(t) > 0 and abs(t - round(t)) < 0.05:
+            if t - last_report >= 10:
+                last_report = t
                 print("  %3.0fs  帧 %5d  当前状态=%s"
-                      % (t, total, STATE_NAMES.get(fr["state"], "?") if total else "?"))
+                      % (t, total, STATE_NAMES.get(last_state, "?")))
             time.sleep(0.01)
     except KeyboardInterrupt:
         pass

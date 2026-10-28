@@ -21,13 +21,21 @@ PHRASES = {
     "resolved":   "resolved.wav",    # 好的，您没事就好。
     "fault":      "fault.wav",       # 我这边的雷达好像没连上，请看一下线。
     "away":       "away.wav",        # 您要出门呀？路上慢点。
+    "sos":        "sos.wav",         # 紧急求助！请帮忙拨打 120 或联系家属！
 }
 
 
 def play_file(path):
     if not os.path.exists(path):
         return False
-    for cmd in (["aplay", "-q", path], ["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", path]):
+    # aplay 只吃 WAV；MP3 交给 ffplay。顺序反了会白跑一次失败。
+    if path.lower().endswith(".mp3"):
+        cmds = (["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", path],
+                ["mpg123", "-q", path])
+    else:
+        cmds = (["aplay", "-q", path],
+                ["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", path])
+    for cmd in cmds:
         try:
             subprocess.run(cmd, check=True, timeout=20,
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -37,11 +45,23 @@ def play_file(path):
     return False
 
 
-def speak(text, key=None):
-    """优先本地音频，其次在线合成，最后打印。返回实际使用的方式。"""
+def speak(text, key=None, strict=False):
+    """优先本地音频，其次在线合成，最后打印。返回实际使用的方式。
+
+    strict=True 用于安全路径（问候 / 消解 / 故障 / SOS）：
+    此时**绝不回退到联网 TTS**。理由是断网正好是你写在边界里的失效条件，
+    而用云 TTS 播报安全提示，等于把「老人有没有被问到」交给网络。
+    本地文件缺失时，用最响的方式报错并打印，让问题在调试期暴露，
+    而不是在老人家里安静地不发生。
+    """
     if key and key in PHRASES:
         if play_file(os.path.join(AUDIO_DIR, PHRASES[key])):
             return "local"
+        if strict:
+            print("[!!] 安全语音缺失：audio/%s —— 这一句没有播出去。"
+                  % PHRASES[key])
+            print("     请录一段 16kHz 单声道 WAV 放进去。当前只打印，不出声：%s" % text)
+            return "missing"
     try:
         import asyncio
         import edge_tts

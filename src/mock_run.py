@@ -103,6 +103,29 @@ def main():
         print("FAIL: 上电无人没有给出摆放提示")
         ok = False
 
+    # ---- 回归测试：消解之后不能永久沉默（漏报是最坏的失效）------------
+    # 老人在第 45 秒拍键说「我没事」，随后真的倒下，雷达再也看不到他。
+    # 安静期一过必须再问一次。这里曾经写成「resolved 永久挂起」，
+    # 结果按键之后系统从此一句话不说，而且它发生在设备刚被证明正常之后。
+    qcfg = Config(silence=20, answer_window=8, away_confirm=10,
+                  suppress_short=20, after_resolve_quiet=100,
+                  max_asks_per_visit=2)
+    gq = Guardian(qcfg, t0=0.0)
+    qlog = []
+    tt = 0
+    while tt < 40:
+        for k, _ in gq.update(float(tt), seen=True):
+            qlog.append((tt, k))
+        tt += 1
+    while tt < 400:
+        for k, _ in gq.update(float(tt), seen=False, pressed=(tt == 45)):
+            qlog.append((tt, k))
+        tt += 1
+    later = [x for x in qlog if x[1] == "ask" and x[0] > 60]
+    if not later:
+        print("FAIL: 按键消解后系统永久沉默，老人此时真的出事也不会被发现（漏报）")
+        ok = False
+
     print("回归测试: " + ("PASS" if ok else "FAIL"))
     return 0 if ok else 1
 
