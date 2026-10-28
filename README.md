@@ -121,8 +121,11 @@ dtparam=uart0=on
 > `data/_synthetic_demo.csv` 是**构造出来的合成数据**，只用来看脚本能不能跑通。
 > 它跑出来的「检出率 100%、误问候 0 次」一个字都不能写进报告。
 > 真实数据必须自己采，文件名用 `data/guardian.csv`（已在 .gitignore 里）。
+> 同理 `data/_synthetic_sweep_result.csv` 是合成数据的扫描结果，只能用来确认脚本没坏。
+> 真机上跑出来的应该是根目录的 `sweep_result.csv`——**如果只有前者，说明你还没采。**
 
 五组，合计约 16 分钟。**顺序不要换，每组前重录一次 `empty`。**
+真机采集当天请打印 `docs/采集记录表.md`，边测边填环境与异常——这两项脚本记不下来，但它们决定数据是否作废。
 
 ```bash
 python src/capture.py --label empty      --minutes 2
