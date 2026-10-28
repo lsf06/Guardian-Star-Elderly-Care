@@ -4,25 +4,26 @@ __pycache__/
 .venv/
 venv/
 
-# 音频缓存：录制的安全播报请自己备份，不要指望仓库
+# 音频缓存
 audio/_cache.mp3
-audio/*.wav
+audio/*.mp3
+
+# 六句真人语音默认入库：每句 40–80 KB，是项目的一部分，clone 下来就能播。
+# 如果你不想把自己的声音公开到 GitHub，取消下一行注释即可（设备本地仍可用）。
+# audio/*.wav
 
 # 本地配置与密钥
 .env
 *.local
 
-# 原始采集数据默认不入库（体积大且含个人信息）；需要公开时单独放 samples/
-data/*.csv
-!data/sample.csv
+# 逐帧原始采集数据体积大（几分钟就几 MB），不进仓库
+data/guardian*.csv
 raw*.bin
+
+# 注意：sweep_result.csv 必须进仓库 —— 它是「打扰预算曲线」背后的真实数字，
+# 也是这个项目最值得提交的产出之一。不要忽略它。
 
 # 系统杂项
 .DS_Store
 Thumbs.db
 ~$*
-
-# 采集产物：每次跑 capture 都会追加，不要进仓库
-sweep_result.csv
-data/guardian*.csv
-audio/*.mp3
