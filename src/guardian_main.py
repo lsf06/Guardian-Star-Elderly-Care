@@ -175,28 +175,88 @@ def record_once(seconds=5):
     import tempfile
 
     wav = os.path.join(tempfile.gettempdir(), "guardian_stt.wav")
+
+    # 麦克风设备名。~/.asoundrc 把默认输出指到 USB 音箱后，arecord 用 "default"
+    # 会去打那张只能播的卡，录不到声音。所以允许显式指定：
+    #   export GUARDIAN_MIC_DEV=plughw:2,0     （arecord -l 里查到的麦克风卡号）
+    cmd = ["arecord", "-q", "-d", str(seconds), "-f", "S16_LE",
+           "-r", "16000", "-c", "1"]
+    dev = os.environ.get("GUARDIAN_MIC_DEV", "").strip()
+    if dev:
+        cmd += ["-D", dev]
+    cmd.append(wav)
     try:
-        subprocess.run(["arecord", "-q", "-d", str(seconds), "-f", "S16_LE",
-                        "-r", "16000", "-c", "1", wav], check=True, timeout=seconds + 5)
+        subprocess.run(cmd, check=True, timeout=seconds + 5)
     except Exception as e:
         print("[录音失败] %s（确认已接 USB 麦克风，且安装 alsa-utils）" % e)
+        print("      若 ~/.asoundrc 已把默认设备指到音箱，需另设麦克风：")
+        print("      arecord -l 查到卡号后 export GUARDIAN_MIC_DEV=plughw:<卡号>,0")
         return ""
 
+    # vosk 与 sherpa-onnx 二选一，装了哪个都能往下走。
+    # 这里只做能力探测，真正的识别在 _sherpa_transcribe 里。
     try:
-        import sherpa_onnx  # noqa: F401
+        import vosk  # noqa: F401
     except ImportError:
-        print("[提示] 未安装离线语音识别。二选一：")
-        print("       pip install sherpa-onnx  + 下载中文模型（离线，推荐）")
-        print("       或接入云端 ASR（需要联网，注意隐私）")
-        print("       当前可用 --chat-mode text 先用键盘验证链路。")
-        return ""
+        try:
+            import sherpa_onnx  # noqa: F401
+        except ImportError:
+            print("[提示] 未安装离线语音识别。二选一：")
+            print("       pip install vosk --break-system-packages  + 下载中文小模型（推荐，轻）")
+            print("       pip install sherpa-onnx  + 下载中文模型（离线，精度更高）")
+            print("       当前可用 --chat-mode text 先用键盘验证链路。")
+            return ""
     return _sherpa_transcribe(wav)
 
 
+_VOSK_MODEL = None
+
+
 def _sherpa_transcribe(wav):
-    """占位：sherpa-onnx 的模型路径按你的下载位置填写。"""
-    print("[提示] 请在此处填入 sherpa-onnx 模型路径后启用离线识别。")
-    return ""
+    """离线语音识别（Vosk）。
+
+    模型默认从 ./vosk-model-small-cn-0.15 读，可用 GUARDIAN_VOSK_MODEL 覆盖。
+    只在第一次调用时加载（Pi 5 上约 1–2 秒），之后常驻，不会每次按绿键都卡一下。
+    识别失败一律返回空字符串，绝不抛异常——陪聊坏了不能影响守护。
+    """
+    global _VOSK_MODEL
+    try:
+        import json
+        import wave
+
+        import vosk
+    except ImportError:
+        print("[提示] 未安装 vosk。pip install vosk --break-system-packages")
+        return ""
+
+    model_dir = os.environ.get("GUARDIAN_VOSK_MODEL", "vosk-model-small-cn-0.15")
+    if not os.path.isdir(model_dir):
+        print("[提示] 找不到 Vosk 模型目录：%s" % model_dir)
+        print("       wget https://alphacephei.com/vosk/models/vosk-model-small-cn-0.15.zip")
+        print("       unzip vosk-model-small-cn-0.15.zip")
+        return ""
+
+    try:
+        if _VOSK_MODEL is None:
+            print("[识别] 首次加载模型，约 1–2 秒…")
+            _VOSK_MODEL = vosk.Model(model_dir)
+        with wave.open(wav, "rb") as wf:
+            rec = vosk.KaldiRecognizer(_VOSK_MODEL, wf.getframerate())
+            parts = []
+            while True:
+                data = wf.readframes(4000)
+                if not data:
+                    break
+                if rec.AcceptWaveform(data):
+                    parts.append(json.loads(rec.Result()).get("text", ""))
+            parts.append(json.loads(rec.FinalResult()).get("text", ""))
+    except Exception as e:
+        print("[识别失败] %s" % e)
+        return ""
+
+    out = "".join(parts).replace(" ", "")
+    print("[识别] %s" % (out or "（没听清）"))
+    return out
 
 
 if __name__ == "__main__":
