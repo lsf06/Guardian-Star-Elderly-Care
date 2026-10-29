@@ -1,14 +1,28 @@
 # 必需（接硬件才需要；无硬件跑 mock_run / selftest 不需要任何依赖）
 pyserial>=3.5
 
-# 可选：在线语音合成（仅用于陪聊，安全播报用本地 WAV）
+# ---- 以下全部可选 ----
+# 装与不装，只影响「陪聊」，不影响守护。守护路径一句都不依赖它们。
+
+# 可选 1：离线中文语音识别（让老人用嘴说话，而不是键盘）
+#   pip3 install vosk --break-system-packages
+#   wget https://alphacephei.com/vosk/models/vosk-model-small-cn-0.15.zip
+#   unzip vosk-model-small-cn-0.15.zip      # 解压到仓库根目录
+# 系统依赖：sudo apt install alsa-utils
+# 限制：5 秒定长录音、需相对安静、只对标准普通话有效。永不参与安全告警判定。
+# 录音设备用 GUARDIAN_MIC_DEV 指定（见 README「关于 AI 陪聊」）。
+# vosk>=0.3.45
+
+# 可选 2：在线语音合成（仅用于陪聊回复；安全播报一律用本地 WAV）
+# 除这个包还要系统装 mpg123，否则只打印不出声：
+#   pip3 install edge-tts --break-system-packages && sudo apt install mpg123
 # edge-tts>=6.1
 
-# 可选：录音转码（tools/audio_kit.py 用）。有系统 ffmpeg 就不需要它。
+# 可选 3：录音转码（tools/audio_kit.py 用）。有系统 ffmpeg 就不需要它。
 # 手机录的 m4a 要转成 16k 单声道 WAV，二者至少装一个。Windows 上没有 ffmpeg 时装这个：
 # av>=14
 
-# 可选：离线中文语音识别（树莓派 5 可跑，需另下载模型）
-# sherpa-onnx>=1.10
-
 # 系统自带，不要 pip 安装：gpiozero（Pi 5 上 RPi.GPIO 不可用）
+
+# 不要装 pyaudio。代码用 arecord 系统命令录音，不碰它；
+# 而 pyaudio 在树莓派上要现场编译，是最容易卡住两小时的一步。
