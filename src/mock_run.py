@@ -172,6 +172,37 @@ def main():
         print("      也就无法通过「今天没收到平安」发现设备被拔了")
         ok = False
 
+    # ---- 回归测试：播报期间的自激不能取消事件（漏报）--------------------
+    # 真机现象：喇叭响的时候，同一颗雷达把振动读成「微动」，状态机看到 seen=True。
+    # 如果冻结时长比音频短（原来固定 3 s，而你录的六句是 5~10 s），
+    # 第 3 秒解冻后系统就会把自己说的话当成「人回来了」，取消事件 → 不推送。
+    # 这里用 8.0 秒模拟一句 ask.wav 的真实长度。
+    scfg = Config(silence=20, answer_window=30, away_confirm=10, suppress_short=20)
+    gs = Guardian(scfg, t0=0.0)
+    for tt in range(0, 30):
+        gs.update(float(tt), seen=True)
+    ask_at = None
+    cancelled = None
+    for tt in range(30, 130):
+        for k, _ in gs.update(float(tt), seen=False):
+            if k == "ask":
+                ask_at = tt
+                gs.speaking_for(float(tt), 8.0)
+        if ask_at is not None and ask_at < tt < ask_at + 8:
+            for k, _ in gs.update(float(tt), seen=True):      # 喇叭自激
+                if k in ("resolved", "ask_again"):
+                    cancelled = (tt, k)
+    if ask_at is None:
+        print("FAIL: 自激用例没有触发问候，测试本身失效")
+        ok = False
+    elif cancelled:
+        print("FAIL: 播报期间的自激被当成「人回来了」，事件被取消（漏报）：%r"
+              % (cancelled,))
+        ok = False
+    elif gs.episode not in ("asking", "escalated"):
+        print("FAIL: 自激用例结束时事件已不在进行中（%r），仍然会漏推" % (gs.episode,))
+        ok = False
+
     print("回归测试: " + ("PASS" if ok else "FAIL"))
     return 0 if ok else 1
 

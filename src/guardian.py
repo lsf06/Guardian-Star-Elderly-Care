@@ -94,8 +94,25 @@ class Guardian:
         self.checkin_due = False    # 已跨过点名时刻，等一个「人在场」的时机
         self.ask_kind = None        # "silence" 或 "checkin"：决定这次事件靠什么结束
         self.asked_again = False    # 本次事件里第二句补问说过了没有
+        self.speech_end = 0.0       # 正在播报，播到这个时刻为止。期间的「看到人」不可信
         self.counts = {"ask": 0, "escalate": 0, "chat": 0, "fault": 0,
                        "checkin": 0, "checkin_ok": 0}
+
+    def speaking_for(self, now, seconds):
+        """宣告「我刚开口，这句话还要播 seconds 秒」。
+
+        必须在真正播放的同一时刻调用，且 seconds 要用**音频真实长度**，
+        不能用常数。原因有两层，第二层是漏报：
+
+        1) 播报的振动会被同一颗雷达读成微动 → 窗口里的「看到人」变多；
+        2) 更糟的是，「看到人」会取消正在进行的静默事件。如果冻结时长比
+           音频短（原来固定 3 s，而录的句子有 8 s），那么第 3 秒之后
+           雷达就会把我们自己的声音当成「人回来了」，事件被取消，
+           真的没回应也不会推送 —— 这是一次静默的漏报。
+        """
+        if seconds and seconds > 0:
+            self.speech_end = max(self.speech_end, now + seconds)
+            self.suppress_until = max(self.suppress_until, now + seconds)
 
     def occupancy(self, now):
         """返回 (窗口内看得到的帧占比, 窗口实际跨度秒数)。"""
@@ -139,6 +156,11 @@ class Guardian:
         if seen is not None:
             seen = bool(seen)
         else:
+            seen = False
+        # 播报期间的「看到人」一律作废：那是喇叭的振动，不是人。
+        # 只看这一行会以为它只是个降噪，实际上它挡的是「设备把自己的声音
+        # 当成老人回来了，于是取消事件、不推送」——一次彻底的漏报。
+        if seen and now < self.speech_end:
             seen = False
         self.hist.append((now, seen))
 

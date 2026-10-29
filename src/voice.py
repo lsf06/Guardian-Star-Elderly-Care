@@ -30,6 +30,32 @@ PHRASES = {
 FALLBACK = {"checkin": "ask"}
 
 
+def phrase_seconds(key):
+    """这句本地语音实际会播多久（秒）。缺失或不是 WAV 时返回 0。
+
+    为什么需要它：喇叭的振动会被同一颗雷达当成微动。播报期间的「看到人」
+    必须整段作废，否则设备会把自己说的话当成「人回来了」，把刚发起的事件取消掉。
+    而冻结时长不能用一个拍出来的常数——六句录音 5~10 秒不等，差一倍。
+    """
+    if not key:
+        return 0.0
+    fn = PHRASES.get(key)
+    alt = FALLBACK.get(key)
+    for cand in (fn, PHRASES.get(alt) if alt else None):
+        if not cand:
+            continue
+        path = os.path.join(AUDIO_DIR, cand)
+        if not os.path.exists(path):
+            continue
+        try:
+            import wave
+            with wave.open(path, "rb") as w:
+                return w.getnframes() / float(w.getframerate())
+        except Exception:
+            continue
+    return 0.0
+
+
 def play_file(path):
     if not os.path.exists(path):
         return False

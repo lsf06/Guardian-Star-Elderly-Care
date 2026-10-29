@@ -91,24 +91,24 @@ def main():
             # SOS 优先级最高：不看雷达、不看门磁、不看状态机，按下就是按下
             if hit_sos:
                 voice.push_family("老人按下了求助键，请立即致电确认；如无应答请拨打 120。")
-                voice.speak("紧急求助！请帮帮这位老人，请帮忙拨打 120 或联系家属！", "sos")
+                _announce(g, now, "紧急求助！请帮帮这位老人，请帮忙拨打 120 或联系家属！", "sos")
                 print("[SOS] 已触发")
 
             for kind, text in events:
                 if kind == "ask":
-                    voice.speak(cfg.ask_text, "ask", strict=True)
+                    _announce(g, now, cfg.ask_text, "ask")
                 elif kind == "checkin":
                     # 每日点名：雷达看得见人，但不知道他还能不能动。
                     # 这是设备唯一能覆盖「人在、但动不了」的手段。
-                    voice.speak(cfg.checkin_text, "checkin", strict=True)
+                    _announce(g, now, cfg.checkin_text, "checkin")
                 elif kind == "ask_again":
-                    voice.speak(cfg.ask_text_again, "ask_again", strict=True)
+                    _announce(g, now, cfg.ask_text_again, "ask_again")
                 elif kind == "resolved":
-                    voice.speak(cfg.resolved_text, "resolved", strict=True)
+                    _announce(g, now, cfg.resolved_text, "resolved")
                 elif kind == "escalate":
                     voice.push_family(cfg.push_text)
                 elif kind == "fault":
-                    voice.speak("我这边的雷达好像没连上，请看一下线。", "fault", strict=True)
+                    _announce(g, now, "我这边的雷达好像没连上，请看一下线。", "fault")
                 elif kind == "startup":
                     print("[提示] " + text)
                 elif kind == "away":
@@ -123,6 +123,19 @@ def main():
         print("\n退出。统计：%r" % (g.counts,))
     finally:
         ser.close()
+
+
+def _announce(g, now, text, kind):
+    """播一句，并把状态机冻结到这句话**真正播完**为止。
+
+    这里必须用音频的真实长度，不能用一个拍出来的常数。原来固定 3 秒，
+    而你录的六句是 5~10 秒 —— 播到第 3 秒解冻，喇叭还在响，雷达把振动
+    读成「看到人」，状态机据此判定「人回来了」，把刚发起的静默事件取消。
+    表现是：老人没回应，家属也永远收不到推送。**一次完全静默的漏报。**
+    """
+    voice.speak(text, kind, strict=True)
+    dur = voice.phrase_seconds(kind) or g.cfg.speech_freeze
+    g.speaking_for(now, dur)
 
 
 def spawn_chat(args):
