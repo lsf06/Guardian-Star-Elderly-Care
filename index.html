@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>守护星 Guardian Star — 居家异常静默终端</title>
+<meta name="description" content="它不防跌倒，它防死寂。守护星是一台桌面终端：雷达发现人不见了先开口问一句，拍一下按键就消解，无人应答才通知家属。">
+<style>
+  :root{
+    --bg:        #F8F5F0;
+    --bg-soft:   #F2ECE3;
+    --ink:       #2B2926;
+    --ink-2:     #6C665E;
+    --ink-3:     #9A938A;
+    --line:      rgba(43,41,38,.10);
+    --line-2:    rgba(43,41,38,.06);
+    --amber:     #B07C3E;
+    --amber-soft:#E8DCC9;
+    --maxw:      1080px;
+    --read:      640px;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+            "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    --serif: ui-serif, Georgia, "Songti SC", "SimSun", "Noto Serif SC", serif;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.75;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{ background:var(--amber-soft); }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+  .read{ max-width:var(--read); }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky; top:0; z-index:20;
+    background:rgba(248,245,240,.82);
+    backdrop-filter:saturate(140%) blur(12px);
+    -webkit-backdrop-filter:saturate(140%) blur(12px);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s ease;
+  }
+  nav.scrolled{ border-bottom-color:var(--line-2); }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:62px;
+  }
+  .brand{
+    font-size:.86rem; letter-spacing:.12em; color:var(--ink-2); text-transform:uppercase;
+  }
+  .brand b{ font-weight:600; color:var(--ink); letter-spacing:.06em; }
+  nav a.gh{
+    font-size:.86rem; color:var(--ink-2); text-decoration:none;
+    border-bottom:1px solid var(--line); padding-bottom:2px;
+    transition:color .2s, border-color .2s;
+  }
+  nav a.gh:hover{ color:var(--ink); border-color:var(--ink-3); }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    padding:clamp(64px, 11vw, 132px) 0 clamp(56px, 8vw, 96px);
+    text-align:center;
+  }
+  .eyebrow{
+    display:inline-block; font-size:.78rem; letter-spacing:.18em;
+    color:var(--amber); text-transform:uppercase; margin-bottom:clamp(24px,4vw,40px);
+  }
+  h1{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(2.7rem, 7.6vw, 5rem);
+    line-height:1.06;
+    letter-spacing:-.01em;
+    margin:0 0 18px;
+  }
+  .en{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:clamp(1rem,2vw,1.2rem);
+    color:var(--ink-3);
+    letter-spacing:.02em;
+    margin:0 0 clamp(34px,5vw,52px);
+  }
+  .slogan{
+    font-family:var(--serif);
+    font-size:clamp(1.35rem, 3.4vw, 2rem);
+    line-height:1.5;
+    margin:0 auto;
+    max-width:20em;
+    text-wrap:balance;
+  }
+  .slogan em{ font-style:normal; color:var(--amber); }
+  .lede{
+    margin:clamp(26px,3.5vw,36px) auto 0;
+    max-width:28em;
+    color:var(--ink-2);
+    font-size:clamp(.98rem,1.6vw,1.06rem);
+    line-height:1.9;
+    text-wrap:pretty;
+  }
+
+  /* ---------- product figure ---------- */
+  .figure{
+    margin:clamp(48px,7vw,84px) auto 0;
+    width:min(430px, 74vw);
+    position:relative;
+  }
+  .figure svg{ display:block; width:100%; height:auto; }
+  .figure figcaption{
+    margin-top:22px;
+    font-size:.82rem;
+    color:var(--ink-3);
+    letter-spacing:.02em;
+  }
+
+  /* ---------- numbers ---------- */
+  .numbers{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:clamp(36px,5vw,54px) 0;
+  }
+  .numbers .wrap{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:clamp(16px,4vw,40px);
+    text-align:center;
+  }
+  .num .v{
+    font-family:var(--serif);
+    font-size:clamp(1.9rem,4.6vw,2.9rem);
+    line-height:1.1;
+    display:block;
+    margin-bottom:10px;
+  }
+  .num .v small{
+    font-family:var(--sans);
+    font-size:.42em;
+    color:var(--ink-2);
+    margin-left:.18em;
+    letter-spacing:.04em;
+  }
+  .num .k{
+    display:block;
+    font-size:.84rem;
+    color:var(--ink-2);
+    line-height:1.6;
+    text-wrap:balance;
+  }
+
+  /* ---------- sections ---------- */
+  section{ padding:clamp(72px,10vw,130px) 0; }
+  .sec-head{ margin-bottom:clamp(40px,5.5vw,64px); }
+  .sec-head h2{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(1.5rem,3.4vw,2.1rem);
+    line-height:1.4;
+    margin:0 0 14px;
+    text-wrap:balance;
+  }
+  .sec-head p{
+    margin:0; color:var(--ink-2); max-width:34em; font-size:.98rem;
+  }
+
+  /* ---------- scene cards ---------- */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:clamp(14px,2.4vw,22px);
+  }
+  .card{
+    background:#FFFDFA;
+    border:1px solid var(--line-2);
+    border-radius:3px;
+    padding:clamp(26px,3.4vw,38px);
+    transition:transform .45s cubic-bezier(.2,.7,.3,1), border-color .45s, box-shadow .45s;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    border-color:var(--line);
+    box-shadow:0 12px 34px -22px rgba(43,41,38,.45);
+  }
+  .card q{
+    display:block;
+    font-family:var(--serif);
+    font-size:clamp(1.06rem,1.9vw,1.2rem);
+    line-height:1.7;
+    color:var(--ink);
+    quotes:none;
+    text-wrap:pretty;
+  }
+  .card p{
+    margin:16px 0 0;
+    font-size:.9rem;
+    color:var(--ink-2);
+    line-height:1.8;
+  }
+
+  /* ---------- limits ---------- */
+  .limits{
+    background:var(--bg-soft);
+    border-radius:4px;
+    padding:clamp(34px,5vw,62px);
+  }
+  .limits h2{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(1.35rem,3vw,1.9rem);
+    margin:0 0 10px;
+  }
+  .limits > p{
+    margin:0 0 clamp(26px,3.5vw,38px);
+    color:var(--ink-2);
+    font-size:.95rem;
+    max-width:30em;
+  }
+  .limits ul{
+    list-style:none; margin:0; padding:0;
+    display:grid; gap:0;
+  }
+  .limits li{
+    display:grid;
+    grid-template-columns:22px 1fr;
+    gap:14px;
+    padding:15px 0;
+    border-top:1px solid rgba(43,41,38,.09);
+    font-size:.95rem;
+    line-height:1.8;
+    color:var(--ink);
+    text-wrap:pretty;
+  }
+  .limits li:first-child{ border-top-color:rgba(43,41,38,.14); }
+  .limits li span.dash{ color:var(--amber); font-family:var(--sans); }
+
+  /* ---------- spec ---------- */
+  .spec{
+    width:100%;
+    border-collapse:collapse;
+    font-size:.95rem;
+  }
+  .spec tr{ border-bottom:1px solid var(--line-2); }
+  .spec tr:first-child{ border-top:1px solid var(--line); }
+  .spec th{
+    text-align:left;
+    font-weight:400;
+    color:var(--ink-3);
+    width:9.5em;
+    padding:16px 0;
+    vertical-align:top;
+    font-size:.86rem;
+    letter-spacing:.03em;
+  }
+  .spec td{
+    padding:16px 0;
+    color:var(--ink);
+    line-height:1.7;
+  }
+  .spec td .note{
+    display:block;
+    color:var(--ink-3);
+    font-size:.83rem;
+    margin-top:3px;
+  }
+
+  /* ---------- cta ---------- */
+  .cta{
+    text-align:center;
+    border-top:1px solid var(--line);
+  }
+  .cta .promise{
+    font-family:var(--serif);
+    font-size:clamp(1.25rem,3vw,1.75rem);
+    line-height:1.65;
+    max-width:22em;
+    margin:0 auto clamp(36px,4.5vw,48px);
+    text-wrap:balance;
+  }
+  .btns{
+    display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:13px 30px;
+    border-radius:2px;
+    text-decoration:none;
+    font-size:.92rem;
+    letter-spacing:.04em;
+    transition:background .25s, color .25s, border-color .25s;
+  }
+  .btn.primary{
+    background:var(--ink);
+    color:#FBF9F5;
+    border:1px solid var(--ink);
+  }
+  .btn.primary:hover{ background:#16150F; border-color:#16150F; }
+  .btn.ghost{
+    color:var(--ink-2);
+    border:1px solid var(--line);
+  }
+  .btn.ghost:hover{ color:var(--ink); border-color:var(--ink-3); }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line-2);
+    padding:36px 0 52px;
+    font-size:.82rem;
+    color:var(--ink-3);
+    line-height:1.9;
+  }
+  footer .wrap{
+    display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  }
+  footer a{ color:var(--ink-2); text-decoration:none; border-bottom:1px solid var(--line); }
+  footer a:hover{ color:var(--ink); }
+
+  /* ---------- reveal ---------- */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in{ opacity:1; transform:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .card:hover{ transform:none; }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:760px){
+    body{ font-size:16px; }
+    .wrap{ padding:0 22px; }
+    .numbers .wrap{ grid-template-columns:1fr; gap:30px; }
+    .numbers .num{ display:grid; grid-template-columns:1fr auto; align-items:baseline; text-align:left; gap:16px; }
+    .num .v{ margin-bottom:0; }
+    .cards{ grid-template-columns:1fr; }
+    .spec th{ width:6.4em; font-size:.82rem; }
+    footer .wrap{ flex-direction:column; gap:12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <div class="brand"><b>守护星</b> &nbsp;Guardian Star</div>
+    <a class="gh" href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">居家异常静默终端 · 2026 原型</span>
+    <h1>守护星</h1>
+    <p class="en">Guardian Star</p>
+
+    <p class="slogan">它不防跌倒，<br>它防<em>「死寂」</em>。</p>
+
+    <p class="lede">
+      该有人的房间里，人忽然找不到了——<br>
+      它不是报警器。它先开口问一句。
+    </p>
+
+    <figure class="figure">
+      <svg viewBox="0 0 320 320" role="img" aria-label="守护星桌面终端示意图：一个米白色盒子，上方面板有雷达感应窗，下方是一个大大的圆形按键，右侧是向外扩散的声波弧线。">
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#B07C3E" stop-opacity=".10"/>
+            <stop offset="100%" stop-color="#B07C3E" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFDFA"/>
+            <stop offset="100%" stop-color="#F4EEE4"/>
+          </linearGradient>
+        </defs>
+
+        <!-- ambient glow -->
+        <circle cx="150" cy="160" r="130" fill="url(#glow)"/>
+
+        <!-- ground shadow -->
+        <ellipse cx="150" cy="278" rx="86" ry="9" fill="#2B2926" opacity=".07"/>
+
+        <!-- body -->
+        <rect x="62" y="76" width="176" height="196" rx="26" fill="url(#body)" stroke="#E1D8C9" stroke-width="1.2"/>
+
+        <!-- radar window -->
+        <circle cx="104" cy="110" r="8.5" fill="#EDE5D7" stroke="#DED4C3" stroke-width="1"/>
+        <circle cx="104" cy="110" r="3" fill="#C9B795"/>
+
+        <!-- soft vent dots -->
+        <g fill="#DFD5C4" opacity=".85">
+          <circle cx="132" cy="110" r="1.6"/><circle cx="141" cy="110" r="1.6"/>
+          <circle cx="150" cy="110" r="1.6"/><circle cx="159" cy="110" r="1.6"/>
+          <circle cx="168" cy="110" r="1.6"/>
+        </g>
+
+        <!-- big button -->
+        <circle cx="150" cy="204" r="46" fill="#F0E9DC" stroke="#DCD0BC" stroke-width="1.2"/>
+        <circle cx="150" cy="204" r="30" fill="#FFFDFA" stroke="#E4DAC9" stroke-width="1"/>
+        <circle cx="150" cy="204" r="5" fill="#B07C3E" opacity=".55"/>
+
+        <!-- waves -->
+        <g fill="none" stroke="#B07C3E" stroke-linecap="round">
+          <path d="M254 132 q16 28 0 56" stroke-width="1.6" opacity=".55"/>
+          <path d="M270 116 q26 44 0 88" stroke-width="1.4" opacity=".32"/>
+          <path d="M286 100 q36 60 0 120" stroke-width="1.2" opacity=".16"/>
+        </g>
+      </svg>
+      <figcaption>一台盒子，一枚按键。没有摄像头，不采集任何图像。</figcaption>
+    </figure>
+  </div>
+</header>
+
+<div class="numbers reveal">
+  <div class="wrap">
+    <div class="num">
+      <span class="v">2<small>分钟</small></span>
+      <span class="k">人从雷达里消失，到它开口问一句</span>
+    </div>
+    <div class="num">
+      <span class="v">13<small>小时</small></span>
+      <span class="k">人还在、但不动也不应答，最久多久有人知道</span>
+    </div>
+    <div class="num">
+      <span class="v">1<small>次</small></span>
+      <span class="k">同一次异常，只打扰一次，不叫醒全家</span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head read reveal">
+      <h2>它只做四件事</h2>
+      <p>分别对应一次异常里可能出现的四种情况：找不到了、出门了、没事了、一直没回应。</p>
+    </div>
+
+    <div class="cards">
+      <div class="card reveal">
+        <q>它不问「你怎么摔的」，只问「你还在吗」。</q>
+        <p>雷达只判断人在不在，不判断姿势。所以它从不假装知道你摔没摔——那是另一类设备该干的事。</p>
+      </div>
+      <div class="card reveal">
+        <q>门开了，它就知道你出门了，绝不瞎报警。</q>
+        <p>门磁是一票否决权。只要门开过，它当天就不再多问一句。买菜、遛弯、去医院，都不会触发。</p>
+      </div>
+      <div class="card reveal">
+        <q>拍一下按键，就是「我没事」。</q>
+        <p>不用解锁、不用找手机、不用对着它说话。老人手边一枚大按键，一巴掌拍下去，这件事就过去了。</p>
+      </div>
+      <div class="card reveal">
+        <q>没人应答，才轮到家属。</q>
+        <p>先问一次，换个说法再问一次，都安静了才推送。家属收到的那一条，是它已经确认过两次的那一条。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="limits reveal">
+      <h2>它做不到的事，写在前面</h2>
+      <p>一份敢写「我不做什么」的说明，比一份全是优点的说明可信。这四条是物理与成本决定的，不是还没做完。</p>
+      <ul>
+        <li><span class="dash">—</span><span><b>不识别跌倒。</b>倒在地上还在呼吸的人，雷达通常仍然「看得见」，所以它不会响。这正是它需要每天点名两次的原因。</span></li>
+        <li><span class="dash">—</span><span><b>只覆盖一个房间。</b>卫生间是最大的盲区，而老人每天要进出六到十次。</span></li>
+        <li><span class="dash">—</span><span><b>断电、断网就停止守护。</b>安全播报用本地录音，不依赖云端，但拔掉电源它就真的什么都不知道了。</span></li>
+        <li><span class="dash">—</span><span><b>它不会替你叫 120。</b>它只通知人。真正到场的，得是人。</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head read reveal">
+      <h2>规格</h2>
+      <p>所有部件都是成品模块，不需要打板，也不需要焊接。</p>
+    </div>
+
+    <table class="spec reveal">
+      <tr>
+        <th>主控</th>
+        <td>树莓派 5<span class="note">研发原型。量产形态换 ESP32-S3，整机可压到约 150 元</span></td>
+      </tr>
+      <tr>
+        <th>雷达</th>
+        <td>LD2410C · 24 GHz 毫米波<span class="note">9 个距离门，串口 256000 8N1。只输出「有人 / 无人 / 运动 / 静止」</span></td>
+      </tr>
+      <tr>
+        <th>交互</th>
+        <td>实体按键 + 本地语音<span class="note">按键是唯一的告警消解通道；语音全部为预录 WAV，不走云端合成</span></td>
+      </tr>
+      <tr>
+        <th>辅助</th>
+        <td>有线门磁<span class="note">用于否决「正常出门」，把误报压到 0 次</span></td>
+      </tr>
+      <tr>
+        <th>AI</th>
+        <td>Vosk 离线识别 · DeepSeek<span class="note">仅用于按键触发的陪聊。识别结果不参与任何安全判定</span></td>
+      </tr>
+      <tr>
+        <th>物料</th>
+        <td>约 120 元<span class="note">外围器件，不含主控。整机 DIY 约 720 元</span></td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="promise reveal">它不承诺发现所有意外，<br>只承诺两件有时间上限的事。</p>
+    <div class="btns reveal">
+      <a class="btn primary" href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">查看 GitHub</a>
+      <a class="btn ghost" href="https://github.com/lsf06/Guardian-Star-Elderly-Care/blob/main/docs/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E%E4%B9%A6.md" target="_blank" rel="noopener">阅读设计说明</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>守护星 Guardian Star · 一个课程 / 研究原型，不构成医疗器械，不提供医疗建议。</div>
+    <div>测量数据尚在采集中，页面上的时间为设计值 · <a href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">源码</a></div>
+  </div>
+</footer>
+
+<script>
+  // nav 细线：滚过首屏才出现
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // 轻量渐显
+  const items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    items.forEach((el) => io.observe(el));
+  } else {
+    items.forEach((el) => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
