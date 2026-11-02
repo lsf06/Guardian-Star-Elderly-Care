@@ -109,22 +109,6 @@
     text-wrap:pretty;
   }
 
-  /* ---------- product figure ---------- */
-  .figure{
-    margin:clamp(48px,7vw,84px) auto 0;
-    width:min(430px, 74vw);
-    position:relative;
-  }
-  .figure svg{ display:block; width:100%; height:auto; }
-  /* 换实物照片时用 <img>，样式已在此预设，无需内联 style */
-  .figure img{ display:block; width:100%; height:auto; border-radius:4px; }
-  .figure figcaption{
-    margin-top:22px;
-    font-size:.82rem;
-    color:var(--ink-3);
-    letter-spacing:.02em;
-  }
-
   /* ---------- numbers ---------- */
   .numbers{
     border-top:1px solid var(--line);
@@ -174,7 +158,7 @@
     margin:0; color:var(--ink-2); max-width:34em; font-size:.98rem;
   }
 
-  /* ---------- scene cards ---------- */
+  /* ---------- 四件事卡片 ---------- */
   .cards{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -244,56 +228,6 @@
   .limits li:first-child{ border-top-color:rgba(43,41,38,.14); }
   .limits li span.dash{ color:var(--amber); font-family:var(--sans); }
 
-  /* ---------- scene ---------- */
-  .scene-sec{ padding:clamp(56px,8vw,96px) 0 clamp(20px,3vw,36px); }
-  .scene-lede{
-    font-family:var(--serif);
-    font-size:clamp(1.05rem,2.2vw,1.3rem);
-    line-height:1.85;
-    color:var(--ink-2);
-    text-align:center;
-    max-width:24em;
-    margin:0 auto clamp(34px,5vw,56px);
-    text-wrap:balance;
-  }
-  .scene{ margin:0; }
-  .scene svg,
-  .scene img{ display:block; width:100%; height:auto; border-radius:6px; }
-  /* 图片是 3:2 的实拍感渲染，深色边框会显脏，用极浅的一道分隔即可 */
-  .scene img{ background:#EFE8DC; }
-  .scene figcaption{
-    margin-top:20px; text-align:center;
-    font-size:.83rem; color:var(--ink-3); letter-spacing:.02em;
-  }
-
-  /* ---------- detail cards ---------- */
-  .details{
-    display:grid; grid-template-columns:repeat(2,1fr);
-    gap:clamp(16px,2.4vw,24px);
-    margin-top:clamp(36px,5vw,64px);
-  }
-  .detail{
-    background:#FFFDFA;
-    border:1px solid var(--line-2);
-    border-radius:6px;
-    overflow:hidden;
-    box-shadow:0 24px 48px -40px rgba(43,41,38,.55);
-    transition:transform .45s cubic-bezier(.2,.7,.3,1), box-shadow .45s, border-color .45s;
-  }
-  .detail:hover{
-    transform:translateY(-3px);
-    border-color:var(--line);
-    box-shadow:0 28px 52px -38px rgba(43,41,38,.5);
-  }
-  .detail .art{ background:#F6F0E5; }
-  .detail .art svg{ display:block; width:100%; height:auto; }
-  .detail .txt{ padding:26px clamp(24px,3vw,32px) clamp(28px,3.4vw,34px); }
-  .detail h3{
-    font-family:var(--serif); font-weight:400;
-    font-size:clamp(1.1rem,2vw,1.28rem);
-    line-height:1.6; margin:0 0 10px;
-  }
-  .detail p{ margin:0; font-size:.9rem; color:var(--ink-2); line-height:1.85; text-wrap:pretty; }
 
   /* ---------- spec ---------- */
   .spec-band{
@@ -358,6 +292,7 @@
     border:1px solid var(--ink);
   }
   .btn.primary:hover{ background:#16150F; border-color:#16150F; }
+  .btn.lg{ padding:16px 46px; font-size:1rem; cursor:pointer; font-family:inherit; }
   .btn.ghost{
     color:var(--ink-2);
     border:1px solid var(--line);
@@ -405,6 +340,117 @@
     opacity:.8;
   }
 
+  /* ---------- hero figure（首屏主视觉：渲染图） ---------- */
+  .hero-figure{
+    margin:clamp(44px,6vw,72px) auto 0;
+    width:min(860px, 100%);
+    position:relative;
+  }
+  .hero-figure img{
+    display:block; width:100%; height:auto;
+    border-radius:10px;
+    background:#EFE8DC;
+  }
+  .hero-figure figcaption{
+    margin-top:16px; text-align:center;
+    font-size:.78rem; color:var(--ink-3); letter-spacing:.02em;
+  }
+
+  /* ---------- material detail（左图右文） ---------- */
+  .detail-block{
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    gap:clamp(32px,5vw,76px);
+    align-items:center;
+    padding-top:clamp(56px,8vw,100px);
+    padding-bottom:clamp(16px,2.5vw,28px);
+  }
+  .detail-visual{ display:grid; gap:clamp(10px,1.6vw,16px); }
+  .detail-visual figure{ margin:0; }
+  .detail-visual svg{ display:block; width:100%; height:auto; border-radius:10px; }
+  .detail-copy h2{
+    font-family:var(--serif); font-weight:400;
+    font-size:clamp(1.45rem,3.1vw,2.05rem);
+    line-height:1.42; margin:0 0 clamp(20px,3vw,30px);
+    letter-spacing:-.005em;
+  }
+  .detail-copy .item + .item{ margin-top:clamp(18px,2.6vw,26px); }
+  .detail-copy .k{
+    display:block; font-size:.72rem; letter-spacing:.18em;
+    color:var(--amber); text-transform:uppercase; margin-bottom:7px;
+  }
+  .detail-copy p{
+    margin:0; color:var(--ink-2);
+    font-size:clamp(.95rem,1.5vw,1rem); line-height:1.85; text-wrap:pretty;
+  }
+
+  /* ---------- nav 预订按钮 ---------- */
+  .nav-right{ display:flex; align-items:center; gap:clamp(14px,2.2vw,22px); }
+  .btn-mini{
+    font-size:.8rem; letter-spacing:.05em; white-space:nowrap;
+    color:#FBF9F5; background:var(--ink);
+    padding:7px 15px; border-radius:999px; text-decoration:none;
+    transition:opacity .2s ease;
+  }
+  .btn-mini:hover{ opacity:.85; }
+
+  /* ---------- pricing ---------- */
+  .price{ padding:clamp(56px,8vw,104px) 0; scroll-margin-top:76px; }
+  .price-card{
+    max-width:560px; margin:0 auto; text-align:center;
+    background:#FFFDFA;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:clamp(34px,5vw,54px) clamp(22px,5vw,48px);
+    box-shadow:0 24px 60px -40px rgba(43,41,38,.55);
+  }
+  .price-k{
+    margin:0 0 12px; font-size:.74rem; letter-spacing:.22em;
+    color:var(--amber); text-transform:uppercase;
+  }
+  .price-v{
+    font-family:var(--serif); font-weight:400;
+    font-size:clamp(2.7rem,7.5vw,3.7rem); line-height:1;
+    letter-spacing:-.02em; margin:0;
+  }
+  .price-v small{
+    font-size:.3em; letter-spacing:.1em;
+    color:var(--ink-3); margin-left:8px; vertical-align:.22em;
+  }
+  .price-sub{
+    margin:16px 0 0;
+    color:var(--ink-2); font-size:.95rem; line-height:1.8;
+    text-wrap:pretty;
+  }
+  .price-card .btn.lg{
+    display:block;
+    width:100%; max-width:320px;
+    margin:clamp(24px,3.4vw,32px) auto 0;
+    padding:16px;
+    font-size:1.02rem; letter-spacing:.1em;
+  }
+  .price-note{
+    margin:14px 0 0;
+    font-size:.75rem; color:var(--ink-3); line-height:1.7;
+  }
+
+  /* ---------- dialog ---------- */
+  dialog.dlg{
+    border:none; padding:clamp(28px,4vw,40px);
+    width:calc(100% - 48px); max-width:380px;
+    background:#FFFDFA; color:var(--ink);
+    border-radius:14px; text-align:center;
+    box-shadow:0 30px 80px -34px rgba(43,41,38,.5);
+  }
+  dialog.dlg::backdrop{ background:rgba(43,41,38,.42); }
+  .dlg h3{
+    font-family:var(--serif); font-weight:400;
+    font-size:1.3rem; margin:0 0 10px;
+  }
+  .dlg p{ margin:0; color:var(--ink-2); font-size:.95rem; line-height:1.8; }
+  .dlg .dlg-note{ margin-top:14px; font-size:.75rem; color:var(--ink-3); }
+  .dlg .btn{ margin-top:26px; cursor:pointer; }
+
   /* ---------- reveal ---------- */
   .reveal{ opacity:0; transform:translateY(14px); transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1); }
   .reveal.in{ opacity:1; transform:none; }
@@ -418,6 +464,8 @@
   /* ---------- responsive ---------- */
   @media (max-width:900px){
     .spec-grid{ grid-template-columns:repeat(2,1fr); }
+    .detail-block{ grid-template-columns:1fr; gap:clamp(26px,4vw,36px); }
+    .detail-visual{ grid-template-columns:1fr 1fr; }
   }
 
   @media (max-width:760px){
@@ -428,11 +476,14 @@
     .numbers .num .k{ min-width:0; }
     .num .v{ margin-bottom:0; }
     .cards{ grid-template-columns:1fr; }
-    .details{ grid-template-columns:1fr; margin-top:32px; }
-    .scene figcaption{ font-size:.79rem; }
     .spec-grid{ grid-template-columns:1fr; gap:10px; }
     .spec-card{ padding:20px 22px; }
     footer .wrap{ flex-direction:column; gap:12px; }
+    .detail-visual{ grid-template-columns:1fr; }
+    .hero-figure figcaption{ font-size:.74rem; }
+    nav a.gh{ display:none; }
+    .btn.lg{ width:100%; padding:15px 20px; }
+    #pricing{ scroll-margin-top:80px; }
   }
 </style>
 </head>
@@ -441,7 +492,10 @@
 <nav id="nav">
   <div class="wrap">
     <div class="brand"><b>守护星</b> &nbsp;Guardian Star</div>
-    <a class="gh" href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">GitHub ↗</a>
+    <div class="nav-right">
+      <a class="gh" href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn-mini" href="#pricing">立即预订</a>
+    </div>
   </div>
 </nav>
 
@@ -458,52 +512,10 @@
       它不是报警器。它先开口问一句。
     </p>
 
-    <figure class="figure">
-      <svg viewBox="0 0 320 320" role="img" aria-label="守护星桌面终端示意图：一个米白色盒子，上方面板有雷达感应窗，下方是一个大大的圆形按键，右侧是向外扩散的声波弧线。">
-        <defs>
-          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#B07C3E" stop-opacity=".10"/>
-            <stop offset="100%" stop-color="#B07C3E" stop-opacity="0"/>
-          </radialGradient>
-          <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#FFFDFA"/>
-            <stop offset="100%" stop-color="#F4EEE4"/>
-          </linearGradient>
-        </defs>
-
-        <!-- ambient glow -->
-        <circle cx="150" cy="160" r="130" fill="url(#glow)"/>
-
-        <!-- ground shadow -->
-        <ellipse cx="150" cy="278" rx="86" ry="9" fill="#2B2926" opacity=".07"/>
-
-        <!-- body -->
-        <rect x="62" y="76" width="176" height="196" rx="26" fill="url(#body)" stroke="#E1D8C9" stroke-width="1.2"/>
-
-        <!-- radar window -->
-        <circle cx="104" cy="110" r="8.5" fill="#EDE5D7" stroke="#DED4C3" stroke-width="1"/>
-        <circle cx="104" cy="110" r="3" fill="#C9B795"/>
-
-        <!-- soft vent dots -->
-        <g fill="#DFD5C4" opacity=".85">
-          <circle cx="132" cy="110" r="1.6"/><circle cx="141" cy="110" r="1.6"/>
-          <circle cx="150" cy="110" r="1.6"/><circle cx="159" cy="110" r="1.6"/>
-          <circle cx="168" cy="110" r="1.6"/>
-        </g>
-
-        <!-- big button -->
-        <circle cx="150" cy="204" r="46" fill="#F0E9DC" stroke="#DCD0BC" stroke-width="1.2"/>
-        <circle cx="150" cy="204" r="30" fill="#FFFDFA" stroke="#E4DAC9" stroke-width="1"/>
-        <circle cx="150" cy="204" r="5" fill="#B07C3E" opacity=".55"/>
-
-        <!-- waves -->
-        <g fill="none" stroke="#B07C3E" stroke-linecap="round">
-          <path d="M254 132 q16 28 0 56" stroke-width="1.6" opacity=".55"/>
-          <path d="M270 116 q26 44 0 88" stroke-width="1.4" opacity=".32"/>
-          <path d="M286 100 q36 60 0 120" stroke-width="1.2" opacity=".16"/>
-        </g>
-      </svg>
-      <figcaption>一台盒子，一枚按键。没有摄像头，不采集任何图像。</figcaption>
+    <figure class="hero-figure">
+      <img id="hero-image" src="product-scene.jpg" width="1536" height="1024"
+           alt="居室场景：木桌上放着守护星终端，正面一枚橙色大按键；左侧一杯冒着热气的茶，旁边摊着一本翻开的书，午后窗光从左边斜照进来。">
+      <figcaption>概念渲染图，非实拍 · 实物为工程样机</figcaption>
     </figure>
   </div>
 </header>
@@ -525,20 +537,10 @@
   </div>
 </div>
 
-<section class="scene-sec" id="scene">
-  <div class="wrap">
-    <p class="scene-lede reveal">它不属于实验室。<br>它属于沙发边、茶几上，和那杯还温着的茶。</p>
-
-    <figure class="scene reveal">
-      <img src="product-scene.jpg" width="1536" height="1024"
-           alt="居家场景示意：浅木色桌面上放着一台米白色圆角盒子，正面是一枚橙色大按键，外圈透出一圈暖光；左侧一杯冒着热气的茶，旁边摊着一本翻开的书，午后窗光从左边斜照进来。">
-      <figcaption>居家场景示意 · 概念渲染图，非实拍；实物为工程样机</figcaption>
-    </figure>
-
-    <div class="details">
-      <div class="detail reveal">
-        <div class="art">
-          <svg viewBox="0 0 480 280" role="img" aria-label="细节特写：一枚直径六十毫米的圆形按键，外圈是米白软胶，中心一点琥珀色。">
+<section class="wrap detail-block" id="detail">
+  <div class="detail-visual reveal">
+    <figure>
+      <svg viewBox="0 0 480 280" role="img" aria-label="细节特写：一枚直径六十毫米的圆形按键，外圈是米白软胶，中心一点琥珀色。">
             <defs>
               <radialGradient id="d1-glow" cx="50%" cy="46%" r="50%">
                 <stop offset="0%" stop-color="#B07C3E" stop-opacity=".10"/>
@@ -554,16 +556,9 @@
             <circle cx="240" cy="140" r="39" fill="#FFFDFA" stroke="#EAE0CF" stroke-width="1"/>
             <circle cx="240" cy="140" r="6.5" fill="#B07C3E" opacity=".55"/>
           </svg>
-        </div>
-        <div class="txt">
-          <h3>一拍，即平安。</h3>
-          <p>直径 60 毫米，凸起 4 毫米，不用看也能摸到——老人的手会抖，指关节会变形，按键不能是名片那么大的一粒。按下去有轻微的行程和一声轻响，知道自己按到了。</p>
-        </div>
-      </div>
-
-      <div class="detail reveal">
-        <div class="art">
-          <svg viewBox="0 0 480 280" role="img" aria-label="细节特写：雷达感应窗，向右扩散出三道声波弧线，外围是几道虚线距离门。">
+    </figure>
+    <figure>
+      <svg viewBox="0 0 480 280" role="img" aria-label="细节特写：雷达感应窗，向右扩散出三道声波弧线，外围是几道虚线距离门。">
             <defs>
               <radialGradient id="d2-glow" cx="50%" cy="46%" r="50%">
                 <stop offset="0%" stop-color="#B07C3E" stop-opacity=".12"/>
@@ -586,12 +581,18 @@
               <path d="M288 76 q66 64 0 128" stroke-width="1.2" opacity=".11"/>
             </g>
           </svg>
-        </div>
-        <div class="txt">
-          <h3>它只关心，你还在吗。</h3>
-          <p>24 GHz 毫米波，9 个距离门，输出只有四种状态：有人、无人、在动、不动。它不知道你坐着还是躺着，也永远不会假装知道——所以它也没有资格谈“跌倒”。</p>
-        </div>
-      </div>
+    </figure>
+  </div>
+
+  <div class="detail-copy reveal">
+    <h2>两个部件，一双手够得着。</h2>
+    <div class="item">
+      <span class="k">按键</span>
+      <p>直径 60 毫米，凸起 4 毫米。手抖、指关节变形也摸得到；按下去有 4 毫米行程和一声轻响——知道自己按上了。</p>
+    </div>
+    <div class="item">
+      <span class="k">雷达窗</span>
+      <p>24 GHz，9 个距离门，只回答一个问题：这屋里还有没有人。它不知道你是坐着还是躺着。</p>
     </div>
   </div>
 </section>
@@ -681,6 +682,18 @@
   </div>
 </section>
 
+<section class="price" id="pricing">
+  <div class="wrap">
+    <div class="price-card reveal">
+      <p class="price-k">首发体验</p>
+      <p class="price-v">¥199<small>整机</small></p>
+      <p class="price-sub">包含硬件终端、一年 AI 陪伴服务及家属远程提醒功能</p>
+      <button class="btn primary lg" type="button" data-preorder>立即预订</button>
+      <p class="price-note">量产形态目标价 · 演示页面，暂未开放支付</p>
+    </div>
+  </div>
+</section>
+
 <section class="cta">
   <div class="wrap">
     <p class="promise reveal">它不承诺发现所有意外，<br>只承诺两件有时间上限的事。</p>
@@ -707,6 +720,13 @@
   </div>
 </footer>
 
+<dialog class="dlg" id="preorder-dlg">
+  <h3>感谢关注！</h3>
+  <p>项目正在打磨中，敬请期待。</p>
+  <p class="dlg-note">本页为演示原型，预订入口尚未开放，不构成销售要约。</p>
+  <button class="btn primary" type="button" data-close>好</button>
+</dialog>
+
 <script>
   // nav 细线：滚过首屏才出现
   const nav = document.getElementById('nav');
@@ -725,6 +745,28 @@
     items.forEach((el) => io.observe(el));
   } else {
     items.forEach((el) => el.classList.add('in'));
+  }
+
+  // 预订按钮：弹层。没开放支付，所以只给一句实话
+  const dlg = document.getElementById('preorder-dlg');
+  const openDlg = () => {
+    if (!dlg) return;
+    if (typeof dlg.showModal === 'function') { dlg.showModal(); }
+    else { dlg.setAttribute('open', ''); }
+  };
+  const closeDlg = () => {
+    if (!dlg) return;
+    if (typeof dlg.close === 'function') { dlg.close(); }
+    else { dlg.removeAttribute('open'); }
+  };
+  document.querySelectorAll('[data-preorder]').forEach((el) => {
+    el.addEventListener('click', (e) => { e.preventDefault(); openDlg(); });
+  });
+  if (dlg) {
+    dlg.addEventListener('click', (e) => {
+      // 点在遮罩上（target 是 dialog 本身）或点在关闭按钮上，都关掉
+      if (e.target === dlg || e.target.hasAttribute('data-close')) closeDlg();
+    });
   }
 </script>
 
