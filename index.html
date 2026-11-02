@@ -257,7 +257,10 @@
     text-wrap:balance;
   }
   .scene{ margin:0; }
-  .scene svg{ display:block; width:100%; height:auto; border-radius:5px; }
+  .scene svg,
+  .scene img{ display:block; width:100%; height:auto; border-radius:6px; }
+  /* 图片是 3:2 的实拍感渲染，深色边框会显脏，用极浅的一道分隔即可 */
+  .scene img{ background:#EFE8DC; }
   .scene figcaption{
     margin-top:20px; text-align:center;
     font-size:.83rem; color:var(--ink-3); letter-spacing:.02em;
@@ -527,89 +530,9 @@
     <p class="scene-lede reveal">它不属于实验室。<br>它属于沙发边、茶几上，和那杯还温着的茶。</p>
 
     <figure class="scene reveal">
-      <svg viewBox="0 0 960 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="场景示意图：浅木色桌面上放着一台米白色圆角盒子，左侧是一叠书，右侧是一杯冒着热气的茶，窗光从左上角斜照进来。">
-        <defs>
-          <linearGradient id="sc-wall" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#FAF7F2"/>
-            <stop offset="100%" stop-color="#F2EBE0"/>
-          </linearGradient>
-          <linearGradient id="sc-table" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#E8D9C1"/>
-            <stop offset="100%" stop-color="#DCC9AB"/>
-          </linearGradient>
-          <linearGradient id="sc-body" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#FFFDFA"/>
-            <stop offset="100%" stop-color="#F6EFE4"/>
-          </linearGradient>
-          <radialGradient id="sc-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#B07C3E" stop-opacity=".12"/>
-            <stop offset="100%" stop-color="#B07C3E" stop-opacity="0"/>
-          </radialGradient>
-          <filter id="sc-soft" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="8"/>
-          </filter>
-        </defs>
-
-        <!-- 墙面与窗光 -->
-        <rect width="960" height="560" fill="url(#sc-wall)"/>
-        <path d="M0 0 L252 0 L104 392 L0 392 Z" fill="#FFFDF8" opacity=".5"/>
-        <path d="M252 0 L296 0 L148 392 L104 392 Z" fill="#FFFDF8" opacity=".28"/>
-
-        <!-- 环境光 -->
-        <circle cx="470" cy="268" r="176" fill="url(#sc-glow)"/>
-
-        <!-- 桌面 -->
-        <path d="M0 392 H960 V560 H0 Z" fill="url(#sc-table)"/>
-        <path d="M0 392 H960" stroke="#D9C5A6" stroke-width="1.4"/>
-        <path d="M0 393.6 H960" stroke="#F4EAD8" stroke-width="1" opacity=".7"/>
-        <g fill="none" stroke="#C9AF89" stroke-width="1.1" opacity=".26" stroke-linecap="round">
-          <path d="M0 422 q60 -5 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
-          <path d="M0 452 q60 5 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
-          <path d="M0 486 q60 -6 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
-          <path d="M0 518 q60 4 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
-          <path d="M0 544 q60 -4 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
-        </g>
-        <ellipse cx="742" cy="474" rx="15" ry="3.4" fill="none" stroke="#C9AF89" stroke-width="1" opacity=".3"/>
-        <ellipse cx="182" cy="508" rx="12" ry="3" fill="none" stroke="#C9AF89" stroke-width="1" opacity=".24"/>
-
-        <!-- 书堆 -->
-        <ellipse cx="300" cy="396" rx="74" ry="6" fill="#6E5638" opacity=".10" filter="url(#sc-soft)"/>
-        <g transform="translate(0,10) rotate(-4 300 378)">
-          <rect x="238" y="370" width="128" height="16" rx="3" fill="#E9DBC3" stroke="#DCCBAE" stroke-width="1"/>
-          <rect x="246" y="372" width="112" height="4" fill="#F8F1E3" opacity=".85"/>
-          <rect x="252" y="352" width="102" height="15" rx="3" fill="#F3E9D6" stroke="#E2D4BC" stroke-width="1"/>
-          <line x1="262" y1="353" x2="262" y2="366" stroke="#D9C8AB" stroke-width="1.2"/>
-          <rect x="330" y="352" width="5" height="20" rx="1.6" fill="#B07C3E" opacity=".45"/>
-        </g>
-
-        <!-- 盒子 -->
-        <ellipse cx="470" cy="394" rx="126" ry="12" fill="#6E5638" opacity=".16" filter="url(#sc-soft)"/>
-        <ellipse cx="470" cy="395" rx="84" ry="5.5" fill="#6E5638" opacity=".14" filter="url(#sc-soft)"/>
-        <rect x="372" y="180" width="196" height="212" rx="30" fill="url(#sc-body)" stroke="#DBCEB8" stroke-width="1.3"/>
-        <circle cx="412" cy="212" r="10" fill="#EFE7D8" stroke="#D3C6B0" stroke-width="1"/>
-        <circle cx="412" cy="212" r="3.4" fill="#B07C3E" opacity=".55"/>
-        <g fill="#D5C8B4">
-          <circle cx="442" cy="212" r="1.7"/><circle cx="455" cy="212" r="1.7"/>
-          <circle cx="468" cy="212" r="1.7"/><circle cx="481" cy="212" r="1.7"/>
-          <circle cx="494" cy="212" r="1.7"/>
-        </g>
-        <circle cx="470" cy="290" r="46" fill="#F1EADC" stroke="#DCCFBB" stroke-width="1.2"/>
-        <circle cx="470" cy="290" r="31" fill="#FFFDFA" stroke="#E7DDCC" stroke-width="1"/>
-        <circle cx="470" cy="290" r="5.5" fill="#B07C3E" opacity=".55"/>
-
-        <!-- 茶杯 -->
-        <ellipse cx="700" cy="396" rx="52" ry="7" fill="#6E5638" opacity=".12" filter="url(#sc-soft)"/>
-        <ellipse cx="700" cy="392" rx="52" ry="10" fill="#F8F2E7" stroke="#E6DBC8" stroke-width="1"/>
-        <path d="M666 332 L734 332 L725 374 Q719 386 700 386 Q681 386 675 374 Z" fill="#FCF7EE" stroke="#E6DBC8" stroke-width="1.1"/>
-        <ellipse cx="700" cy="332" rx="34" ry="7.5" fill="#F2EADA" stroke="#E6DBC8" stroke-width="1"/>
-        <ellipse cx="700" cy="332" rx="27" ry="5" fill="#C6A470" opacity=".5"/>
-        <path d="M734 342 q22 2 20 19 q-2 15 -20 13" fill="none" stroke="#E6DBC8" stroke-width="3.2" stroke-linecap="round"/>
-        <g fill="none" stroke="#B07C3E" stroke-linecap="round">
-          <path d="M688 314 q7 -13 0 -25 q-7 -11 0 -22" stroke-width="1.6" opacity=".16"/>
-          <path d="M710 316 q6 -12 0 -23 q-6 -10 0 -19" stroke-width="1.4" opacity=".11"/>
-        </g>
-      </svg>
-      <figcaption>客厅一角。它只要一个插座、一个朝向，和一条不被家具挡住的视线。</figcaption>
+      <img src="product-scene.jpg" width="1536" height="1024"
+           alt="居家场景示意：浅木色桌面上放着一台米白色圆角盒子，正面是一枚橙色大按键，外圈透出一圈暖光；左侧一杯冒着热气的茶，旁边摊着一本翻开的书，午后窗光从左边斜照进来。">
+      <figcaption>居家场景示意 · 概念渲染图，非实拍；实物为工程样机</figcaption>
     </figure>
 
     <div class="details">
