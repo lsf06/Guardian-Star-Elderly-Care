@@ -156,6 +156,7 @@
   }
   .sec-head p{
     margin:0; color:var(--ink-2); max-width:34em; font-size:.98rem;
+    text-wrap:pretty;
   }
 
   /* ---------- 四件事卡片 ---------- */
@@ -340,48 +341,85 @@
     opacity:.8;
   }
 
-  /* ---------- hero figure（首屏主视觉：渲染图） ---------- */
-  .hero-figure{
-    margin:clamp(44px,6vw,72px) auto 0;
-    width:min(860px, 100%);
+  /* ---------- hero object（首屏主视觉：纯 CSS 摆件） ---------- */
+  .hero-object{
+    margin:clamp(48px,6.5vw,80px) auto 0;
+    width:min(680px, 100%);
     position:relative;
+    padding-bottom:clamp(24px,3.4vw,34px);
   }
-  .hero-figure img{
-    display:block; width:100%; height:auto;
-    border-radius:10px;
-    background:#EFE8DC;
+  .hero-object .body{
+    position:relative;
+    aspect-ratio:16 / 10;
+    border-radius:24px;
+    background:
+      linear-gradient(170deg, #FDFBF6 0%, #F8F3E9 52%, #F2EBDF 100%);
+    border:1px solid rgba(43,41,38,.06);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.92),
+      0 2px 3px -1px rgba(43,41,38,.05),
+      0 16px 30px -24px rgba(43,41,38,.28),
+      0 34px 70px -50px rgba(43,41,38,.40);
   }
-  .hero-figure figcaption{
-    margin-top:16px; text-align:center;
-    font-size:.78rem; color:var(--ink-3); letter-spacing:.02em;
+  /* 一条极淡的分缝，暗示机体与底座，不画任何部件 */
+  .hero-object .body::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:23%;
+    height:1px;
+    background:linear-gradient(90deg,
+      rgba(43,41,38,0) 0%,
+      rgba(43,41,38,.07) 18%,
+      rgba(43,41,38,.07) 82%,
+      rgba(43,41,38,0) 100%);
+  }
+  /* 落在桌面上的那道影 */
+  .hero-object .floor{
+    position:absolute;
+    left:50%; bottom:6px;
+    width:62%; height:14px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:radial-gradient(50% 50% at 50% 50%,
+      rgba(43,41,38,.13) 0%, rgba(43,41,38,0) 72%);
+    filter:blur(3px);
+  }
+  .hero-cap{
+    margin:clamp(22px,3vw,30px) 0 0;
+    text-align:center;
+    font-size:.74rem; letter-spacing:.14em;
+    color:var(--ink-2);
   }
 
-  /* ---------- material detail（左图右文） ---------- */
-  .detail-block{
-    display:grid;
-    grid-template-columns:1.05fr 1fr;
-    gap:clamp(32px,5vw,76px);
-    align-items:center;
-    padding-top:clamp(56px,8vw,100px);
-    padding-bottom:clamp(16px,2.5vw,28px);
+  /* ---------- detail（纯文字排版） ---------- */
+  .detail{
+    padding-top:clamp(60px,8vw,104px);
+    padding-bottom:clamp(10px,2vw,22px);
   }
-  .detail-visual{ display:grid; gap:clamp(10px,1.6vw,16px); }
-  .detail-visual figure{ margin:0; }
-  .detail-visual svg{ display:block; width:100%; height:auto; border-radius:10px; }
-  .detail-copy h2{
+  .detail h2{
     font-family:var(--serif); font-weight:400;
-    font-size:clamp(1.45rem,3.1vw,2.05rem);
-    line-height:1.42; margin:0 0 clamp(20px,3vw,30px);
-    letter-spacing:-.005em;
+    font-size:clamp(1.5rem,3.2vw,2.15rem);
+    line-height:1.42; margin:0 0 clamp(36px,5vw,56px);
+    letter-spacing:-.005em; max-width:22em;
+    text-wrap:balance;
   }
-  .detail-copy .item + .item{ margin-top:clamp(18px,2.6vw,26px); }
-  .detail-copy .k{
+  .detail-items{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(28px,6vw,80px);
+    max-width:940px;
+  }
+  .detail-items .item{ position:relative; padding-top:20px; border-top:1px solid var(--line); }
+  .detail-items .k{
     display:block; font-size:.72rem; letter-spacing:.18em;
-    color:var(--amber); text-transform:uppercase; margin-bottom:7px;
+    color:var(--amber); text-transform:uppercase; margin-bottom:12px;
   }
-  .detail-copy p{
+  .detail-items .k i{
+    font-family:var(--serif); font-style:normal;
+    letter-spacing:0; color:var(--ink-3); margin-right:.9em;
+  }
+  .detail-items p{
     margin:0; color:var(--ink-2);
-    font-size:clamp(.95rem,1.5vw,1rem); line-height:1.85; text-wrap:pretty;
+    font-size:clamp(.95rem,1.5vw,1rem); line-height:1.9; text-wrap:pretty;
   }
 
   /* ---------- nav 预订按钮 ---------- */
@@ -461,11 +499,16 @@
     .card:hover{ transform:none; }
   }
 
+  /* 导出 PDF / 打印时，渐显元素必须是可见的 */
+  @media print{
+    .reveal{ opacity:1 !important; transform:none !important; }
+    nav{ position:static; background:none; }
+  }
+
   /* ---------- responsive ---------- */
   @media (max-width:900px){
     .spec-grid{ grid-template-columns:repeat(2,1fr); }
-    .detail-block{ grid-template-columns:1fr; gap:clamp(26px,4vw,36px); }
-    .detail-visual{ grid-template-columns:1fr 1fr; }
+    .detail-items{ grid-template-columns:1fr; gap:clamp(26px,5vw,36px); max-width:640px; }
   }
 
   @media (max-width:760px){
@@ -479,8 +522,9 @@
     .spec-grid{ grid-template-columns:1fr; gap:10px; }
     .spec-card{ padding:20px 22px; }
     footer .wrap{ flex-direction:column; gap:12px; }
-    .detail-visual{ grid-template-columns:1fr; }
-    .hero-figure figcaption{ font-size:.74rem; }
+    .hero-object{ width:100%; }
+    .hero-object .body{ border-radius:18px; aspect-ratio:4 / 3; }
+    .hero-cap{ font-size:.68rem; letter-spacing:.12em; }
     nav a.gh{ display:none; }
     .btn.lg{ width:100%; padding:15px 20px; }
     #pricing{ scroll-margin-top:80px; }
@@ -512,11 +556,11 @@
       它不是报警器。它先开口问一句。
     </p>
 
-    <figure class="hero-figure">
-      <img id="hero-image" src="product-scene.jpg" width="1536" height="1024"
-           alt="居室场景：木桌上放着守护星终端，正面一枚橙色大按键；左侧一杯冒着热气的茶，旁边摊着一本翻开的书，午后窗光从左边斜照进来。">
-      <figcaption>概念渲染图，非实拍 · 实物为工程样机</figcaption>
+    <figure class="hero-object" aria-hidden="true">
+      <div class="body"></div>
+      <div class="floor"></div>
     </figure>
+    <p class="hero-cap">形态示意 · 非实物照片</p>
   </div>
 </header>
 
@@ -537,61 +581,17 @@
   </div>
 </div>
 
-<section class="wrap detail-block" id="detail">
-  <div class="detail-visual reveal">
-    <figure>
-      <svg viewBox="0 0 480 280" role="img" aria-label="细节特写：一枚直径六十毫米的圆形按键，外圈是米白软胶，中心一点琥珀色。">
-            <defs>
-              <radialGradient id="d1-glow" cx="50%" cy="46%" r="50%">
-                <stop offset="0%" stop-color="#B07C3E" stop-opacity=".10"/>
-                <stop offset="100%" stop-color="#B07C3E" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <rect width="480" height="280" fill="#F6F0E5"/>
-            <circle cx="240" cy="138" r="128" fill="url(#d1-glow)"/>
-            <circle cx="240" cy="138" r="104" fill="none" stroke="#B07C3E" stroke-width="1.2" opacity=".14" stroke-dasharray="2 9"/>
-            <ellipse cx="240" cy="228" rx="64" ry="5" fill="#6E5638" opacity=".07"/>
-            <circle cx="240" cy="140" r="84" fill="#FDF8EF" stroke="#E7DCCA" stroke-width="1.4"/>
-            <circle cx="240" cy="140" r="60" fill="#F4EDE1" stroke="#E2D6C0" stroke-width="1"/>
-            <circle cx="240" cy="140" r="39" fill="#FFFDFA" stroke="#EAE0CF" stroke-width="1"/>
-            <circle cx="240" cy="140" r="6.5" fill="#B07C3E" opacity=".55"/>
-          </svg>
-    </figure>
-    <figure>
-      <svg viewBox="0 0 480 280" role="img" aria-label="细节特写：雷达感应窗，向右扩散出三道声波弧线，外围是几道虚线距离门。">
-            <defs>
-              <radialGradient id="d2-glow" cx="50%" cy="46%" r="50%">
-                <stop offset="0%" stop-color="#B07C3E" stop-opacity=".12"/>
-                <stop offset="100%" stop-color="#B07C3E" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <rect width="480" height="280" fill="#F6F0E5"/>
-            <circle cx="196" cy="140" r="124" fill="url(#d2-glow)"/>
-            <g fill="none" stroke="#C9B48F" stroke-width="1" opacity=".16" stroke-dasharray="3 9">
-              <circle cx="196" cy="140" r="46"/>
-              <circle cx="196" cy="140" r="74"/>
-              <circle cx="196" cy="140" r="102"/>
-            </g>
-            <circle cx="196" cy="140" r="34" fill="#EDE5D7" stroke="#DCD1BF" stroke-width="1.3"/>
-            <circle cx="196" cy="140" r="13" fill="#E3D7C2"/>
-            <circle cx="196" cy="140" r="5.5" fill="#B07C3E" opacity=".5"/>
-            <g fill="none" stroke="#B07C3E" stroke-linecap="round">
-              <path d="M244 112 q30 28 0 56" stroke-width="1.8" opacity=".45"/>
-              <path d="M266 94 q48 46 0 92" stroke-width="1.5" opacity=".24"/>
-              <path d="M288 76 q66 64 0 128" stroke-width="1.2" opacity=".11"/>
-            </g>
-          </svg>
-    </figure>
-  </div>
-
-  <div class="detail-copy reveal">
+<section class="wrap detail" id="detail">
+  <div class="reveal">
     <h2>两个部件，一双手够得着。</h2>
-    <div class="item">
-      <span class="k">按键</span>
+  </div>
+  <div class="detail-items">
+    <div class="item reveal">
+      <span class="k"><i>01</i>按键</span>
       <p>直径 60 毫米，凸起 4 毫米。手抖、指关节变形也摸得到；按下去有 4 毫米行程和一声轻响——知道自己按上了。</p>
     </div>
-    <div class="item">
-      <span class="k">雷达窗</span>
+    <div class="item reveal">
+      <span class="k"><i>02</i>雷达窗</span>
       <p>24 GHz，9 个距离门，只回答一个问题：这屋里还有没有人。它不知道你是坐着还是躺着。</p>
     </div>
   </div>
@@ -713,7 +713,7 @@
       <p class="f-line f-copy">© 2026 守护星 Guardian Star. All rights reserved. 本网站为项目演示原型。</p>
     </div>
     <figure class="f-qr">
-      <img src="qr-code.png" width="88" height="88" loading="lazy"
+      <img src="qr-code.png" width="88" height="88"
            alt="守护星项目主页二维码：扫码可在手机上打开 https://lsf06.github.io/Guardian-Star-Elderly-Care/">
       <figcaption>扫码在手机上打开</figcaption>
     </figure>
