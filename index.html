@@ -244,34 +244,84 @@
   .limits li:first-child{ border-top-color:rgba(43,41,38,.14); }
   .limits li span.dash{ color:var(--amber); font-family:var(--sans); }
 
+  /* ---------- scene ---------- */
+  .scene-sec{ padding:clamp(56px,8vw,96px) 0 clamp(20px,3vw,36px); }
+  .scene-lede{
+    font-family:var(--serif);
+    font-size:clamp(1.05rem,2.2vw,1.3rem);
+    line-height:1.85;
+    color:var(--ink-2);
+    text-align:center;
+    max-width:24em;
+    margin:0 auto clamp(34px,5vw,56px);
+    text-wrap:balance;
+  }
+  .scene{ margin:0; }
+  .scene svg{ display:block; width:100%; height:auto; border-radius:5px; }
+  .scene figcaption{
+    margin-top:20px; text-align:center;
+    font-size:.83rem; color:var(--ink-3); letter-spacing:.02em;
+  }
+
+  /* ---------- detail cards ---------- */
+  .details{
+    display:grid; grid-template-columns:repeat(2,1fr);
+    gap:clamp(16px,2.4vw,24px);
+    margin-top:clamp(36px,5vw,64px);
+  }
+  .detail{
+    background:#FFFDFA;
+    border:1px solid var(--line-2);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 24px 48px -40px rgba(43,41,38,.55);
+    transition:transform .45s cubic-bezier(.2,.7,.3,1), box-shadow .45s, border-color .45s;
+  }
+  .detail:hover{
+    transform:translateY(-3px);
+    border-color:var(--line);
+    box-shadow:0 28px 52px -38px rgba(43,41,38,.5);
+  }
+  .detail .art{ background:#F6F0E5; }
+  .detail .art svg{ display:block; width:100%; height:auto; }
+  .detail .txt{ padding:26px clamp(24px,3vw,32px) clamp(28px,3.4vw,34px); }
+  .detail h3{
+    font-family:var(--serif); font-weight:400;
+    font-size:clamp(1.1rem,2vw,1.28rem);
+    line-height:1.6; margin:0 0 10px;
+  }
+  .detail p{ margin:0; font-size:.9rem; color:var(--ink-2); line-height:1.85; text-wrap:pretty; }
+
   /* ---------- spec ---------- */
-  .spec{
-    width:100%;
-    border-collapse:collapse;
-    font-size:.95rem;
+  .spec-band{
+    background:#FBF7F1;
+    border-top:1px solid var(--line-2);
+    border-bottom:1px solid var(--line-2);
   }
-  .spec tr{ border-bottom:1px solid var(--line-2); }
-  .spec tr:first-child{ border-top:1px solid var(--line); }
-  .spec th{
-    text-align:left;
-    font-weight:400;
-    color:var(--ink-3);
-    width:9.5em;
-    padding:16px 0;
-    vertical-align:top;
-    font-size:.86rem;
-    letter-spacing:.03em;
+  .spec-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:clamp(12px,1.8vw,18px);
   }
-  .spec td{
-    padding:16px 0;
-    color:var(--ink);
-    line-height:1.7;
+  .spec-card{
+    background:#FFFDFA;
+    border:1px solid var(--line-2);
+    border-radius:4px;
+    padding:clamp(20px,2.4vw,26px);
+    display:flex; flex-direction:column; gap:9px;
+    transition:border-color .35s, transform .35s;
   }
-  .spec td .note{
-    display:block;
-    color:var(--ink-3);
-    font-size:.83rem;
-    margin-top:3px;
+  .spec-card:hover{ border-color:var(--line); transform:translateY(-2px); }
+  .spec-card .sk{
+    font-size:.74rem; letter-spacing:.16em;
+    color:var(--ink-2); text-transform:uppercase;
+  }
+  .spec-card .sv{
+    font-family:var(--serif);
+    font-size:1.1rem; line-height:1.5; color:var(--ink);
+  }
+  .spec-card .sn{
+    font-size:.82rem; color:var(--ink-2); line-height:1.8; text-wrap:pretty;
   }
 
   /* ---------- cta ---------- */
@@ -336,14 +386,22 @@
   }
 
   /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .spec-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+
   @media (max-width:760px){
     body{ font-size:16px; }
     .wrap{ padding:0 22px; }
     .numbers .wrap{ grid-template-columns:1fr; gap:30px; }
-    .numbers .num{ display:grid; grid-template-columns:1fr auto; align-items:baseline; text-align:left; gap:16px; }
+    .numbers .num{ display:grid; grid-template-columns:auto 1fr; align-items:baseline; text-align:left; gap:16px; }
+    .numbers .num .k{ min-width:0; }
     .num .v{ margin-bottom:0; }
     .cards{ grid-template-columns:1fr; }
-    .spec th{ width:6.4em; font-size:.82rem; }
+    .details{ grid-template-columns:1fr; margin-top:32px; }
+    .scene figcaption{ font-size:.79rem; }
+    .spec-grid{ grid-template-columns:1fr; gap:10px; }
+    .spec-card{ padding:20px 22px; }
     footer .wrap{ flex-direction:column; gap:12px; }
   }
 </style>
@@ -437,6 +495,157 @@
   </div>
 </div>
 
+<section class="scene-sec" id="scene">
+  <div class="wrap">
+    <p class="scene-lede reveal">它不属于实验室。<br>它属于沙发边、茶几上，和那杯还温着的茶。</p>
+
+    <figure class="scene reveal">
+      <svg viewBox="0 0 960 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="场景示意图：浅木色桌面上放着一台米白色圆角盒子，左侧是一叠书，右侧是一杯冒着热气的茶，窗光从左上角斜照进来。">
+        <defs>
+          <linearGradient id="sc-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FAF7F2"/>
+            <stop offset="100%" stop-color="#F2EBE0"/>
+          </linearGradient>
+          <linearGradient id="sc-table" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#E8D9C1"/>
+            <stop offset="100%" stop-color="#DCC9AB"/>
+          </linearGradient>
+          <linearGradient id="sc-body" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFDFA"/>
+            <stop offset="100%" stop-color="#F6EFE4"/>
+          </linearGradient>
+          <radialGradient id="sc-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#B07C3E" stop-opacity=".12"/>
+            <stop offset="100%" stop-color="#B07C3E" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="sc-soft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="8"/>
+          </filter>
+        </defs>
+
+        <!-- 墙面与窗光 -->
+        <rect width="960" height="560" fill="url(#sc-wall)"/>
+        <path d="M0 0 L252 0 L104 392 L0 392 Z" fill="#FFFDF8" opacity=".5"/>
+        <path d="M252 0 L296 0 L148 392 L104 392 Z" fill="#FFFDF8" opacity=".28"/>
+
+        <!-- 环境光 -->
+        <circle cx="470" cy="268" r="176" fill="url(#sc-glow)"/>
+
+        <!-- 桌面 -->
+        <path d="M0 392 H960 V560 H0 Z" fill="url(#sc-table)"/>
+        <path d="M0 392 H960" stroke="#D9C5A6" stroke-width="1.4"/>
+        <path d="M0 393.6 H960" stroke="#F4EAD8" stroke-width="1" opacity=".7"/>
+        <g fill="none" stroke="#C9AF89" stroke-width="1.1" opacity=".26" stroke-linecap="round">
+          <path d="M0 422 q60 -5 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
+          <path d="M0 452 q60 5 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
+          <path d="M0 486 q60 -6 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
+          <path d="M0 518 q60 4 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
+          <path d="M0 544 q60 -4 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0"/>
+        </g>
+        <ellipse cx="742" cy="474" rx="15" ry="3.4" fill="none" stroke="#C9AF89" stroke-width="1" opacity=".3"/>
+        <ellipse cx="182" cy="508" rx="12" ry="3" fill="none" stroke="#C9AF89" stroke-width="1" opacity=".24"/>
+
+        <!-- 书堆 -->
+        <ellipse cx="300" cy="396" rx="74" ry="6" fill="#6E5638" opacity=".10" filter="url(#sc-soft)"/>
+        <g transform="translate(0,10) rotate(-4 300 378)">
+          <rect x="238" y="370" width="128" height="16" rx="3" fill="#E9DBC3" stroke="#DCCBAE" stroke-width="1"/>
+          <rect x="246" y="372" width="112" height="4" fill="#F8F1E3" opacity=".85"/>
+          <rect x="252" y="352" width="102" height="15" rx="3" fill="#F3E9D6" stroke="#E2D4BC" stroke-width="1"/>
+          <line x1="262" y1="353" x2="262" y2="366" stroke="#D9C8AB" stroke-width="1.2"/>
+          <rect x="330" y="352" width="5" height="20" rx="1.6" fill="#B07C3E" opacity=".45"/>
+        </g>
+
+        <!-- 盒子 -->
+        <ellipse cx="470" cy="394" rx="126" ry="12" fill="#6E5638" opacity=".16" filter="url(#sc-soft)"/>
+        <ellipse cx="470" cy="395" rx="84" ry="5.5" fill="#6E5638" opacity=".14" filter="url(#sc-soft)"/>
+        <rect x="372" y="180" width="196" height="212" rx="30" fill="url(#sc-body)" stroke="#DBCEB8" stroke-width="1.3"/>
+        <circle cx="412" cy="212" r="10" fill="#EFE7D8" stroke="#D3C6B0" stroke-width="1"/>
+        <circle cx="412" cy="212" r="3.4" fill="#B07C3E" opacity=".55"/>
+        <g fill="#D5C8B4">
+          <circle cx="442" cy="212" r="1.7"/><circle cx="455" cy="212" r="1.7"/>
+          <circle cx="468" cy="212" r="1.7"/><circle cx="481" cy="212" r="1.7"/>
+          <circle cx="494" cy="212" r="1.7"/>
+        </g>
+        <circle cx="470" cy="290" r="46" fill="#F1EADC" stroke="#DCCFBB" stroke-width="1.2"/>
+        <circle cx="470" cy="290" r="31" fill="#FFFDFA" stroke="#E7DDCC" stroke-width="1"/>
+        <circle cx="470" cy="290" r="5.5" fill="#B07C3E" opacity=".55"/>
+
+        <!-- 茶杯 -->
+        <ellipse cx="700" cy="396" rx="52" ry="7" fill="#6E5638" opacity=".12" filter="url(#sc-soft)"/>
+        <ellipse cx="700" cy="392" rx="52" ry="10" fill="#F8F2E7" stroke="#E6DBC8" stroke-width="1"/>
+        <path d="M666 332 L734 332 L725 374 Q719 386 700 386 Q681 386 675 374 Z" fill="#FCF7EE" stroke="#E6DBC8" stroke-width="1.1"/>
+        <ellipse cx="700" cy="332" rx="34" ry="7.5" fill="#F2EADA" stroke="#E6DBC8" stroke-width="1"/>
+        <ellipse cx="700" cy="332" rx="27" ry="5" fill="#C6A470" opacity=".5"/>
+        <path d="M734 342 q22 2 20 19 q-2 15 -20 13" fill="none" stroke="#E6DBC8" stroke-width="3.2" stroke-linecap="round"/>
+        <g fill="none" stroke="#B07C3E" stroke-linecap="round">
+          <path d="M688 314 q7 -13 0 -25 q-7 -11 0 -22" stroke-width="1.6" opacity=".16"/>
+          <path d="M710 316 q6 -12 0 -23 q-6 -10 0 -19" stroke-width="1.4" opacity=".11"/>
+        </g>
+      </svg>
+      <figcaption>客厅一角。它只要一个插座、一个朝向，和一条不被家具挡住的视线。</figcaption>
+    </figure>
+
+    <div class="details">
+      <div class="detail reveal">
+        <div class="art">
+          <svg viewBox="0 0 480 280" role="img" aria-label="细节特写：一枚直径六十毫米的圆形按键，外圈是米白软胶，中心一点琥珀色。">
+            <defs>
+              <radialGradient id="d1-glow" cx="50%" cy="46%" r="50%">
+                <stop offset="0%" stop-color="#B07C3E" stop-opacity=".10"/>
+                <stop offset="100%" stop-color="#B07C3E" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="480" height="280" fill="#F6F0E5"/>
+            <circle cx="240" cy="138" r="128" fill="url(#d1-glow)"/>
+            <circle cx="240" cy="138" r="104" fill="none" stroke="#B07C3E" stroke-width="1.2" opacity=".14" stroke-dasharray="2 9"/>
+            <ellipse cx="240" cy="228" rx="64" ry="5" fill="#6E5638" opacity=".07"/>
+            <circle cx="240" cy="140" r="84" fill="#FDF8EF" stroke="#E7DCCA" stroke-width="1.4"/>
+            <circle cx="240" cy="140" r="60" fill="#F4EDE1" stroke="#E2D6C0" stroke-width="1"/>
+            <circle cx="240" cy="140" r="39" fill="#FFFDFA" stroke="#EAE0CF" stroke-width="1"/>
+            <circle cx="240" cy="140" r="6.5" fill="#B07C3E" opacity=".55"/>
+          </svg>
+        </div>
+        <div class="txt">
+          <h3>一拍，即平安。</h3>
+          <p>直径 60 毫米，凸起 4 毫米，不用看也能摸到——老人的手会抖，指关节会变形，按键不能是名片那么大的一粒。按下去有轻微的行程和一声轻响，知道自己按到了。</p>
+        </div>
+      </div>
+
+      <div class="detail reveal">
+        <div class="art">
+          <svg viewBox="0 0 480 280" role="img" aria-label="细节特写：雷达感应窗，向右扩散出三道声波弧线，外围是几道虚线距离门。">
+            <defs>
+              <radialGradient id="d2-glow" cx="50%" cy="46%" r="50%">
+                <stop offset="0%" stop-color="#B07C3E" stop-opacity=".12"/>
+                <stop offset="100%" stop-color="#B07C3E" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="480" height="280" fill="#F6F0E5"/>
+            <circle cx="196" cy="140" r="124" fill="url(#d2-glow)"/>
+            <g fill="none" stroke="#C9B48F" stroke-width="1" opacity=".16" stroke-dasharray="3 9">
+              <circle cx="196" cy="140" r="46"/>
+              <circle cx="196" cy="140" r="74"/>
+              <circle cx="196" cy="140" r="102"/>
+            </g>
+            <circle cx="196" cy="140" r="34" fill="#EDE5D7" stroke="#DCD1BF" stroke-width="1.3"/>
+            <circle cx="196" cy="140" r="13" fill="#E3D7C2"/>
+            <circle cx="196" cy="140" r="5.5" fill="#B07C3E" opacity=".5"/>
+            <g fill="none" stroke="#B07C3E" stroke-linecap="round">
+              <path d="M244 112 q30 28 0 56" stroke-width="1.8" opacity=".45"/>
+              <path d="M266 94 q48 46 0 92" stroke-width="1.5" opacity=".24"/>
+              <path d="M288 76 q66 64 0 128" stroke-width="1.2" opacity=".11"/>
+            </g>
+          </svg>
+        </div>
+        <div class="txt">
+          <h3>它只关心，你还在吗。</h3>
+          <p>24 GHz 毫米波，9 个距离门，输出只有四种状态：有人、无人、在动、不动。它不知道你坐着还是躺着，也永远不会假装知道——所以它也没有资格谈“跌倒”。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <div class="sec-head read reveal">
@@ -480,39 +689,45 @@
   </div>
 </section>
 
-<section>
+<section class="spec-band" id="spec">
   <div class="wrap">
     <div class="sec-head read reveal">
       <h2>规格</h2>
       <p>所有部件都是成品模块，不需要打板，也不需要焊接。</p>
     </div>
 
-    <table class="spec reveal">
-      <tr>
-        <th>主控</th>
-        <td>树莓派 5<span class="note">研发原型。量产形态换 ESP32-S3，整机可压到约 150 元</span></td>
-      </tr>
-      <tr>
-        <th>雷达</th>
-        <td>LD2410C · 24 GHz 毫米波<span class="note">9 个距离门，串口 256000 8N1。只输出「有人 / 无人 / 运动 / 静止」</span></td>
-      </tr>
-      <tr>
-        <th>交互</th>
-        <td>实体按键 + 本地语音<span class="note">按键是唯一的告警消解通道；语音全部为预录 WAV，不走云端合成</span></td>
-      </tr>
-      <tr>
-        <th>辅助</th>
-        <td>有线门磁<span class="note">用于否决「正常出门」，把误报压到 0 次</span></td>
-      </tr>
-      <tr>
-        <th>AI</th>
-        <td>Vosk 离线识别 · DeepSeek<span class="note">仅用于按键触发的陪聊。识别结果不参与任何安全判定</span></td>
-      </tr>
-      <tr>
-        <th>物料</th>
-        <td>约 120 元<span class="note">外围器件，不含主控。整机 DIY 约 720 元</span></td>
-      </tr>
-    </table>
+    <div class="spec-grid">
+      <div class="spec-card reveal">
+        <span class="sk">主控</span>
+        <span class="sv">树莓派 5</span>
+        <span class="sn">研发原型。量产形态换 ESP32-S3，整机可压到约 150 元。</span>
+      </div>
+      <div class="spec-card reveal">
+        <span class="sk">雷达</span>
+        <span class="sv">LD2410C · 24 GHz</span>
+        <span class="sn">9 个距离门，串口 256000 8N1。只输出「有人 / 无人 / 运动 / 静止」。</span>
+      </div>
+      <div class="spec-card reveal">
+        <span class="sk">交互</span>
+        <span class="sv">实体按键 + 本地语音</span>
+        <span class="sn">按键是唯一的告警消解通道；语音全部是预录 WAV，不走云端合成。</span>
+      </div>
+      <div class="spec-card reveal">
+        <span class="sk">辅助</span>
+        <span class="sv">有线门磁</span>
+        <span class="sn">用于否决「正常出门」，把这类误报压到 0 次。</span>
+      </div>
+      <div class="spec-card reveal">
+        <span class="sk">AI</span>
+        <span class="sv">Vosk · DeepSeek</span>
+        <span class="sn">仅用于按键触发的陪聊。识别结果不参与任何安全判定。</span>
+      </div>
+      <div class="spec-card reveal">
+        <span class="sk">物料</span>
+        <span class="sv">约 120 元</span>
+        <span class="sn">外围器件，不含主控。整机 DIY 约 720 元。</span>
+      </div>
+    </div>
   </div>
 </section>
 
