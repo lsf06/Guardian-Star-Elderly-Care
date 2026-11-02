@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>守护星 Guardian Star — 居家异常静默终端</title>
-<meta name="description" content="它不防跌倒，它防死寂。守护星是一台桌面终端：雷达发现人不见了先开口问一句，拍一下按键就消解，无人应答才通知家属。">
+<title>守护星 Guardian Star — 居家安全终端｜老人独处时的第二双眼睛</title>
+<meta name="description" content="它不防跌倒，它防「死寂」。守护星是一台放在床头的居家安全终端：发现屋里有异常先开口问一句，拍一下按键就消解，无人应答才通知家属。¥199，30 天无理由退换。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="守护星 Guardian Star — 居家安全终端">
+<meta property="og:description" content="它不防跌倒，它防「死寂」。发现异常先开口问一句，拍一下按键表示我没事，无人应答才通知家属。">
+<meta property="og:image" content="assets/hero.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23F8F5F0'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23B07C3E'/%3E%3C/svg%3E">
 <style>
   :root{
     --bg:        #F8F5F0;
@@ -59,12 +64,12 @@
     font-size:.86rem; letter-spacing:.12em; color:var(--ink-2); text-transform:uppercase;
   }
   .brand b{ font-weight:600; color:var(--ink); letter-spacing:.06em; }
-  nav a.gh{
+  nav a.nav-link{
     font-size:.86rem; color:var(--ink-2); text-decoration:none;
     border-bottom:1px solid var(--line); padding-bottom:2px;
     transition:color .2s, border-color .2s;
   }
-  nav a.gh:hover{ color:var(--ink); border-color:var(--ink-3); }
+  nav a.nav-link:hover{ color:var(--ink); border-color:var(--ink-3); }
 
   /* ---------- hero ---------- */
   header.hero{
@@ -341,86 +346,237 @@
     opacity:.8;
   }
 
-  /* ---------- hero object（首屏主视觉：纯 CSS 摆件） ---------- */
-  .hero-object{
-    margin:clamp(48px,6.5vw,80px) auto 0;
-    width:min(680px, 100%);
-    position:relative;
-    padding-bottom:clamp(24px,3.4vw,34px);
+  /* ---------- hero 主视觉（实拍图） ---------- */
+  .hero-figure{
+    margin:clamp(44px,6vw,74px) auto 0;
+    width:min(920px, 100%);
   }
-  .hero-object .body{
+  .hero-figure .shot{
     position:relative;
-    aspect-ratio:16 / 10;
-    border-radius:24px;
-    background:
-      linear-gradient(170deg, #FDFBF6 0%, #F8F3E9 52%, #F2EBDF 100%);
-    border:1px solid rgba(43,41,38,.06);
+    border-radius:18px;
+    overflow:hidden;
+    background:#F0ECE5;
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.92),
-      0 2px 3px -1px rgba(43,41,38,.05),
-      0 16px 30px -24px rgba(43,41,38,.28),
-      0 34px 70px -50px rgba(43,41,38,.40);
+      0 1px 2px rgba(43,41,38,.05),
+      0 10px 22px -16px rgba(43,41,38,.28),
+      0 30px 60px -42px rgba(43,41,38,.45);
   }
-  /* 一条极淡的分缝，暗示机体与底座，不画任何部件 */
-  .hero-object .body::after{
-    content:"";
-    position:absolute; left:0; right:0; bottom:23%;
-    height:1px;
-    background:linear-gradient(90deg,
-      rgba(43,41,38,0) 0%,
-      rgba(43,41,38,.07) 18%,
-      rgba(43,41,38,.07) 82%,
-      rgba(43,41,38,0) 100%);
-  }
-  /* 落在桌面上的那道影 */
-  .hero-object .floor{
-    position:absolute;
-    left:50%; bottom:6px;
-    width:62%; height:14px;
-    transform:translateX(-50%);
-    border-radius:50%;
-    background:radial-gradient(50% 50% at 50% 50%,
-      rgba(43,41,38,.13) 0%, rgba(43,41,38,0) 72%);
-    filter:blur(3px);
+  .hero-figure img{
+    display:block; width:100%; height:auto;
+    aspect-ratio:16 / 10;
+    object-fit:cover;
+    object-position:50% 50%;
+    filter:saturate(.95) sepia(.10) contrast(1.01);
   }
   .hero-cap{
-    margin:clamp(22px,3vw,30px) 0 0;
+    margin:clamp(18px,2.6vw,26px) 0 0;
     text-align:center;
     font-size:.74rem; letter-spacing:.14em;
     color:var(--ink-2);
   }
 
-  /* ---------- detail（纯文字排版） ---------- */
+  /* ---------- detail（图 + 文） ---------- */
   .detail{
     padding-top:clamp(60px,8vw,104px);
     padding-bottom:clamp(10px,2vw,22px);
+    scroll-margin-top:76px;
   }
   .detail h2{
     font-family:var(--serif); font-weight:400;
     font-size:clamp(1.5rem,3.2vw,2.15rem);
-    line-height:1.42; margin:0 0 clamp(36px,5vw,56px);
+    line-height:1.42; margin:0 0 clamp(34px,4.6vw,52px);
     letter-spacing:-.005em; max-width:22em;
     text-wrap:balance;
   }
-  .detail-items{
+  .detail-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:clamp(28px,6vw,80px);
-    max-width:940px;
+    gap:clamp(26px,4.5vw,56px);
+    max-width:1000px;
   }
-  .detail-items .item{ position:relative; padding-top:20px; border-top:1px solid var(--line); }
-  .detail-items .k{
+  .detail-item figure{ margin:0; }
+  .detail-item img{
+    display:block; width:100%; height:auto;
+    aspect-ratio:4 / 3;
+    object-fit:cover;
+    object-position:22% 50%;
+    border-radius:14px;
+    background:#EFEAE2;
+    box-shadow:
+      0 1px 2px rgba(43,41,38,.06),
+      0 12px 26px -20px rgba(43,41,38,.34);
+  }
+  .detail-item .k{
     display:block; font-size:.72rem; letter-spacing:.18em;
-    color:var(--amber); text-transform:uppercase; margin-bottom:12px;
+    color:var(--amber); text-transform:uppercase;
+    margin:22px 0 10px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
   }
-  .detail-items .k i{
+  .detail-item .k i{
     font-family:var(--serif); font-style:normal;
     letter-spacing:0; color:var(--ink-3); margin-right:.9em;
   }
-  .detail-items p{
+  .detail-item p{
     margin:0; color:var(--ink-2);
-    font-size:clamp(.95rem,1.5vw,1rem); line-height:1.9; text-wrap:pretty;
+    font-size:clamp(.94rem,1.5vw,1rem); line-height:1.9; text-wrap:pretty;
   }
+
+  /* ---------- 家属端 App ---------- */
+  .app-band{
+    background:#FBF7F1;
+    border-top:1px solid var(--line-2);
+    border-bottom:1px solid var(--line-2);
+    scroll-margin-top:76px;
+  }
+  .app-grid{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    gap:clamp(36px,7vw,92px);
+    align-items:center;
+    justify-content:center;
+  }
+  .app-copy{ max-width:38em; }
+  .app-copy .k{
+    display:block; font-size:.72rem; letter-spacing:.2em;
+    color:var(--amber); text-transform:uppercase; margin-bottom:14px;
+  }
+  .app-copy h2{
+    font-family:var(--serif); font-weight:400;
+    font-size:clamp(1.35rem,2.9vw,1.9rem);
+    line-height:1.5; margin:0 0 18px;
+  }
+  .app-copy > p{
+    margin:0 0 clamp(24px,3vw,32px);
+    color:var(--ink-2); font-size:.98rem; line-height:1.9; text-wrap:pretty;
+  }
+  .app-list{ list-style:none; margin:0; padding:0; }
+  .app-list li{
+    padding:14px 0;
+    border-top:1px solid var(--line);
+    font-size:.93rem; line-height:1.8; color:var(--ink);
+    display:grid; grid-template-columns:16px 1fr; gap:12px;
+    text-wrap:pretty;
+  }
+  .app-list li:last-child{ border-bottom:1px solid var(--line); }
+  .app-list li b{ font-weight:600; }
+  .app-list .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--amber); margin-top:.72em;
+  }
+  .app-note{
+    margin:18px 0 0;
+    font-size:.74rem; letter-spacing:.06em; color:var(--ink-3);
+  }
+
+  /* 手机 */
+  .phone{
+    width:clamp(248px, 25vw, 296px);
+    padding:9px;
+    border-radius:44px;
+    background:#1D1B18;
+    box-shadow:
+      0 1px 2px rgba(43,41,38,.2),
+      0 26px 50px -30px rgba(43,41,38,.55);
+    position:relative;
+    flex:0 0 auto;
+  }
+  .phone::after{ /* 刘海 */
+    content:""; position:absolute; top:17px; left:50%;
+    transform:translateX(-50%);
+    width:58px; height:6px; border-radius:3px;
+    background:#33302A;
+  }
+  .screen{
+    border-radius:36px; overflow:hidden;
+    background:#FAF8F4; color:var(--ink);
+    padding:26px 14px 18px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .scr-bar{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:10px; letter-spacing:.04em; color:var(--ink-3);
+    padding:0 3px 3px;
+  }
+  .scr-id{
+    display:flex; align-items:center; gap:9px;
+    padding:2px 2px 0;
+  }
+  .scr-id .ava{
+    width:30px; height:30px; border-radius:50%;
+    background:#EFE6D6; color:#8A6A3C;
+    display:grid; place-items:center;
+    font-family:var(--serif); font-size:12px;
+    flex:0 0 auto;
+  }
+  .scr-id .nm{ display:block; font-size:12px; font-weight:600; line-height:1.4; }
+  .scr-id .meta{ display:block; font-size:9.5px; color:var(--ink-3); margin-top:1px; }
+  .scr-status{
+    background:#fff; border-radius:12px;
+    padding:12px 12px 11px;
+    box-shadow:0 1px 2px rgba(43,41,38,.05);
+    border:1px solid rgba(43,41,38,.05);
+  }
+  .scr-status .row{ display:flex; align-items:center; gap:7px; }
+  .scr-status .beacon{
+    width:8px; height:8px; border-radius:50%;
+    background:#3E8E5A;
+    box-shadow:0 0 0 4px rgba(62,142,90,.13);
+    flex:0 0 auto;
+  }
+  .scr-status .st{ font-size:12.5px; font-weight:600; letter-spacing:.02em; }
+  .scr-status .when{ margin-left:auto; font-size:9.5px; color:var(--ink-3); }
+  .scr-status .who{ margin-top:6px; font-size:10.5px; color:var(--ink-2); }
+  .scr-block{
+    background:#fff; border-radius:12px;
+    border:1px solid rgba(43,41,38,.05);
+    padding:11px 12px 12px;
+  }
+  .scr-h{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-3); margin-bottom:9px;
+  }
+  .scr-h .val{ font-size:10px; letter-spacing:0; color:var(--ink-2); }
+  .tl{ position:relative; padding-left:12px; }
+  .tl::before{
+    content:""; position:absolute; left:3px; top:4px; bottom:4px;
+    width:1px; background:rgba(43,41,38,.12);
+  }
+  .tl div{
+    position:relative; display:flex; gap:8px; align-items:baseline;
+    font-size:10px; line-height:1.9; color:var(--ink-2);
+  }
+  .tl div::before{
+    content:""; position:absolute; left:-12px; top:.62em;
+    width:5px; height:5px; border-radius:50%;
+    background:#C9C1B4;
+  }
+  .tl div:last-child::before{ background:var(--amber); }
+  .tl b{ font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .scr-heart{ display:flex; align-items:center; gap:10px; }
+  .scr-heart .bpm{
+    font-family:var(--serif); font-size:20px; line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .scr-heart .unit{ font-size:9px; color:var(--ink-3); letter-spacing:.08em; }
+  .scr-heart svg{ margin-left:auto; display:block; }
+  .rl div{
+    display:flex; justify-content:space-between; gap:8px;
+    font-size:9.5px; line-height:1.95; color:var(--ink-2);
+  }
+  .rl .s{ color:#3E8E5A; }
+  .scr-next{
+    margin-top:6px;
+    display:flex; align-items:center; gap:8px;
+    background:#F7F2E8;
+    border:1px solid rgba(176,124,62,.16);
+    border-radius:12px;
+    padding:10px 11px;
+    font-size:10px; color:var(--ink-2);
+  }
+  .scr-next .beacon{ width:7px; height:7px; box-shadow:0 0 0 3px rgba(176,124,62,.12); background:var(--amber); }
+  .scr-next b{ color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums; }
 
   /* ---------- nav 预订按钮 ---------- */
   .nav-right{ display:flex; align-items:center; gap:clamp(14px,2.2vw,22px); }
@@ -462,14 +618,33 @@
   }
   .price-card .btn.lg{
     display:block;
-    width:100%; max-width:320px;
-    margin:clamp(24px,3.4vw,32px) auto 0;
-    padding:16px;
-    font-size:1.02rem; letter-spacing:.1em;
+    width:100%; max-width:100%;
+    margin:clamp(26px,3.6vw,34px) auto 0;
+    padding:20px 18px;
+    font-size:1.08rem; letter-spacing:.16em;
+    box-shadow:0 14px 26px -18px rgba(43,41,38,.6);
+    transition:background .25s, transform .25s;
   }
+  .price-card .btn.lg:hover{ transform:translateY(-1px); }
+  .price-trust{
+    margin:12px 0 0;
+    font-size:.72rem; color:var(--ink-3);
+    letter-spacing:.04em; line-height:1.7;
+  }
+  .price-alt{
+    display:inline-block;
+    margin-top:18px;
+    background:none; border:none; padding:0 0 2px;
+    font-family:inherit; font-size:.82rem; color:var(--ink-2);
+    border-bottom:1px solid var(--line);
+    cursor:pointer; letter-spacing:.02em;
+    transition:color .2s, border-color .2s;
+  }
+  .price-alt:hover{ color:var(--ink); border-color:var(--ink-3); }
   .price-note{
-    margin:14px 0 0;
-    font-size:.75rem; color:var(--ink-3); line-height:1.7;
+    margin:16px 0 0;
+    font-size:.72rem; color:var(--ink-3); line-height:1.7;
+    opacity:.9;
   }
 
   /* ---------- dialog ---------- */
@@ -508,7 +683,9 @@
   /* ---------- responsive ---------- */
   @media (max-width:900px){
     .spec-grid{ grid-template-columns:repeat(2,1fr); }
-    .detail-items{ grid-template-columns:1fr; gap:clamp(26px,5vw,36px); max-width:640px; }
+    .detail-grid{ grid-template-columns:1fr; gap:clamp(30px,5vw,42px); max-width:560px; }
+    .app-grid{ grid-template-columns:1fr; justify-items:center; gap:clamp(34px,6vw,48px); }
+    .app-copy{ max-width:560px; }
   }
 
   @media (max-width:760px){
@@ -522,10 +699,11 @@
     .spec-grid{ grid-template-columns:1fr; gap:10px; }
     .spec-card{ padding:20px 22px; }
     footer .wrap{ flex-direction:column; gap:12px; }
-    .hero-object{ width:100%; }
-    .hero-object .body{ border-radius:18px; aspect-ratio:4 / 3; }
-    .hero-cap{ font-size:.68rem; letter-spacing:.12em; }
-    nav a.gh{ display:none; }
+    .hero-figure .shot{ border-radius:14px; }
+    .hero-figure img{ aspect-ratio:4 / 3; }
+    .hero-cap{ font-size:.68rem; letter-spacing:.1em; }
+    .phone{ width:min(264px, 74vw); }
+    nav a.nav-link{ display:none; }
     .btn.lg{ width:100%; padding:15px 20px; }
     #pricing{ scroll-margin-top:80px; }
   }
@@ -537,7 +715,8 @@
   <div class="wrap">
     <div class="brand"><b>守护星</b> &nbsp;Guardian Star</div>
     <div class="nav-right">
-      <a class="gh" href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="nav-link" href="#detail">产品细节</a>
+      <a class="nav-link" href="#app">家属端</a>
       <a class="btn-mini" href="#pricing">立即预订</a>
     </div>
   </div>
@@ -545,7 +724,7 @@
 
 <header class="hero">
   <div class="wrap">
-    <span class="eyebrow">居家异常静默终端 · 2026 原型</span>
+    <span class="eyebrow">居家安全终端 · 家庭版</span>
     <h1>守护星</h1>
     <p class="en">Guardian Star</p>
 
@@ -556,11 +735,13 @@
       它不是报警器。它先开口问一句。
     </p>
 
-    <figure class="hero-object" aria-hidden="true">
-      <div class="body"></div>
-      <div class="floor"></div>
+    <figure class="hero-figure">
+      <div class="shot">
+        <img src="assets/hero.jpg" width="1600" height="1000"
+             alt="白色桌面上的一台米白色小型智能终端，灰色织物上盖，柔和日光，背景是浅色窗帘与墙面。">
+      </div>
     </figure>
-    <p class="hero-cap">形态示意 · 非实物照片</p>
+    <p class="hero-cap">产品示意图 · 最终外观以实物为准</p>
   </div>
 </header>
 
@@ -585,12 +766,20 @@
   <div class="reveal">
     <h2>两个部件，一双手够得着。</h2>
   </div>
-  <div class="detail-items">
-    <div class="item reveal">
+  <div class="detail-grid">
+    <div class="detail-item reveal">
+      <figure>
+        <img src="assets/detail-button.jpg" width="1100" height="733"
+             alt="金属面板上一枚大型圆形按键的微距特写，边缘有细密倒角，光从侧面打过来。">
+      </figure>
       <span class="k"><i>01</i>按键</span>
       <p>直径 60 毫米，凸起 4 毫米。手抖、指关节变形也摸得到；按下去有 4 毫米行程和一声轻响——知道自己按上了。</p>
     </div>
-    <div class="item reveal">
+    <div class="detail-item reveal">
+      <figure>
+        <img src="assets/detail-window.jpg" width="900" height="600"
+             alt="金属网孔面板的极近微距，孔洞排列致密，表面有细腻的拉丝反光。">
+      </figure>
       <span class="k"><i>02</i>雷达窗</span>
       <p>24 GHz，9 个距离门，只回答一个问题：这屋里还有没有人。它不知道你是坐着还是躺着。</p>
     </div>
@@ -625,6 +814,82 @@
   </div>
 </section>
 
+<section class="app-band" id="app">
+  <div class="wrap">
+    <div class="app-grid">
+      <div class="phone reveal">
+        <div class="screen">
+          <div class="scr-bar"><span>9:41</span><span>守护星 · 家属端</span></div>
+
+          <div class="scr-id">
+            <span class="ava">张</span>
+            <span>
+              <span class="nm">张阿姨</span>
+              <span class="meta">82 岁 · 独居 · 杭州</span>
+            </span>
+          </div>
+
+          <div class="scr-status">
+            <div class="row">
+              <span class="beacon"></span>
+              <span class="st">状态正常</span>
+              <span class="when">2 分钟前</span>
+            </div>
+            <div class="who">客厅 · 今日已应答 2 次</div>
+          </div>
+
+          <div class="scr-block">
+            <div class="scr-h"><span>今日活动</span><span class="val">6 段</span></div>
+            <div class="tl">
+              <div><b>07:40</b><span>起床 · 卧室</span></div>
+              <div><b>08:15</b><span>早餐 · 厨房</span></div>
+              <div><b>10:20</b><span>晒太阳 · 阳台</span></div>
+              <div><b>13:10</b><span>午休 · 卧室</span></div>
+              <div><b>17:25</b><span>看电视 · 客厅</span></div>
+            </div>
+          </div>
+
+          <div class="scr-block">
+            <div class="scr-h"><span>心率</span><span class="val">手环同步</span></div>
+            <div class="scr-heart">
+              <span class="bpm">72</span><span class="unit">BPM</span>
+              <svg width="86" height="26" viewBox="0 0 86 26" fill="none" aria-hidden="true">
+                <polyline points="0,17 12,14 20,18 28,9 36,20 46,13 56,15 64,11 74,16 86,12"
+                          stroke="#B07C3E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="scr-block">
+            <div class="scr-h"><span>提醒记录</span><span class="val">近 7 天</span></div>
+            <div class="rl">
+              <div><span>今天 08:12 询问</span><span class="s">已应答</span></div>
+              <div><span>昨天 20:04 点名</span><span class="s">已应答</span></div>
+            </div>
+          </div>
+
+          <div class="scr-next">
+            <span class="beacon"></span>
+            <span>今晚 <b>20:00</b> 点名 · 已应答</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-copy reveal">
+        <span class="k">家属端 App</span>
+        <h2>家属远程端：<br>即使不在身边，也能随时知晓老人状态。</h2>
+        <p>每天早上 9 点、晚上 8 点，它会自己点一次名。你打开手机看到的不是一堆曲线，而是三个字：正常，还是不正常。</p>
+        <ul class="app-list">
+          <li><span class="dot"></span><span><b>一眼看懂。</b>正常 / 待确认 / 已通知，三种状态，不用读数据。</span></li>
+          <li><span class="dot"></span><span><b>今天的轨迹。</b>几点起、去了哪个房间、最后一次活动是几分钟前。</span></li>
+          <li><span class="dot"></span><span><b>分级通知。</b>先推给同住家属，10 分钟无人处理，再推给其他人。</span></li>
+        </ul>
+        <p class="app-note">界面示意 · 页面内数据为演示值</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <div class="limits reveal">
@@ -644,39 +909,39 @@
   <div class="wrap">
     <div class="sec-head read reveal">
       <h2>规格</h2>
-      <p>所有部件都是成品模块，不需要打板，也不需要焊接。</p>
+      <p>能做什么、不能做什么，都写在明处。</p>
     </div>
 
     <div class="spec-grid">
       <div class="spec-card reveal">
-        <span class="sk">主控</span>
-        <span class="sv">树莓派 5</span>
-        <span class="sn">研发原型。量产形态换 ESP32-S3，整机可压到约 150 元。</span>
+        <span class="sk">感知</span>
+        <span class="sv">24 GHz 毫米波雷达</span>
+        <span class="sn">不装摄像头、不用佩戴，只回答一件事：这屋里还有没有人。</span>
       </div>
       <div class="spec-card reveal">
-        <span class="sk">雷达</span>
-        <span class="sv">LD2410C · 24 GHz</span>
-        <span class="sn">9 个距离门，串口 256000 8N1。只输出「有人 / 无人 / 运动 / 静止」。</span>
+        <span class="sk">覆盖</span>
+        <span class="sv">单房间 · 最远 6 米</span>
+        <span class="sn">放在床头或客厅即可覆盖一间屋。卫生间是盲区，建议另放一台。</span>
       </div>
       <div class="spec-card reveal">
         <span class="sk">交互</span>
-        <span class="sv">实体按键 + 本地语音</span>
-        <span class="sn">按键是唯一的告警消解通道；语音全部是预录 WAV，不走云端合成。</span>
+        <span class="sv">60 mm 大按键</span>
+        <span class="sn">一巴掌拍下去就算应答，不用解锁手机、不用对着它说话。</span>
       </div>
       <div class="spec-card reveal">
-        <span class="sk">辅助</span>
-        <span class="sv">有线门磁</span>
-        <span class="sn">用于否决「正常出门」，把这类误报压到 0 次。</span>
+        <span class="sk">语音</span>
+        <span class="sv">本地播放 · 不联云</span>
+        <span class="sn">问候语是预录人声，断网也能开口；录音不上传。</span>
       </div>
       <div class="spec-card reveal">
-        <span class="sk">AI</span>
-        <span class="sv">Vosk · DeepSeek</span>
-        <span class="sn">仅用于按键触发的陪聊。识别结果不参与任何安全判定。</span>
+        <span class="sk">通知</span>
+        <span class="sv">家属端 App</span>
+        <span class="sn">无人应答后 20 秒内推送，可回看当天活动轨迹。</span>
       </div>
       <div class="spec-card reveal">
-        <span class="sk">物料</span>
-        <span class="sv">约 120 元</span>
-        <span class="sn">外围器件，不含主控。整机 DIY 约 720 元。</span>
+        <span class="sk">供电</span>
+        <span class="sv">5V USB-C · 约 11 × 9 × 5.5 cm</span>
+        <span class="sn">断电或断网会立刻提醒家属，不会假装还在工作。</span>
       </div>
     </div>
   </div>
@@ -685,11 +950,13 @@
 <section class="price" id="pricing">
   <div class="wrap">
     <div class="price-card reveal">
-      <p class="price-k">首发体验</p>
+      <p class="price-k">首发体验价</p>
       <p class="price-v">¥199<small>整机</small></p>
-      <p class="price-sub">包含硬件终端、一年 AI 陪伴服务及家属远程提醒功能</p>
-      <button class="btn primary lg" type="button" data-preorder>立即预订</button>
-      <p class="price-note">量产形态目标价 · 演示页面，暂未开放支付</p>
+      <p class="price-sub">含硬件终端、一年 AI 陪伴服务与家属远程提醒</p>
+      <button class="btn primary lg" type="button" data-preorder>立即购买</button>
+      <p class="price-trust">支持 30 天无理由退换 · 顺丰包邮 · 1 年质保</p>
+      <button class="price-alt" type="button" data-preorder>或预约免费上门体验 →</button>
+      <p class="price-note">首发价为量产形态目标价 · 本页为演示页面，暂未开放支付</p>
     </div>
   </div>
 </section>
@@ -698,8 +965,8 @@
   <div class="wrap">
     <p class="promise reveal">它不承诺发现所有意外，<br>只承诺两件有时间上限的事。</p>
     <div class="btns reveal">
-      <a class="btn primary" href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">查看 GitHub</a>
-      <a class="btn ghost" href="https://github.com/lsf06/Guardian-Star-Elderly-Care/blob/main/docs/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E%E4%B9%A6.md" target="_blank" rel="noopener">阅读设计说明</a>
+      <a class="btn primary" href="#pricing">立即预订</a>
+      <a class="btn ghost" href="#detail">了解详情</a>
     </div>
   </div>
 </section>
@@ -707,23 +974,23 @@
 <footer>
   <div class="wrap">
     <div>
-      <p class="f-line">守护星 Guardian Star · 一个课程 / 研究原型，不构成医疗器械，不提供医疗建议。</p>
-      <p class="f-line">测量数据尚在采集中，页面上的时间为设计值 · <a href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">源码</a></p>
-      <p class="f-line f-contact">产品合作与商务咨询：<a href="mailto:contact@guardianstar.com">contact@guardianstar.com</a></p>
-      <p class="f-line f-copy">© 2026 守护星 Guardian Star. All rights reserved. 本网站为项目演示原型。</p>
+      <p class="f-line">守护星科技 · 专注居家安全终端，让不在身边的家人也能安心。</p>
+      <p class="f-line">本产品不构成医疗器械，不提供医疗诊断或医疗建议 · 页面图片为产品示意图，最终外观以实物为准。</p>
+      <p class="f-line f-contact">商务合作与售后咨询：<a href="mailto:contact@guardianstar.com">contact@guardianstar.com</a></p>
+      <p class="f-line f-copy">© 2026 守护星科技. All Rights Reserved.</p>
     </div>
     <figure class="f-qr">
       <img src="qr-code.png" width="88" height="88"
-           alt="守护星项目主页二维码：扫码可在手机上打开 https://lsf06.github.io/Guardian-Star-Elderly-Care/">
+           alt="守护星官网二维码：扫码可在手机上打开本页面。">
       <figcaption>扫码在手机上打开</figcaption>
     </figure>
   </div>
 </footer>
 
 <dialog class="dlg" id="preorder-dlg">
-  <h3>感谢关注！</h3>
-  <p>项目正在打磨中，敬请期待。</p>
-  <p class="dlg-note">本页为演示原型，预订入口尚未开放，不构成销售要约。</p>
+  <h3>预约通道即将开放</h3>
+  <p>首批 200 台，开放后按登记顺序发货。</p>
+  <p class="dlg-note">本页为产品演示页面，暂未开放支付，不构成销售要约。</p>
   <button class="btn primary" type="button" data-close>好</button>
 </dialog>
 
