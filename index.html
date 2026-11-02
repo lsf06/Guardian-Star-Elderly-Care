@@ -370,10 +370,37 @@
     line-height:1.9;
   }
   footer .wrap{
-    display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap;
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:36px; flex-wrap:wrap;
   }
   footer a{ color:var(--ink-2); text-decoration:none; border-bottom:1px solid var(--line); }
   footer a:hover{ color:var(--ink); }
+  footer .f-line{ margin:0; }
+  footer .f-contact{ margin-top:18px; letter-spacing:.01em; }
+  footer .f-contact a{ border-bottom-color:transparent; }
+  footer .f-contact a:hover{ border-bottom-color:var(--line); }
+  footer .f-copy{
+    margin-top:8px;
+    font-size:.76rem;
+    color:var(--ink-3);
+    opacity:.86;
+    letter-spacing:.02em;
+  }
+  .f-qr{ margin:0; flex:0 0 auto; text-align:center; }
+  .f-qr img{
+    display:block; width:88px; height:88px;
+    background:#fff;
+    border:1px solid var(--line-2);
+    border-radius:9px;
+    padding:6px;
+  }
+  .f-qr figcaption{
+    margin-top:8px;
+    font-size:.7rem;
+    letter-spacing:.08em;
+    color:var(--ink-3);
+    opacity:.8;
+  }
 
   /* ---------- reveal ---------- */
   .reveal{ opacity:0; transform:translateY(14px); transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1); }
@@ -743,8 +770,17 @@
 
 <footer>
   <div class="wrap">
-    <div>守护星 Guardian Star · 一个课程 / 研究原型，不构成医疗器械，不提供医疗建议。</div>
-    <div>测量数据尚在采集中，页面上的时间为设计值 · <a href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">源码</a></div>
+    <div>
+      <p class="f-line">守护星 Guardian Star · 一个课程 / 研究原型，不构成医疗器械，不提供医疗建议。</p>
+      <p class="f-line">测量数据尚在采集中，页面上的时间为设计值 · <a href="https://github.com/lsf06/Guardian-Star-Elderly-Care" target="_blank" rel="noopener">源码</a></p>
+      <p class="f-line f-contact">产品合作与商务咨询：<a href="mailto:contact@guardianstar.com">contact@guardianstar.com</a></p>
+      <p class="f-line f-copy">© 2026 守护星 Guardian Star. All rights reserved. 本网站为项目演示原型。</p>
+    </div>
+    <figure class="f-qr">
+      <img src="qr-code.png" width="88" height="88" loading="lazy"
+           alt="守护星项目主页二维码：扫码可在手机上打开 https://lsf06.github.io/Guardian-Star-Elderly-Care/">
+      <figcaption>扫码在手机上打开</figcaption>
+    </figure>
   </div>
 </footer>
 
