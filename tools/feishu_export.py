@@ -67,6 +67,8 @@ PHASES: dict[str, tuple[str, str]] = {
     "9ee5dae": ("⑥ 采购与产品页", "index.html 产品细节区与定价卡"),
     "0118505": ("⑥ 采购与产品页", "index.html 首屏改纯 CSS 摆件"),
     "ed2a066": ("⑥ 采购与产品页", "assets/ 三张实拍图、家属端 App 区块、购买按钮"),
+    # ⑦ 过程材料交付
+    "1846c1f": ("⑦ 过程材料", "feishu/ 四张可导入的表 + 接入说明，tools/feishu_export.py"),
 }
 
 # 早期提交没写正文（git 里 body 为空），这里补「当时为什么这么做」。
