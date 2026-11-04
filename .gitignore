@@ -27,3 +27,7 @@ raw*.bin
 .DS_Store
 Thumbs.db
 ~$*
+
+# lark-cli 读表时会落临时文件到当前目录，防止误提交
+*.ndjson
+*.manifest.json
