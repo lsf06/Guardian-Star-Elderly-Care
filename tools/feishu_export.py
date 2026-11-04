@@ -324,6 +324,25 @@ def write_csv(name: str, fields: list[str], rows: list[dict]) -> Path:
 
 # ============================================================ 生成
 
+def changed_paths(commit: str) -> list[str]:
+    # core.quotepath=false：否则中文路径会被转成 "\345\274\200..." 这种带引号的八进制，
+    # startswith("feishu/") 永远匹配不上
+    out = git("-c", "core.quotepath=false", "show", "--name-only", "--pretty=format:", commit)
+    return [ln.strip().strip('"') for ln in out.split("\n") if ln.strip()]
+
+
+def is_export_only(commit: str) -> bool:
+    """只动了 feishu/ 或生成本身的不算开发提交。
+
+    否则每跑一次脚本、提交一次导出结果，日志就会给自己多记一行——
+    表越长越像在刷记录，而且会把真正的开发提交冲淡。
+    """
+    paths = changed_paths(commit)
+    if not paths:
+        return False
+    return all(p.startswith("feishu/") or p == "tools/feishu_export.py" for p in paths)
+
+
 def build_log() -> list[dict]:
     raw = git("log", "--pretty=format:@@%H|%ad|%s|%b", "--date=format:%Y-%m-%d", "--shortstat")
     rows: list[dict] = []
@@ -334,6 +353,10 @@ def build_log() -> list[dict]:
         head, _, rest = block.partition("\n")
         full_hash, date, subject, body_first = head.split("|", 3)
         short = full_hash[:7]
+
+        # 只改了导出结果的提交不计入（否则脚本会给自己越记越多）
+        if is_export_only(full_hash) and short not in PHASES:
+            continue
 
         # 正文第一行被 %s 挤在标题行，其余在 rest；shortstat 混在 rest 末尾，先摘掉
         m = re.search(r"(\d+) files? changed(?:, (\d+) insertions?\(\+\))?(?:, (\d+) deletions?\(-\))?", rest)
