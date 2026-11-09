@@ -22,6 +22,7 @@
 import argparse
 import os
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from guardian import Config, Guardian            # noqa: E402
@@ -201,6 +202,57 @@ def main():
         ok = False
     elif gs.episode not in ("asking", "escalated"):
         print("FAIL: 自激用例结束时事件已不在进行中（%r），仍然会漏推" % (gs.episode,))
+        ok = False
+
+    # ---- 回归测试：播报结束后必须清空串口积压 + 覆盖到播完那一刻 ------
+    # 机制（写清楚，否则修错了也看不出来）：
+    #   aplay 是前台阻塞的，播 8 秒主循环就停 8 秒。这期间串口一直在收，
+    #   OS 缓冲区积压几十帧，全都是喇叭振动造成的假「看到人」。
+    #   恢复后第一次 read 一次性读进来 → 状态机判定「人回来了」→
+    #   取消刚发起的静默事件 → 老人没回应、家属也收不到推送（漏报）。
+    #
+    # 所以要验两件事，缺一不可：
+    #   A. 播完调了 reset_input_buffer（丢掉积压）
+    #   B. speech_end 覆盖到「播完那一刻」，起点是播报开始
+    BLOCK = 0.30
+    try:
+        import guardian_main
+
+        class _Ser:
+            def __init__(self):
+                self.reset_calls = 0
+            def reset_input_buffer(self):
+                self.reset_calls += 1
+
+        def _blocking_speak(text, key=None, strict=False):
+            time.sleep(BLOCK)            # 模拟 aplay 前台播放
+            return "local"
+
+        _os, _ops = guardian_main.voice.speak, guardian_main.voice.phrase_seconds
+        guardian_main.voice.speak = _blocking_speak
+        guardian_main.voice.phrase_seconds = lambda k: BLOCK
+
+        ga = Guardian(Config(silence=20, answer_window=30, suppress_short=20), t0=0.0)
+        ser = _Ser()
+        guardian_main._announce(ga, ser, "test", "ask")
+
+        guardian_main.voice.speak = _os
+        guardian_main.voice.phrase_seconds = _ops
+
+        if ser.reset_calls < 1:
+            print("FAIL: 播报结束后没有清空串口缓冲区。")
+            print("      播报期间积压的假「看到人」帧会在恢复瞬间涌入，")
+            print("      把刚发起的静默事件取消 —— 漏报")
+            ok = False
+        # 正确实现：播完后再冻结一段余振窗（0.3–1.5 秒，此处 BLOCK*0.25 落到 0.3）。
+        # 若冻结在播报前就算好、终点正好等于播完时刻，remain 会 ≈ 0。
+        remain = ga.speech_end - time.time()
+        if remain < 0.2:
+            print("FAIL: 播完后剩余冻结只有 %.2f 秒（应为 0.3 秒余振窗）。" % remain)
+            print("      说明冻结终点恰好落在播完那一刻，恢复瞬间的积压帧不受保护")
+            ok = False
+    except Exception as e:
+        print("FAIL: 播报冻结用例无法执行：%r" % (e,))
         ok = False
 
     print("回归测试: " + ("PASS" if ok else "FAIL"))

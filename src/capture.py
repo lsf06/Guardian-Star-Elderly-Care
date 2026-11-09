@@ -45,7 +45,7 @@ def main():
     door = None
     if args.pin_door is not None:
         from gpiozero import Button
-        door = Button(args.pin_door, pull_up=None, active_state=None, bounce_time=0.2)
+        door = Button(args.pin_door, pull_up=True, bounce_time=0.2)
 
     session = args.session or "%s_%s" % (args.label, time.strftime("%Y%m%d_%H%M%S"))
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)

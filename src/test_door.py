@@ -24,8 +24,11 @@ def main():
         return 2
 
     try:
-        # pull_up=None + active_state=None：完全按电平读，不做任何推测
-        b = Button(args.pin, pull_up=None, active_state=None, bounce_time=0.2)
+        # pull_up=True：内部上拉，按键/干簧管一端接 GPIO、另一端接 GND。
+        # 不要写 pull_up=None + active_state=None —— gpiozero 会直接抛
+        # PinInvalidState（"defined as floating, but active_state is not defined"），
+        # 程序根本起不来。这个坑在 guardian_main / capture 里也出现过。
+        b = Button(args.pin, pull_up=True, bounce_time=0.2)
     except Exception as e:
         print("打开 GPIO%d 失败：%s" % (args.pin, e))
         print("Pi5 上必须用 gpiozero（底层 lgpio）；RPi.GPIO 会直接崩。")

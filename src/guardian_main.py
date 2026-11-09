@@ -39,15 +39,31 @@ def main():
     ap.add_argument("--no-gpio", action="store_true", help="无 GPIO 时只跑雷达")
     args = ap.parse_args()
 
-    import serial
-    ser = serial.Serial(args.port, args.baud, timeout=0.2)
+    try:
+        import serial
+    except ImportError:
+        sys.exit("缺少 pyserial：pip3 install pyserial --break-system-packages")
+    try:
+        ser = serial.Serial(args.port, args.baud, timeout=0.2)
+    except Exception as e:
+        # 这里给出可执行的排查顺序，而不是把底层异常直接甩给用户。
+        # 真机上「打不开串口」有 90% 是下面四条之一。
+        print("打不开串口 %s（波特率 %d）：%s" % (args.port, args.baud, e))
+        print("按顺序排查：")
+        print("  1) ls -l /dev/ttyAMA0   —— 不存在说明没开串口")
+        print("     Pi 5 需在 /boot/firmware/config.txt 加 dtparam=uart0=on 后重启")
+        print("  2) 权限够不够：sudo usermod -aG dialout $USER  然后**重新登录**")
+        print("  3) 是不是被控制台占了：ls -l /dev/ttyAMA0 应显示 root dialout，")
+        print("     若显示 root tty，删掉 /boot/firmware/cmdline.txt 里的 console=serial0")
+        print("  4) 别用 /dev/serial0 —— Pi 5 上它指向 ttyAMA10（debug 排针），不是 GPIO14/15")
+        sys.exit(1)
 
     door = button = None
     pressed = {"flag": False}
     sos = {"flag": False}
     if not args.no_gpio:
         from gpiozero import Button   # Pi5 必须用 gpiozero；RPi.GPIO 在 Pi5 上会直接崩
-        door = Button(args.pin_door, pull_up=None, active_state=None, bounce_time=0.2)
+        door = Button(args.pin_door, pull_up=True, bounce_time=0.2)
         button = Button(args.pin_button, pull_up=True, bounce_time=0.05)
 
         def _on_press():
@@ -91,24 +107,24 @@ def main():
             # SOS 优先级最高：不看雷达、不看门磁、不看状态机，按下就是按下
             if hit_sos:
                 voice.push_family("老人按下了求助键，请立即致电确认；如无应答请拨打 120。")
-                _announce(g, now, "紧急求助！请帮帮这位老人，请帮忙拨打 120 或联系家属！", "sos")
+                _announce(g, ser, "紧急求助！请帮帮这位老人，请帮忙拨打 120 或联系家属！", "sos")
                 print("[SOS] 已触发")
 
             for kind, text in events:
                 if kind == "ask":
-                    _announce(g, now, cfg.ask_text, "ask")
+                    _announce(g, ser, cfg.ask_text, "ask")
                 elif kind == "checkin":
                     # 每日点名：雷达看得见人，但不知道他还能不能动。
                     # 这是设备唯一能覆盖「人在、但动不了」的手段。
-                    _announce(g, now, cfg.checkin_text, "checkin")
+                    _announce(g, ser, cfg.checkin_text, "checkin")
                 elif kind == "ask_again":
-                    _announce(g, now, cfg.ask_text_again, "ask_again")
+                    _announce(g, ser, cfg.ask_text_again, "ask_again")
                 elif kind == "resolved":
-                    _announce(g, now, cfg.resolved_text, "resolved")
+                    _announce(g, ser, cfg.resolved_text, "resolved")
                 elif kind == "escalate":
                     voice.push_family(cfg.push_text)
                 elif kind == "fault":
-                    _announce(g, now, "我这边的雷达好像没连上，请看一下线。", "fault")
+                    _announce(g, ser, "我这边的雷达好像没连上，请看一下线。", "fault")
                 elif kind == "startup":
                     print("[提示] " + text)
                 elif kind == "away":
@@ -125,17 +141,40 @@ def main():
         ser.close()
 
 
-def _announce(g, now, text, kind):
-    """播一句，并把状态机冻结到这句话**真正播完**为止。
+def _announce(g, ser, text, kind):
+    """播一句，并让状态机在播完后的余振期内不采信「看到人」。
 
-    这里必须用音频的真实长度，不能用一个拍出来的常数。原来固定 3 秒，
-    而你录的六句是 5~10 秒 —— 播到第 3 秒解冻，喇叭还在响，雷达把振动
-    读成「看到人」，状态机据此判定「人回来了」，把刚发起的静默事件取消。
-    表现是：老人没回应，家属也永远收不到推送。**一次完全静默的漏报。**
+    机制要说清楚，否则修错了也看不出来：
+
+    1) **aplay 是前台阻塞的**。播 8 秒，主循环就停 8 秒——不读串口、不调
+       update。所以「播报期间状态机看到人」这件事本身不会发生。
+    2) 危险在**播完之后那一瞬间**：这 8 秒里串口一直在收，OS 缓冲区积压
+       几十帧，全是喇叭振动造成的假「看到人」。恢复后第一次 read 把它们
+       一次性读进来 → 状态机判定「人回来了」→ 取消刚发起的静默事件 →
+       老人没回应、家属也收不到推送。一次完全静默的漏报。
+
+    两道防线，缺一不可：
+      A. ser.reset_input_buffer()：把积压帧整段丢掉（主防线）。
+      B. 从**播完那一刻**起再冻结一小段（余振窗），兜住恢复后头几帧
+         仍可能读到的振动。起点必须是播完之后，不是播报之前 ——
+         播报期间主循环本来就没在跑，那段冻结毫无作用，反而让
+         speech_end 提前过期。这正是 18b1637 没修干净的原因：
+         用播报前的 now 加音频时长，算出的终点恰好等于播完时刻，零余量。
     """
-    voice.speak(text, kind, strict=True)
     dur = voice.phrase_seconds(kind) or g.cfg.speech_freeze
-    g.speaking_for(now, dur)
+    voice.speak(text, kind, strict=True)      # 前台阻塞，直到播完
+    t_done = time.time()
+
+    # A) 丢掉播报期间的积压帧。不做这一步，下面的冻结基本白设。
+    try:
+        ser.reset_input_buffer()
+    except Exception:
+        pass
+
+    # B) 余振窗：音频长度的 25%，限制在 0.3–1.5 秒。
+    #    喇叭停止后振膜还要衰减一会儿，雷达在这几十到几百毫秒里仍可能读到振动。
+    tail = min(max(dur * 0.25, 0.3), 1.5)
+    g.speaking_for(t_done, tail)
 
 
 def spawn_chat(args):
