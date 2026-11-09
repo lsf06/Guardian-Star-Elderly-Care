@@ -3,1039 +3,1681 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>守护星 Guardian Star — 居家安全终端｜老人独处时的第二双眼睛</title>
-<meta name="description" content="它不防跌倒，它防「死寂」。守护星是一台放在床头的居家安全终端：发现屋里有异常先开口问一句，拍一下按键就消解，无人应答才通知家属。¥199，30 天无理由退换。">
+<title>守护星 GUARDIAN STAR — 将安心，摆在床头。</title>
+<meta name="description" content="守护星是一款面向独居老人场景的居家状态确认终端概念：设计上，异常时先开口询问，老人拍一下按键即可确认，无人应答才通知家属。本页面为产品概念展示，功能状态以硬件实测核验为准。">
+<meta name="theme-color" content="#FCFBF8">
 <meta property="og:type" content="website">
-<meta property="og:title" content="守护星 Guardian Star — 居家安全终端">
-<meta property="og:description" content="它不防跌倒，它防「死寂」。发现异常先开口问一句，拍一下按键表示我没事，无人应答才通知家属。">
-<meta property="og:image" content="assets/hero.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23F8F5F0'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23B07C3E'/%3E%3C/svg%3E">
+<meta property="og:title" content="守护星 GUARDIAN STAR — 将安心，摆在床头。">
+<meta property="og:description" content="让父母安心生活，让牵挂及时抵达。产品概念展示，非量产实物，功能状态待硬件实测核验。产品设计上，异常时先询问，老人拍键确认，无人应答才通知家属。">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23F8F5F0'/%3E%3Cpath d='M16 5l2.4 8.6L27 16l-8.6 2.4L16 27l-2.4-8.6L5 16l8.6-2.4z' fill='%23B5824A'/%3E%3C/svg%3E">
 <style>
+  /* ============================================================
+     守护星 · 官网
+     设计基调：暖白纸面 / 近黑标题 / 深灰正文 / 单一柔和琥珀强调
+     说明：页面为产品概念展示，不宣称任何未经硬件实测的能力
+     ============================================================ */
+
   :root{
-    --bg:        #F8F5F0;
-    --bg-soft:   #F2ECE3;
-    --ink:       #2B2926;
-    --ink-2:     #6C665E;
-    --ink-3:     #9A938A;
-    --line:      rgba(43,41,38,.10);
-    --line-2:    rgba(43,41,38,.06);
-    --amber:     #B07C3E;
-    --amber-soft:#E8DCC9;
-    --maxw:      1080px;
-    --read:      640px;
+    --bg:         #FCFBF8;
+    --bg-soft:    #F6F3ED;
+    --surface:    #FFFFFF;
+    --ink:        #1C1B19;
+    --ink-2:      #54504A;
+    --ink-3:      #6F6A62;
+    --line:       rgba(28,27,25,.12);
+    --line-soft:  rgba(28,27,25,.07);
+    --amber:      #B5824A;
+    --amber-deep: #8A5E2C;
+    --amber-soft: #F5EADB;
+    --max:        1160px;
+    --read:       44rem;
+    --nav-h:      68px;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-            "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-    --serif: ui-serif, Georgia, "Songti SC", "SimSun", "Noto Serif SC", serif;
+            "HarmonyOS Sans SC", "Hiragino Sans GB", "Microsoft YaHei",
+            "Noto Sans SC", sans-serif;
+    --ease: cubic-bezier(.22,.61,.36,1);
   }
 
-  *{ box-sizing:border-box; }
-  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  *,*::before,*::after{ box-sizing:border-box; }
+
+  html{
+    -webkit-text-size-adjust:100%;
+    scroll-behavior:smooth;
+    scroll-padding-top:calc(var(--nav-h) + 20px);
+    scrollbar-gutter:stable;
+  }
   body{
     margin:0;
     background:var(--bg);
-    color:var(--ink);
+    color:var(--ink-2);
     font-family:var(--sans);
     font-size:17px;
     line-height:1.75;
-    font-weight:400;
+    letter-spacing:.005em;
     -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
     text-rendering:optimizeLegibility;
   }
-  ::selection{ background:var(--amber-soft); }
+  ::selection{ background:var(--amber-soft); color:var(--ink); }
+  :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; border-radius:4px; }
 
-  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
-  .read{ max-width:var(--read); }
-
-  /* ---------- nav ---------- */
-  nav{
-    position:sticky; top:0; z-index:20;
-    background:rgba(248,245,240,.82);
-    backdrop-filter:saturate(140%) blur(12px);
-    -webkit-backdrop-filter:saturate(140%) blur(12px);
-    border-bottom:1px solid transparent;
-    transition:border-color .3s ease;
+  h1,h2,h3,h4{
+    color:var(--ink);
+    font-weight:600;
+    margin:0;
+    letter-spacing:-.02em;
+    line-height:1.2;
+    text-wrap:balance;
   }
-  nav.scrolled{ border-bottom-color:var(--line-2); }
-  nav .wrap{
+  p{ margin:0; text-wrap:pretty; }
+  a{ color:inherit; }
+  img,svg{ display:block; }
+  button{ font:inherit; color:inherit; }
+
+  .wrap{
+    width:100%;
+    max-width:var(--max);
+    margin-inline:auto;
+    padding-inline:clamp(20px, 4vw, 40px);
+  }
+
+  /* 受控换行：文本内容保持连续，仅通过显示方式控制折行 */
+  .ln{ display:block; }
+  .ln-m{ display:inline; }
+
+  /* 跳转链接 */
+  .skip{
+    position:absolute; left:-9999px; top:0; z-index:200;
+    padding:12px 18px; border-radius:0 0 10px 0;
+    background:var(--ink); color:#fff; font-size:13px;
+    text-decoration:none;
+  }
+  .skip:focus{ left:0; }
+
+  /* ---------- 顶部进度条 ---------- */
+  .progress{
+    position:fixed; inset:0 0 auto 0; height:2px; z-index:120;
+    pointer-events:none;
+  }
+  .progress i{
+    display:block; height:100%; width:100%;
+    background:var(--amber);
+    transform:scaleX(0); transform-origin:0 50%;
+    opacity:.85;
+  }
+
+  /* ---------- 吸顶导航 ---------- */
+  .site-nav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(252,251,248,.72);
+    -webkit-backdrop-filter:saturate(180%) blur(18px);
+    backdrop-filter:saturate(180%) blur(18px);
+    border-bottom:1px solid transparent;
+    transition:border-color .35s ease, background .35s ease;
+  }
+  .site-nav.scrolled{
+    background:rgba(252,251,248,.86);
+    border-bottom-color:var(--line-soft);
+  }
+  .nav-wrap{
+    height:var(--nav-h);
+    max-width:var(--max);
+    margin-inline:auto;
+    padding-inline:clamp(20px, 4vw, 40px);
     display:flex; align-items:center; justify-content:space-between;
-    height:62px;
+    gap:24px;
   }
   .brand{
-    font-size:.86rem; letter-spacing:.12em; color:var(--ink-2); text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:10px;
+    text-decoration:none; flex:0 0 auto;
   }
-  .brand b{ font-weight:600; color:var(--ink); letter-spacing:.06em; }
-  nav a.nav-link{
-    font-size:.86rem; color:var(--ink-2); text-decoration:none;
-    border-bottom:1px solid var(--line); padding-bottom:2px;
-    transition:color .2s, border-color .2s;
-  }
-  nav a.nav-link:hover{ color:var(--ink); border-color:var(--ink-3); }
-
-  /* ---------- hero ---------- */
-  header.hero{
-    padding:clamp(64px, 11vw, 132px) 0 clamp(56px, 8vw, 96px);
-    text-align:center;
-  }
-  .eyebrow{
-    display:inline-block; font-size:.78rem; letter-spacing:.18em;
-    color:var(--amber); text-transform:uppercase; margin-bottom:clamp(24px,4vw,40px);
-  }
-  h1{
-    font-family:var(--serif);
-    font-weight:400;
-    font-size:clamp(2.7rem, 7.6vw, 5rem);
-    line-height:1.06;
-    letter-spacing:-.01em;
-    margin:0 0 18px;
-  }
-  .en{
-    font-family:var(--serif);
-    font-style:italic;
-    font-size:clamp(1rem,2vw,1.2rem);
-    color:var(--ink-3);
+  .brand-mark{ width:17px; height:17px; color:var(--amber); flex:0 0 auto; }
+  .brand-cn{
+    font-size:16px; font-weight:600; color:var(--ink);
     letter-spacing:.02em;
-    margin:0 0 clamp(34px,5vw,52px);
   }
-  .slogan{
-    font-family:var(--serif);
-    font-size:clamp(1.35rem, 3.4vw, 2rem);
-    line-height:1.5;
-    margin:0 auto;
-    max-width:20em;
-    text-wrap:balance;
+  .brand-en{
+    font-size:9px; font-weight:600; color:#6B665E;
+    letter-spacing:.3em; padding-top:2px;
   }
-  .slogan em{ font-style:normal; color:var(--amber); }
-  .lede{
-    margin:clamp(26px,3.5vw,36px) auto 0;
-    max-width:28em;
-    color:var(--ink-2);
-    font-size:clamp(.98rem,1.6vw,1.06rem);
-    line-height:1.9;
-    text-wrap:pretty;
-  }
+  .brand-div{ width:1px; height:12px; background:var(--line); }
 
-  /* ---------- numbers ---------- */
-  .numbers{
-    border-top:1px solid var(--line);
+  .nav-links{
+    display:flex; align-items:center; gap:clamp(18px,2.4vw,34px);
+    margin-left:auto;
+  }
+  .nav-links a{
+    position:relative;
+    padding:8px 0;
+    font-size:13.5px; color:var(--ink-2);
+    text-decoration:none; letter-spacing:.03em;
+    transition:color .25s ease;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; right:0; bottom:2px;
+    height:1px; background:var(--amber);
+    transform:scaleX(0); transform-origin:50% 50%;
+    transition:transform .35s var(--ease);
+  }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-links a:hover::after,
+  .nav-links a.active::after{ transform:scaleX(1); }
+  .nav-links a.active{ color:var(--ink); font-weight:500; }
+
+  .nav-right{ display:flex; align-items:center; gap:10px; flex:0 0 auto; }
+  .nav-cta{
+    display:inline-flex; align-items:center; justify-content:center;
+    height:36px; padding:0 18px; border-radius:999px;
+    border:1px solid rgba(28,27,25,.18);
+    font-size:13px; color:var(--ink); text-decoration:none;
+    letter-spacing:.02em; white-space:nowrap;
+    transition:background .3s ease, color .3s ease, border-color .3s ease;
+  }
+  .nav-cta:hover{ background:var(--ink); border-color:var(--ink); color:#FCFBF8; }
+
+  .nav-burger{
+    display:none;
+    width:40px; height:40px; padding:0;
+    border:0; border-radius:10px; background:transparent;
+    align-items:center; justify-content:center; flex-direction:column; gap:6px;
+    cursor:pointer;
+  }
+  .nav-burger span{
+    display:block; width:18px; height:1.5px; background:var(--ink); border-radius:2px;
+    transition:transform .35s var(--ease), opacity .25s ease;
+  }
+  .nav-burger[aria-expanded="true"] span:nth-child(1){ transform:translateY(3.75px) rotate(45deg); }
+  .nav-burger[aria-expanded="true"] span:nth-child(2){ transform:translateY(-3.75px) rotate(-45deg); }
+
+  /* 移动端菜单 */
+  .mobile-menu{
+    position:fixed; left:0; right:0; top:var(--nav-h); z-index:90;
+    background:rgba(252,251,248,.97);
+    -webkit-backdrop-filter:blur(22px);
+    backdrop-filter:blur(22px);
     border-bottom:1px solid var(--line);
-    padding:clamp(36px,5vw,54px) 0;
+    padding:10px clamp(20px,4vw,32px) 26px;
+    max-height:calc(100dvh - var(--nav-h));
+    overflow-y:auto;
+    box-shadow:0 24px 40px -30px rgba(30,25,18,.35);
   }
-  .numbers .wrap{
+  .mobile-menu[hidden]{ display:none; }
+  .mobile-menu a{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 0; border-bottom:1px solid var(--line-soft);
+    font-size:16px; color:var(--ink); text-decoration:none;
+  }
+  .mobile-menu a::after{
+    content:"›"; color:var(--ink-3); font-size:18px; line-height:1;
+  }
+  .mobile-menu a.m-cta{
+    margin-top:20px; padding:14px 18px; border:0; border-radius:999px;
+    background:var(--ink); color:#FCFBF8; justify-content:center;
+    font-size:14px;
+  }
+  .mobile-menu a.m-cta::after{ content:""; }
+  .menu-scrim{
+    position:fixed; left:0; right:0; top:var(--nav-h); bottom:0;
+    z-index:85;
+    border:0; padding:0;
+    background:rgba(24,21,17,.24);
+    -webkit-backdrop-filter:blur(2px);
+    backdrop-filter:blur(2px);
+  }
+  .menu-scrim[hidden]{ display:none; }
+  html.menu-open, html.menu-open body{ overflow:hidden; }
+
+  /* ---------- 通用区块 ---------- */
+  .sec{
+    position:relative;
+    padding-block:clamp(64px, 8.5vw, 120px);
+  }
+  .sec-soft{ background:var(--bg-soft); }
+  .eyebrow{
+    display:flex; align-items:center; gap:12px;
+    margin:0 0 22px;
+    font-size:11px; font-weight:600; color:var(--amber-deep);
+    letter-spacing:.26em; text-transform:uppercase;
+  }
+  .eyebrow::before{
+    content:""; width:26px; height:1px; background:var(--amber);
+    opacity:.75; flex:0 0 auto;
+  }
+  .sec-head{ max-width:660px; margin-bottom:clamp(40px,5vw,64px); }
+  h2{
+    font-size:clamp(1.9rem, 3.5vw, 3rem);
+    line-height:1.24;
+  }
+  .lede{
+    margin-top:20px;
+    max-width:38em;
+    color:var(--ink-2);
+    font-size:1.0625rem;
+    line-height:1.9;
+  }
+  .micro{
+    font-size:12px; letter-spacing:.06em; color:var(--ink-3); line-height:1.8;
+  }
+  .tag{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:5px 11px; border-radius:999px;
+    border:1px solid rgba(181,130,74,.30);
+    background:var(--amber-soft);
+    color:var(--amber-deep);
+    font-size:12px; font-weight:600; letter-spacing:.02em;
+    white-space:nowrap;
+  }
+  .tag::before{
+    content:""; width:5px; height:5px; border-radius:50%;
+    background:var(--amber); flex:0 0 auto;
+  }
+
+  /* ---------- 按钮 ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    height:54px; padding:0 30px; border-radius:999px;
+    border:1px solid transparent;
+    font-size:.9375rem; font-weight:500; letter-spacing:.02em;
+    text-decoration:none; cursor:pointer;
+    transition:background .3s ease, color .3s ease, border-color .3s ease,
+               transform .3s var(--ease), box-shadow .3s ease;
+  }
+  .btn svg{ width:15px; height:15px; transition:transform .35s var(--ease); }
+  .btn-primary{
+    background:var(--ink); color:#FCFBF8;
+    box-shadow:0 14px 30px -18px rgba(28,27,25,.7);
+  }
+  .btn-primary:hover{ background:#000; transform:translateY(-1px); }
+  .btn-primary:hover svg{ transform:translateX(4px); }
+  .btn-ghost{
+    background:transparent; color:var(--ink);
+    border-color:rgba(28,27,25,.18);
+  }
+  .btn-ghost:hover{ border-color:var(--ink); background:rgba(28,27,25,.03); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    overflow:clip;
+    padding-block:clamp(30px, 4.5vw, 64px) clamp(56px, 7vw, 96px);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; z-index:0;
+    left:-14vw; top:-18vw; width:76vw; height:76vw;
+    max-width:980px; max-height:980px;
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, rgba(181,130,74,.11), rgba(181,130,74,.03) 46%, transparent 68%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    position:relative; z-index:1;
+    max-width:var(--max); margin-inline:auto;
+    padding-inline:clamp(20px,4vw,40px);
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:clamp(16px,4vw,40px);
+    grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+    align-items:center;
+    gap:clamp(20px,3vw,56px);
+  }
+
+  /* CSS 3D 产品模型 */
+  .stage{
+    position:relative;
+    width:100%; max-width:530px;
+    aspect-ratio:1 / 1;
+    margin-inline:auto;
+    perspective:1200px;
+    pointer-events:auto;
+  }
+  .stage-glow{
+    position:absolute; left:50%; top:47%;
+    width:84%; height:84%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(181,130,74,.16), rgba(181,130,74,.04) 48%, transparent 70%);
+    filter:blur(28px);
+    pointer-events:none;
+  }
+  .floor-shadow{
+    position:absolute; left:50%; top:77%;
+    width:54%; height:12%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(ellipse at 50% 50%, rgba(70,58,42,.40), rgba(70,58,42,.16) 46%, transparent 70%);
+    filter:blur(11px);
+    pointer-events:none;
+  }
+  .device{
+    --rx:48deg;
+    --rz:-14deg;
+    position:absolute; left:50%; top:50%;
+    width:86%;
+    aspect-ratio:1;
+    transform:translate(-50%,-52%) rotateX(var(--rx)) rotateZ(var(--rz));
+    transform-style:preserve-3d;
+    transition:transform .7s var(--ease);
+    will-change:transform;
+  }
+  .dev-layer{
+    position:absolute; inset:0;
+    border-radius:23%;
+    background:linear-gradient(180deg,#C6BCAB 0%,#BCB2A1 58%,#B4A996 100%);
+  }
+  .dev-layer.l1{ transform:translate3d(0,6px,-6px); }
+  .dev-layer.l2{ transform:translate3d(0,12px,-12px); }
+  .dev-layer.l3{
+    transform:translate3d(0,18px,-18px);
+    box-shadow:0 18px 22px -14px rgba(70,58,42,.40);
+  }
+  .dev-face{
+    position:absolute; inset:0;
+    border-radius:23%;
+    overflow:hidden;
+    background:
+      radial-gradient(125% 105% at 26% 14%, #F4EFE6 0%, #E8E1D5 32%, #DBD3C4 66%, #CFC6B6 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(92,81,64,.10),
+      inset 1px 1px 0 rgba(255,255,255,.55),
+      inset 0 -3px 12px rgba(112,99,80,.18),
+      inset 0 0 90px rgba(255,255,255,.14),
+      0 2px 4px rgba(62,52,38,.12);
+  }
+  .face-grain{
+    position:absolute; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    background-size:160px 160px;
+    opacity:.16;
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+  .dev-btn{
+    position:absolute; left:50%; top:50%;
+    width:30%; aspect-ratio:1;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    display:grid; place-items:center;
+    background:radial-gradient(130% 120% at 34% 26%, #E3DBCE 0%, #D6CDBE 54%, #CBC1B0 100%);
+    box-shadow:
+      inset 0 8px 16px rgba(88,74,54,.30),
+      inset 0 -3px 3px rgba(255,255,255,.55),
+      0 0 0 1px rgba(132,118,96,.22);
+  }
+  .dev-btn i{
+    display:block;
+    width:40%; aspect-ratio:1; border-radius:50%;
+    background:radial-gradient(120% 120% at 34% 28%, #DDD5C7, #CBC2B1 70%, #C4BAA8 100%);
+    box-shadow:
+      inset 0 3px 7px rgba(88,74,54,.24),
+      0 1px 0 rgba(255,255,255,.4);
+  }
+  .dev-engrave{
+    position:absolute; left:0; right:0; bottom:10.5%;
     text-align:center;
+    font-size:clamp(6px, .9vw, 9px);
+    font-weight:600;
+    letter-spacing:.32em; text-indent:.32em;
+    color:rgba(92,81,64,.34);
+    user-select:none;
   }
-  .num .v{
-    font-family:var(--serif);
-    font-size:clamp(1.9rem,4.6vw,2.9rem);
-    line-height:1.1;
-    display:block;
-    margin-bottom:10px;
-  }
-  .num .v small{
-    font-family:var(--sans);
-    font-size:.42em;
-    color:var(--ink-2);
-    margin-left:.18em;
-    letter-spacing:.04em;
-  }
-  .num .k{
-    display:block;
-    font-size:.84rem;
-    color:var(--ink-2);
-    line-height:1.6;
-    text-wrap:balance;
+  .stage-cap{
+    position:absolute; left:0; right:0; bottom:1.5%;
+    text-align:center;
+    font-size:11px; letter-spacing:.14em;
+    color:var(--ink-3);
+    margin:0;
   }
 
-  /* ---------- sections ---------- */
-  section{ padding:clamp(72px,10vw,130px) 0; }
-  .sec-head{ margin-bottom:clamp(40px,5.5vw,64px); }
-  .sec-head h2{
-    font-family:var(--serif);
-    font-weight:400;
-    font-size:clamp(1.5rem,3.4vw,2.1rem);
-    line-height:1.4;
-    margin:0 0 14px;
-    text-wrap:balance;
+  .hero-copy{ position:relative; z-index:1; max-width:560px; }
+  .hero h1{
+    font-size:clamp(2.5rem, 5.1vw, 4rem);
+    line-height:1.12;
+    letter-spacing:-.025em;
+    margin-bottom:22px;
   }
-  .sec-head p{
-    margin:0; color:var(--ink-2); max-width:34em; font-size:.98rem;
-    text-wrap:pretty;
+  .hero-sub{
+    font-size:clamp(1rem, 1.5vw, 1.1875rem);
+    line-height:1.9;
+    color:var(--ink-2);
+    max-width:24em;
+    margin-bottom:clamp(30px, 3.6vw, 42px);
+  }
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:10px 20px;
+    margin-top:clamp(34px,4.4vw,52px);
+    font-size:12px; letter-spacing:.1em; color:var(--ink-3);
+  }
+  .hero-meta span{ display:inline-flex; align-items:center; gap:8px; }
+  .hero-meta span::before{
+    content:""; width:3px; height:3px; border-radius:50%;
+    background:var(--amber); opacity:.9;
   }
 
-  /* ---------- 四件事卡片 ---------- */
+  /* ---------- 痛点 ---------- */
+  .pain .sec-head{
+    max-width:none;
+    display:grid;
+    grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);
+    gap:clamp(28px, 6vw, 80px);
+    align-items:end;
+  }
+  .pain h2{
+    font-size:clamp(2.25rem, 4.4vw, 3.5rem);
+    line-height:1.2;
+    max-width:13em;
+  }
+  .pain .lede{
+    margin:0 0 8px;
+    font-size:.9375rem;
+    line-height:2;
+    max-width:30em;
+    color:var(--ink-2);
+  }
+
+  /* ---------- 机制卡片 ---------- */
   .cards{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:clamp(14px,2.4vw,22px);
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:clamp(14px, 1.8vw, 22px);
   }
   .card{
-    background:#FFFDFA;
-    border:1px solid var(--line-2);
-    border-radius:3px;
-    padding:clamp(26px,3.4vw,38px);
-    transition:transform .45s cubic-bezier(.2,.7,.3,1), border-color .45s, box-shadow .45s;
-  }
-  .card:hover{
-    transform:translateY(-3px);
-    border-color:var(--line);
-    box-shadow:0 12px 34px -22px rgba(43,41,38,.45);
-  }
-  .card q{
-    display:block;
-    font-family:var(--serif);
-    font-size:clamp(1.06rem,1.9vw,1.2rem);
-    line-height:1.7;
-    color:var(--ink);
-    quotes:none;
-    text-wrap:pretty;
-  }
-  .card p{
-    margin:16px 0 0;
-    font-size:.9rem;
-    color:var(--ink-2);
-    line-height:1.8;
-  }
-
-  /* ---------- limits ---------- */
-  .limits{
-    background:var(--bg-soft);
-    border-radius:4px;
-    padding:clamp(34px,5vw,62px);
-  }
-  .limits h2{
-    font-family:var(--serif);
-    font-weight:400;
-    font-size:clamp(1.35rem,3vw,1.9rem);
-    margin:0 0 10px;
-  }
-  .limits > p{
-    margin:0 0 clamp(26px,3.5vw,38px);
-    color:var(--ink-2);
-    font-size:.95rem;
-    max-width:30em;
-  }
-  .limits ul{
-    list-style:none; margin:0; padding:0;
-    display:grid; gap:0;
-  }
-  .limits li{
-    display:grid;
-    grid-template-columns:22px 1fr;
-    gap:14px;
-    padding:15px 0;
-    border-top:1px solid rgba(43,41,38,.09);
-    font-size:.95rem;
-    line-height:1.8;
-    color:var(--ink);
-    text-wrap:pretty;
-  }
-  .limits li:first-child{ border-top-color:rgba(43,41,38,.14); }
-  .limits li span.dash{ color:var(--amber); font-family:var(--sans); }
-
-
-  /* ---------- spec ---------- */
-  .spec-band{
-    background:#FBF7F1;
-    border-top:1px solid var(--line-2);
-    border-bottom:1px solid var(--line-2);
-  }
-  .spec-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:clamp(12px,1.8vw,18px);
-  }
-  .spec-card{
-    background:#FFFDFA;
-    border:1px solid var(--line-2);
-    border-radius:4px;
-    padding:clamp(20px,2.4vw,26px);
-    display:flex; flex-direction:column; gap:9px;
-    transition:border-color .35s, transform .35s;
-  }
-  .spec-card:hover{ border-color:var(--line); transform:translateY(-2px); }
-  .spec-card .sk{
-    font-size:.74rem; letter-spacing:.16em;
-    color:var(--ink-2); text-transform:uppercase;
-  }
-  .spec-card .sv{
-    font-family:var(--serif);
-    font-size:1.1rem; line-height:1.5; color:var(--ink);
-  }
-  .spec-card .sn{
-    font-size:.82rem; color:var(--ink-2); line-height:1.8; text-wrap:pretty;
-  }
-
-  /* ---------- cta ---------- */
-  .cta{
-    text-align:center;
-    border-top:1px solid var(--line);
-  }
-  .cta .promise{
-    font-family:var(--serif);
-    font-size:clamp(1.25rem,3vw,1.75rem);
-    line-height:1.65;
-    max-width:22em;
-    margin:0 auto clamp(36px,4.5vw,48px);
-    text-wrap:balance;
-  }
-  .btns{
-    display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
-  }
-  .btn{
-    display:inline-block;
-    padding:13px 30px;
-    border-radius:2px;
-    text-decoration:none;
-    font-size:.92rem;
-    letter-spacing:.04em;
-    transition:background .25s, color .25s, border-color .25s;
-  }
-  .btn.primary{
-    background:var(--ink);
-    color:#FBF9F5;
-    border:1px solid var(--ink);
-  }
-  .btn.primary:hover{ background:#16150F; border-color:#16150F; }
-  .btn.lg{ padding:16px 46px; font-size:1rem; cursor:pointer; font-family:inherit; }
-  .btn.ghost{
-    color:var(--ink-2);
-    border:1px solid var(--line);
-  }
-  .btn.ghost:hover{ color:var(--ink); border-color:var(--ink-3); }
-
-  /* ---------- footer ---------- */
-  footer{
-    border-top:1px solid var(--line-2);
-    padding:36px 0 52px;
-    font-size:.82rem;
-    color:var(--ink-3);
-    line-height:1.9;
-  }
-  footer .wrap{
-    display:flex; justify-content:space-between; align-items:flex-start;
-    gap:36px; flex-wrap:wrap;
-  }
-  footer a{ color:var(--ink-2); text-decoration:none; border-bottom:1px solid var(--line); }
-  footer a:hover{ color:var(--ink); }
-  footer .f-line{ margin:0; }
-  footer .f-contact{ margin-top:18px; letter-spacing:.01em; }
-  footer .f-contact a{ border-bottom-color:transparent; }
-  footer .f-contact a:hover{ border-bottom-color:var(--line); }
-  footer .f-copy{
-    margin-top:8px;
-    font-size:.76rem;
-    color:var(--ink-3);
-    opacity:.86;
-    letter-spacing:.02em;
-  }
-  .f-qr{ margin:0; flex:0 0 auto; text-align:center; }
-  .f-qr img{
-    display:block; width:88px; height:88px;
-    background:#fff;
-    border:1px solid var(--line-2);
-    border-radius:9px;
-    padding:6px;
-  }
-  .f-qr figcaption{
-    margin-top:8px;
-    font-size:.7rem;
-    letter-spacing:.08em;
-    color:var(--ink-3);
-    opacity:.8;
-  }
-
-  /* ---------- hero 主视觉（实拍图） ---------- */
-  .hero-figure{
-    margin:clamp(44px,6vw,74px) auto 0;
-    width:min(920px, 100%);
-  }
-  .hero-figure .shot{
     position:relative;
-    border-radius:18px;
-    overflow:hidden;
-    background:#F0ECE5;
-    box-shadow:
-      0 1px 2px rgba(43,41,38,.05),
-      0 10px 22px -16px rgba(43,41,38,.28),
-      0 30px 60px -42px rgba(43,41,38,.45);
+    display:flex; flex-direction:column;
+    padding:32px 30px 34px;
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:20px;
   }
-  .hero-figure img{
-    display:block; width:100%; height:auto;
-    aspect-ratio:16 / 10;
-    object-fit:cover;
-    object-position:50% 50%;
-    filter:saturate(.95) sepia(.10) contrast(1.01);
+  .card-ico{
+    width:32px; height:32px;
+    color:var(--amber-deep);
+    margin-bottom:28px;
   }
-  .hero-cap{
-    margin:clamp(18px,2.6vw,26px) 0 0;
-    text-align:center;
-    font-size:.74rem; letter-spacing:.14em;
-    color:var(--ink-2);
-  }
-
-  /* ---------- detail（图 + 文） ---------- */
-  .detail{
-    padding-top:clamp(60px,8vw,104px);
-    padding-bottom:clamp(10px,2vw,22px);
-    scroll-margin-top:76px;
-  }
-  .detail h2{
-    font-family:var(--serif); font-weight:400;
-    font-size:clamp(1.5rem,3.2vw,2.15rem);
-    line-height:1.42; margin:0 0 clamp(34px,4.6vw,52px);
-    letter-spacing:-.005em; max-width:22em;
-    text-wrap:balance;
-  }
-  .detail-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:clamp(26px,4.5vw,56px);
-    max-width:1000px;
-  }
-  .detail-item figure{ margin:0; }
-  .detail-item img{
-    display:block; width:100%; height:auto;
-    aspect-ratio:4 / 3;
-    object-fit:cover;
-    object-position:22% 50%;
-    border-radius:14px;
-    background:#EFEAE2;
-    box-shadow:
-      0 1px 2px rgba(43,41,38,.06),
-      0 12px 26px -20px rgba(43,41,38,.34);
-  }
-  .detail-item .k{
-    display:block; font-size:.72rem; letter-spacing:.18em;
-    color:var(--amber); text-transform:uppercase;
-    margin:22px 0 10px;
-    padding-top:16px;
-    border-top:1px solid var(--line);
-  }
-  .detail-item .k i{
-    font-family:var(--serif); font-style:normal;
-    letter-spacing:0; color:var(--ink-3); margin-right:.9em;
-  }
-  .detail-item p{
-    margin:0; color:var(--ink-2);
-    font-size:clamp(.94rem,1.5vw,1rem); line-height:1.9; text-wrap:pretty;
-  }
-
-  /* ---------- 家属端 App ---------- */
-  .app-band{
-    background:#FBF7F1;
-    border-top:1px solid var(--line-2);
-    border-bottom:1px solid var(--line-2);
-    scroll-margin-top:76px;
-  }
-  .app-grid{
-    display:grid;
-    grid-template-columns:auto minmax(0,1fr);
-    gap:clamp(36px,7vw,92px);
-    align-items:center;
-    justify-content:center;
-  }
-  .app-copy{ max-width:38em; }
-  .app-copy .k{
-    display:block; font-size:.72rem; letter-spacing:.2em;
-    color:var(--amber); text-transform:uppercase; margin-bottom:14px;
-  }
-  .app-copy h2{
-    font-family:var(--serif); font-weight:400;
-    font-size:clamp(1.35rem,2.9vw,1.9rem);
-    line-height:1.5; margin:0 0 18px;
-  }
-  .app-copy > p{
-    margin:0 0 clamp(24px,3vw,32px);
-    color:var(--ink-2); font-size:.98rem; line-height:1.9; text-wrap:pretty;
-  }
-  .app-list{ list-style:none; margin:0; padding:0; }
-  .app-list li{
-    padding:14px 0;
-    border-top:1px solid var(--line);
-    font-size:.93rem; line-height:1.8; color:var(--ink);
-    display:grid; grid-template-columns:16px 1fr; gap:12px;
-    text-wrap:pretty;
-  }
-  .app-list li:last-child{ border-bottom:1px solid var(--line); }
-  .app-list li b{ font-weight:600; }
-  .app-list .dot{
-    width:6px; height:6px; border-radius:50%;
-    background:var(--amber); margin-top:.72em;
-  }
-  .app-note{
-    margin:18px 0 0;
-    font-size:.74rem; letter-spacing:.06em; color:var(--ink-3);
-  }
-
-  /* 手机 */
-  .phone{
-    width:clamp(248px, 25vw, 296px);
-    padding:9px;
-    border-radius:44px;
-    background:#1D1B18;
-    box-shadow:
-      0 1px 2px rgba(43,41,38,.2),
-      0 26px 50px -30px rgba(43,41,38,.55);
-    position:relative;
-    flex:0 0 auto;
-  }
-  .phone::after{ /* 刘海 */
-    content:""; position:absolute; top:17px; left:50%;
-    transform:translateX(-50%);
-    width:58px; height:6px; border-radius:3px;
-    background:#33302A;
-  }
-  .screen{
-    border-radius:36px; overflow:hidden;
-    background:#FAF8F4; color:var(--ink);
-    padding:26px 14px 18px;
-    display:flex; flex-direction:column; gap:8px;
-  }
-  .scr-bar{
-    display:flex; justify-content:space-between; align-items:center;
-    font-size:10px; letter-spacing:.04em; color:var(--ink-3);
-    padding:0 3px 3px;
-  }
-  .scr-id{
-    display:flex; align-items:center; gap:9px;
-    padding:2px 2px 0;
-  }
-  .scr-id .ava{
-    width:30px; height:30px; border-radius:50%;
-    background:#EFE6D6; color:#8A6A3C;
-    display:grid; place-items:center;
-    font-family:var(--serif); font-size:12px;
-    flex:0 0 auto;
-  }
-  .scr-id .nm{ display:block; font-size:12px; font-weight:600; line-height:1.4; }
-  .scr-id .meta{ display:block; font-size:9.5px; color:var(--ink-3); margin-top:1px; }
-  .scr-status{
-    background:#fff; border-radius:12px;
-    padding:12px 12px 11px;
-    box-shadow:0 1px 2px rgba(43,41,38,.05);
-    border:1px solid rgba(43,41,38,.05);
-  }
-  .scr-status .row{ display:flex; align-items:center; gap:7px; }
-  .scr-status .beacon{
-    width:8px; height:8px; border-radius:50%;
-    background:#3E8E5A;
-    box-shadow:0 0 0 4px rgba(62,142,90,.13);
-    flex:0 0 auto;
-  }
-  .scr-status .st{ font-size:12.5px; font-weight:600; letter-spacing:.02em; }
-  .scr-status .when{ margin-left:auto; font-size:9.5px; color:var(--ink-3); }
-  .scr-status .who{ margin-top:6px; font-size:10.5px; color:var(--ink-2); }
-  .scr-block{
-    background:#fff; border-radius:12px;
-    border:1px solid rgba(43,41,38,.05);
-    padding:11px 12px 12px;
-  }
-  .scr-h{
-    display:flex; justify-content:space-between; align-items:baseline;
-    font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
-    color:var(--ink-3); margin-bottom:9px;
-  }
-  .scr-h .val{ font-size:10px; letter-spacing:0; color:var(--ink-2); }
-  .tl{ position:relative; padding-left:12px; }
-  .tl::before{
-    content:""; position:absolute; left:3px; top:4px; bottom:4px;
-    width:1px; background:rgba(43,41,38,.12);
-  }
-  .tl div{
-    position:relative; display:flex; gap:8px; align-items:baseline;
-    font-size:10px; line-height:1.9; color:var(--ink-2);
-  }
-  .tl div::before{
-    content:""; position:absolute; left:-12px; top:.62em;
-    width:5px; height:5px; border-radius:50%;
-    background:#C9C1B4;
-  }
-  .tl div:last-child::before{ background:var(--amber); }
-  .tl b{ font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
-  .scr-heart{ display:flex; align-items:center; gap:10px; }
-  .scr-heart .bpm{
-    font-family:var(--serif); font-size:20px; line-height:1;
+  .card-idx{
+    position:absolute; top:30px; right:28px;
+    font-size:11px; letter-spacing:.18em; color:var(--ink-3);
     font-variant-numeric:tabular-nums;
   }
-  .scr-heart .unit{ font-size:9px; color:var(--ink-3); letter-spacing:.08em; }
-  .scr-heart svg{ margin-left:auto; display:block; }
-  .rl div{
-    display:flex; justify-content:space-between; gap:8px;
-    font-size:9.5px; line-height:1.95; color:var(--ink-2);
+  .card h3{
+    font-size:1.0625rem;
+    font-weight:500;
+    margin-bottom:14px;
+    letter-spacing:-.01em;
   }
-  .rl .s{ color:#3E8E5A; }
-  .scr-next{
-    margin-top:6px;
-    display:flex; align-items:center; gap:8px;
-    background:#F7F2E8;
-    border:1px solid rgba(176,124,62,.16);
-    border-radius:12px;
-    padding:10px 11px;
-    font-size:10px; color:var(--ink-2);
+  .card p{
+    font-size:.9375rem;
+    line-height:1.95;
+    color:var(--ink-2);
   }
-  .scr-next .beacon{ width:7px; height:7px; box-shadow:0 0 0 3px rgba(176,124,62,.12); background:var(--amber); }
-  .scr-next b{ color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums; }
+  .mech-note{
+    margin-top:22px;
+    font-size:12px; letter-spacing:.02em; color:var(--ink-3);
+  }
 
-  /* ---------- nav 预订按钮 ---------- */
-  .nav-right{ display:flex; align-items:center; gap:clamp(14px,2.2vw,22px); }
-  .btn-mini{
-    font-size:.8rem; letter-spacing:.05em; white-space:nowrap;
-    color:#FBF9F5; background:var(--ink);
-    padding:7px 15px; border-radius:999px; text-decoration:none;
-    transition:opacity .2s ease;
+  /* ---------- 适老化 ---------- */
+  .split{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:clamp(36px, 6vw, 84px);
+    align-items:center;
   }
-  .btn-mini:hover{ opacity:.85; }
-
-  /* ---------- pricing ---------- */
-  .price{ padding:clamp(56px,8vw,104px) 0; scroll-margin-top:76px; }
-  .price-card{
-    max-width:560px; margin:0 auto; text-align:center;
-    background:#FFFDFA;
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:clamp(34px,5vw,54px) clamp(22px,5vw,48px);
-    box-shadow:0 24px 60px -40px rgba(43,41,38,.55);
+  .plinth-wrap{
+    position:relative;
+    aspect-ratio:1 / 1;
+    border-radius:26px;
+    background:
+      radial-gradient(120% 110% at 26% 16%, #F7F3EC 0%, #EFEAE1 48%, #E5DED3 100%);
+    border:1px solid rgba(28,27,25,.05);
+    display:grid; place-items:center;
+    overflow:hidden;
   }
-  .price-k{
-    margin:0 0 12px; font-size:.74rem; letter-spacing:.22em;
-    color:var(--amber); text-transform:uppercase;
+  .plinth-wrap::after{
+    content:""; position:absolute; left:50%; bottom:16%;
+    width:46%; height:9%;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:radial-gradient(ellipse, rgba(70,58,42,.22), transparent 70%);
+    filter:blur(12px);
   }
-  .price-v{
-    font-family:var(--serif); font-weight:400;
-    font-size:clamp(2.7rem,7.5vw,3.7rem); line-height:1;
-    letter-spacing:-.02em; margin:0;
+  .plinth{
+    position:relative;
+    width:62%; aspect-ratio:1;
+    border-radius:24%;
+    transform:rotate(-7deg);
+    display:grid; place-items:center;
+    background:radial-gradient(125% 105% at 26% 14%, #F1ECE3 0%, #E5DED2 36%, #D8D0C1 72%, #CEC6B6 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.9),
+      inset 0 -4px 14px rgba(112,99,80,.16),
+      0 30px 44px -30px rgba(60,50,38,.5);
   }
-  .price-v small{
-    font-size:.3em; letter-spacing:.1em;
-    color:var(--ink-3); margin-left:8px; vertical-align:.22em;
+  .plinth-btn{
+    width:44%; aspect-ratio:1;
+    border-radius:50%;
+    background:radial-gradient(135% 120% at 34% 26%, #E6DFD3 0%, #D7CFC0 52%, #CBC2B1 100%);
+    box-shadow:
+      inset 0 9px 18px rgba(88,74,54,.30),
+      inset 0 -3px 3px rgba(255,255,255,.55),
+      0 0 0 1px rgba(132,118,96,.20);
   }
-  .price-sub{
-    margin:16px 0 0;
-    color:var(--ink-2); font-size:.95rem; line-height:1.8;
-    text-wrap:pretty;
+  .plinth-cap{
+    position:absolute; left:0; right:0; bottom:5.5%;
+    text-align:center;
+    font-size:10.5px; letter-spacing:.18em;
+    color:var(--ink-3);
   }
-  .price-card .btn.lg{
-    display:block;
-    width:100%; max-width:100%;
-    margin:clamp(26px,3.6vw,34px) auto 0;
-    padding:20px 18px;
-    font-size:1.08rem; letter-spacing:.16em;
-    box-shadow:0 14px 26px -18px rgba(43,41,38,.6);
-    transition:background .25s, transform .25s;
+  .principles{
+    list-style:none; margin:34px 0 0; padding:0;
+    border-top:1px solid var(--line);
   }
-  .price-card .btn.lg:hover{ transform:translateY(-1px); }
-  .price-trust{
-    margin:12px 0 0;
-    font-size:.72rem; color:var(--ink-3);
-    letter-spacing:.04em; line-height:1.7;
-  }
-  .price-alt{
-    display:inline-block;
-    margin-top:18px;
-    background:none; border:none; padding:0 0 2px;
-    font-family:inherit; font-size:.82rem; color:var(--ink-2);
+  .principles li{
+    display:flex; align-items:baseline; justify-content:space-between; gap:18px;
+    padding:14px 0;
     border-bottom:1px solid var(--line);
-    cursor:pointer; letter-spacing:.02em;
-    transition:color .2s, border-color .2s;
+    font-size:.9375rem;
   }
-  .price-alt:hover{ color:var(--ink); border-color:var(--ink-3); }
-  .price-note{
-    margin:16px 0 0;
-    font-size:.72rem; color:var(--ink-3); line-height:1.7;
-    opacity:.9;
+  .principles b{ font-weight:500; color:var(--ink); }
+  .principles span{ font-size:12px; letter-spacing:.08em; color:var(--ink-3); text-align:right; }
+
+  /* ---------- 家属端 ---------- */
+  .family-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(280px, 330px);
+    gap:clamp(40px, 7vw, 96px);
+    align-items:center;
+  }
+  .family-copy{ max-width:38em; }
+  .family-visual{
+    display:flex; flex-direction:column; align-items:center;
+    width:100%;
+  }
+  .phone-wrap{
+    position:relative;
+    display:grid; place-items:center;
+    padding-block:8px;
+    width:100%;
+  }
+  .phone-wrap::before{
+    content:"";
+    position:absolute; inset:-8% 0;
+    background:radial-gradient(ellipse at 50% 45%, rgba(181,130,74,.13), transparent 68%);
+    filter:blur(24px);
+    border-radius:50%;
+    pointer-events:none;
+  }
+  .phone{
+    position:relative;
+    width:min(312px, 84vw);
+    aspect-ratio:312 / 570;
+    border-radius:46px;
+    padding:9px;
+    background:linear-gradient(150deg, #EEE9E0 0%, #DED7CB 55%, #CFC6B8 100%);
+    box-shadow:
+      0 40px 80px -42px rgba(58,48,34,.55),
+      0 2px 4px rgba(58,48,34,.10),
+      inset 0 0 0 1px rgba(255,255,255,.65);
+  }
+  .phone::before,
+  .phone::after{
+    content:"";
+    position:absolute;
+    width:3px;
+    border-radius:3px;
+    background:linear-gradient(180deg,#C7BDAD,#B4A997);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+  }
+  .phone::before{ left:-2px; top:22%; height:7%; }
+  .phone::after{ right:-2px; top:26%; height:12%; }
+  .screen{
+    position:relative;
+    height:100%;
+    border-radius:37px;
+    background:#FAF8F4;
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    box-shadow:inset 0 0 0 1px rgba(28,27,25,.07);
+  }
+  .island{
+    width:74px; height:21px;
+    margin:9px auto 0;
+    border-radius:12px;
+    background:#161513;
+    flex:0 0 auto;
+  }
+  .pstat{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:7px 20px 0;
+    font-size:10px; font-weight:600; color:var(--ink);
+    letter-spacing:.02em;
+  }
+  .pstat-icons{ display:flex; align-items:center; gap:4px; }
+  .pstat-icons i{ display:block; background:var(--ink); opacity:.8; border-radius:1px; }
+  .pstat-icons i:nth-child(1){ width:3px; height:4px; }
+  .pstat-icons i:nth-child(2){ width:3px; height:6px; }
+  .pstat-icons i:nth-child(3){ width:3px; height:8px; }
+  .pstat-icons i:nth-child(4){ width:3px; height:10px; }
+  .pbatt{
+    width:17px; height:9px; border:1px solid rgba(28,27,25,.45);
+    border-radius:2px; position:relative; margin-left:3px;
+  }
+  .pbatt::after{
+    content:""; position:absolute; left:1px; top:1px; bottom:1px; width:11px;
+    background:var(--ink); opacity:.75; border-radius:1px;
+  }
+  .papp{
+    flex:1;
+    padding:26px 18px 0;
+    display:flex; flex-direction:column;
+  }
+  .papp-top{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:22px;
+  }
+  .papp-brand{
+    font-size:11px; font-weight:600; letter-spacing:.18em; color:var(--ink-3);
+  }
+  .papp-avatar{
+    width:24px; height:24px; border-radius:50%;
+    background:linear-gradient(145deg,#E4DCCF,#CEC4B3);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);
+  }
+  .papp-kicker{
+    font-size:10px; letter-spacing:.16em; color:var(--ink-3);
+    margin-bottom:8px;
+  }
+  .papp-title{
+    font-size:19px; font-weight:600; color:var(--ink);
+    margin-bottom:18px; letter-spacing:-.01em; line-height:1.35;
+  }
+  .pcards{ display:grid; gap:10px; }
+  .pcard{
+    display:flex; align-items:flex-start; gap:11px;
+    padding:16px 15px;
+    border-radius:14px;
+    background:#F1EDE6;
+    border:1px solid rgba(28,27,25,.04);
+  }
+  .pdot{
+    width:8px; height:8px; border-radius:50%;
+    margin-top:6px; flex:0 0 auto;
+    background:#8B857C;
+  }
+  .pcard.alert{
+    background:#F0ECE5;
+    border-color:rgba(181,130,74,.24);
+  }
+  .pcard.alert .pdot{ background:var(--amber); box-shadow:0 0 0 3px rgba(181,130,74,.14); }
+  .pc-t{ font-size:13.5px; font-weight:600; color:#39352F; margin-bottom:3px; line-height:1.5; }
+  .pc-s{ font-size:11.5px; line-height:1.65; color:#6F6A62; }
+  .papp-desc{
+    margin-top:18px;
+    padding:0 2px;
+    font-size:10.5px; line-height:1.8;
+    letter-spacing:.02em;
+    color:#7E786F;
+  }
+  .papp-note{
+    margin-top:auto;
+    padding:20px 0 16px;
+    text-align:center;
+    font-size:10px; letter-spacing:.12em; color:#7E786F;
+  }
+  .home-bar{
+    width:96px; height:4px; border-radius:2px;
+    background:rgba(28,27,25,.24);
+    margin:0 auto 9px; flex:0 0 auto;
+  }
+  .concept-warn{
+    display:flex; align-items:flex-start; gap:10px;
+    width:100%;
+    margin-top:26px;
+    padding:15px 16px;
+    border-radius:12px;
+    background:#FBF2E4;
+    border:1px solid rgba(181,130,74,.42);
+    border-left:3px solid rgba(181,130,74,.55);
+    color:#5E3E18;
+    font-size:13.5px; font-weight:600; line-height:1.7;
+    letter-spacing:.01em;
+    text-align:left;
+  }
+  .concept-warn svg{ width:16px; height:16px; flex:0 0 auto; margin-top:2px; }
+
+  /* ---------- 边界清单 ---------- */
+  .audit-panel{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    border-radius:24px;
+    padding:clamp(18px, 3vw, 36px) clamp(18px, 3.4vw, 40px);
+    box-shadow:0 40px 70px -60px rgba(60,50,38,.5);
+  }
+  .audit{
+    list-style:none; margin:0; padding:0;
+  }
+  .audit li{
+    display:grid;
+    grid-template-columns:44px minmax(0,1fr) auto;
+    gap:20px;
+    align-items:start;
+    padding:22px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .audit li:last-child{ border-bottom:0; }
+  .audit-idx{
+    font-size:11px; letter-spacing:.14em; color:var(--ink-3);
+    font-variant-numeric:tabular-nums; padding-top:4px;
+  }
+  .audit-main h3{
+    font-size:1rem; font-weight:500; letter-spacing:0;
+    margin-bottom:5px;
+  }
+  .audit-main p{
+    font-size:.875rem; line-height:1.85; color:var(--ink-2);
+    max-width:52em;
+  }
+  .audit .tag{ margin-top:3px; }
+
+  .fineprint{
+    margin-top:28px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    font-size:13px; line-height:1.95; color:#6F6A62;
+    max-width:78em;
+  }
+  .disclaimer{
+    display:flex; align-items:flex-start; gap:12px;
+    margin-top:24px;
+    padding:18px 20px;
+    border-radius:14px;
+    background:var(--bg-soft);
+    border:1px solid var(--line);
+    color:#3A3630;
+    font-size:13px; font-weight:600; line-height:1.85;
+  }
+  .disclaimer svg{ width:17px; height:17px; flex:0 0 auto; margin-top:2px; color:var(--amber-deep); }
+
+  /* ---------- 预约 ---------- */
+  .reserve{ text-align:center; }
+  .reserve h2{
+    font-size:clamp(2rem, 3.8vw, 3rem);
+    margin-inline:auto; max-width:14em;
+  }
+  .reserve .lede{
+    margin:18px auto 0;
+    max-width:32em;
+    font-size:1rem;
+  }
+  .reserve-actions{
+    display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+    margin-top:clamp(32px, 4vw, 44px);
+  }
+  .reserve .micro{ margin-top:20px; }
+
+  /* ---------- FAQ ---------- */
+  .faq-list{
+    max-width:880px;
+    border-top:1px solid var(--line);
+  }
+  .faq-item{ border-bottom:1px solid var(--line); }
+  .faq-q{
+    width:100%;
+    display:flex; align-items:flex-start; justify-content:space-between; gap:28px;
+    padding:26px 0;
+    background:none; border:0;
+    text-align:left; cursor:pointer;
+    color:var(--ink);
+  }
+  .faq-q span{
+    font-size:clamp(1rem, 1.5vw, 1.125rem);
+    font-weight:500;
+    line-height:1.65;
+    letter-spacing:0;
+    transition:color .25s ease;
+  }
+  .faq-q:hover span{ color:var(--amber-deep); }
+  .faq-ic{
+    position:relative; flex:0 0 auto;
+    width:18px; height:18px; margin-top:4px;
+  }
+  .faq-ic::before,
+  .faq-ic::after{
+    content:""; position:absolute; left:50%; top:50%;
+    width:16px; height:1.5px; background:var(--ink); border-radius:2px;
+    transform:translate(-50%,-50%);
+    transition:transform .4s var(--ease), opacity .3s ease;
+  }
+  .faq-ic::after{ transform:translate(-50%,-50%) rotate(90deg); }
+  .faq-item.open .faq-ic::after{ transform:translate(-50%,-50%) rotate(0deg); opacity:0; }
+  .faq-a{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .45s var(--ease);
+  }
+  .faq-a > div{ overflow:hidden; }
+  .faq-a p{
+    margin:0 0 28px;
+    padding-right:48px;
+    font-size:.9375rem; line-height:1.95; color:var(--ink-2);
+    max-width:66ch;
+  }
+  .faq-item.open .faq-a{ grid-template-rows:1fr; }
+
+  /* ---------- 页脚 ---------- */
+  .site-foot{
+    background:var(--bg-soft);
+    border-top:1px solid var(--line-soft);
+    padding-block:clamp(44px, 5vw, 64px) clamp(28px, 3vw, 40px);
+  }
+  .foot-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:32px; flex-wrap:wrap;
+  }
+  .foot-brand{ display:flex; align-items:center; gap:10px; }
+  .foot-brand .brand-mark{ width:16px; height:16px; }
+  .foot-brand b{ font-size:15px; font-weight:600; color:var(--ink); letter-spacing:.02em; }
+  .foot-brand span{ font-size:9px; letter-spacing:.28em; color:#6B665E; padding-top:2px; }
+  .foot-links{
+    display:flex; flex-wrap:wrap; gap:8px 24px;
+    font-size:12.5px; letter-spacing:.02em;
+  }
+  .foot-links a{
+    color:var(--ink-2); text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .foot-links a:hover{ color:var(--ink); border-bottom-color:var(--line); }
+  .foot-bottom{
+    margin-top:clamp(32px,4vw,44px);
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 28px;
+    font-size:12px; color:#6F6A62; line-height:1.85;
+  }
+  .foot-note{ max-width:52em; }
+
+  /* ---------- 弹窗 ---------- */
+  .modal{
+    border:0; padding:0; background:transparent;
+    width:min(92vw, 432px);
+    max-width:none;
+    color:var(--ink);
+  }
+  .modal::backdrop{
+    background:rgba(24,21,17,.42);
+    -webkit-backdrop-filter:blur(7px);
+    backdrop-filter:blur(7px);
+  }
+  .modal[open]{ animation:modalIn .34s var(--ease); }
+  @keyframes modalIn{
+    from{ opacity:0; transform:translateY(10px) scale(.985); }
+    to{ opacity:1; transform:none; }
+  }
+  html.modal-open, html.modal-open body{ overflow:hidden; }
+  .modal-card{
+    position:relative;
+    background:#fff;
+    border-radius:24px;
+    padding:34px 30px 28px;
+    box-shadow:0 50px 100px -40px rgba(0,0,0,.55);
+  }
+  .modal-card h3{
+    font-size:1.25rem; font-weight:600; letter-spacing:-.01em;
+    margin-bottom:14px; padding-right:28px;
+  }
+  .modal-card p{
+    font-size:.9375rem; line-height:1.9; color:var(--ink-2);
+    margin-bottom:26px;
+  }
+  .modal-close{
+    position:absolute; top:18px; right:18px;
+    width:34px; height:34px; border-radius:50%;
+    border:0; background:rgba(28,27,25,.05);
+    display:grid; place-items:center; cursor:pointer;
+    color:var(--ink-2);
+    transition:background .25s ease, color .25s ease;
+  }
+  .modal-close:hover{ background:rgba(28,27,25,.1); color:var(--ink); }
+  .modal-close svg{ width:14px; height:14px; }
+  .modal-card .btn{ width:100%; height:48px; font-size:.9375rem; }
+  .modal-fine{
+    margin-top:16px; text-align:center;
+    font-size:11px; letter-spacing:.08em; color:var(--ink-3);
   }
 
-  /* ---------- dialog ---------- */
-  dialog.dlg{
-    border:none; padding:clamp(28px,4vw,40px);
-    width:calc(100% - 48px); max-width:380px;
-    background:#FFFDFA; color:var(--ink);
-    border-radius:14px; text-align:center;
-    box-shadow:0 30px 80px -34px rgba(43,41,38,.5);
+  /* ---------- 入场动画 ---------- */
+  [data-reveal]{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .8s var(--ease), transform .8s var(--ease);
+    transition-delay:var(--delay, 0s);
   }
-  dialog.dlg::backdrop{ background:rgba(43,41,38,.42); }
-  .dlg h3{
-    font-family:var(--serif); font-weight:400;
-    font-size:1.3rem; margin:0 0 10px;
-  }
-  .dlg p{ margin:0; color:var(--ink-2); font-size:.95rem; line-height:1.8; }
-  .dlg .dlg-note{ margin-top:14px; font-size:.75rem; color:var(--ink-3); }
-  .dlg .btn{ margin-top:26px; cursor:pointer; }
+  [data-reveal].in{ opacity:1; transform:none; }
 
-  /* ---------- reveal ---------- */
-  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1); }
-  .reveal.in{ opacity:1; transform:none; }
+  /* ---------- 响应式 ---------- */
+  @media (max-width: 980px){
+    .hero-grid{
+      grid-template-columns:1fr;
+      gap:clamp(8px, 2vw, 20px);
+      text-align:center;
+    }
+    .hero-copy{ order:2; max-width:640px; margin-inline:auto; }
+    .hero .stage{ order:1; max-width:min(420px, 88vw); }
+    .device{ width:80%; }
+    .hero .eyebrow{ justify-content:center; }
+    .hero-sub{ margin-inline:auto; }
+    .hero-meta{ justify-content:center; }
+    .hero::before{
+      left:50%; top:-10%; width:110vw; height:110vw;
+      transform:translateX(-50%);
+    }
+    .split{ grid-template-columns:1fr; }
+    .design-copy{ order:2; }
+    .plinth-wrap{ order:1; max-width:430px; margin-inline:auto; width:100%; }
+    .family-grid{ grid-template-columns:1fr; }
+    .family-copy{ order:1; max-width:640px; margin-inline:auto; width:100%; }
+    .family-visual{ order:2; }
+    .pain .sec-head{ grid-template-columns:1fr; gap:22px; align-items:start; }
+    .pain .lede{ margin:0; }
+    .cards{ grid-template-columns:1fr; }
+    .card{ padding:28px 26px 30px; }
+    .card-ico{ margin-bottom:22px; }
+    .nav-links{ display:none; }
+    .nav-burger{ display:flex; }
+    .nav-wrap{ gap:12px; }
+  }
+  @media (max-width: 640px){
+    body{ font-size:16px; }
+    :root{ --nav-h:60px; }
+    .ln-m{ display:block; }
+    .brand-en, .brand-div{ display:none; }
+    .nav-cta{ height:34px; padding:0 15px; font-size:12.5px; }
+    .hero{ padding-top:18px; }
+    .hero .stage{ max-width:min(360px, 88vw); }
+    .phone{ width:min(312px, 78vw); }
+    .concept-warn{ margin-top:20px; }
+    .stage-cap{ font-size:10.5px; letter-spacing:.12em; }
+    .audit li{
+      grid-template-columns:minmax(0,1fr);
+      gap:10px;
+      padding:20px 0;
+    }
+    .audit-idx{ grid-column:1 / -1; padding:0; }
+    .audit .tag{ margin-top:0; justify-self:start; }
+    .audit-panel{ border-radius:18px; }
+    .faq-q{ padding:22px 0; gap:18px; }
+    .faq-a p{ padding-right:0; }
+    .reserve-actions .btn{ width:100%; max-width:340px; }
+    .foot-bottom{ flex-direction:column; }
+    .principles li{ flex-direction:column; gap:2px; }
+    .principles span{ text-align:left; }
+    .hero h1{ letter-spacing:-.015em; }
+  }
+  @media (max-width: 380px){
+    .nav-cta{ display:none; }
+    .hero h1{ font-size:2.3rem; }
+  }
+  @media (min-width: 1024px){
+    .sec{ padding-block:120px; }
+  }
 
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
-    .reveal{ opacity:1; transform:none; transition:none; }
-    .card:hover{ transform:none; }
-  }
-
-  /* 导出 PDF / 打印时，渐显元素必须是可见的 */
-  @media print{
-    .reveal{ opacity:1 !important; transform:none !important; }
-    nav{ position:static; background:none; }
-  }
-
-  /* ---------- responsive ---------- */
-  @media (max-width:900px){
-    .spec-grid{ grid-template-columns:repeat(2,1fr); }
-    .detail-grid{ grid-template-columns:1fr; gap:clamp(30px,5vw,42px); max-width:560px; }
-    .app-grid{ grid-template-columns:1fr; justify-items:center; gap:clamp(34px,6vw,48px); }
-    .app-copy{ max-width:560px; }
-  }
-
-  @media (max-width:760px){
-    body{ font-size:16px; }
-    .wrap{ padding:0 22px; }
-    .numbers .wrap{ grid-template-columns:1fr; gap:30px; }
-    .numbers .num{ display:grid; grid-template-columns:auto 1fr; align-items:baseline; text-align:left; gap:16px; }
-    .numbers .num .k{ min-width:0; }
-    .num .v{ margin-bottom:0; }
-    .cards{ grid-template-columns:1fr; }
-    .spec-grid{ grid-template-columns:1fr; gap:10px; }
-    .spec-card{ padding:20px 22px; }
-    footer .wrap{ flex-direction:column; gap:12px; }
-    .hero-figure .shot{ border-radius:14px; }
-    .hero-figure img{ aspect-ratio:4 / 3; }
-    .hero-cap{ font-size:.68rem; letter-spacing:.1em; }
-    .phone{ width:min(264px, 74vw); }
-    nav a.nav-link{ display:none; }
-    .btn.lg{ width:100%; padding:15px 20px; }
-    #pricing{ scroll-margin-top:80px; }
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+    [data-reveal]{ opacity:1; transform:none; }
   }
 </style>
+<noscript>
+  <style>
+    [data-reveal]{ opacity:1 !important; transform:none !important; }
+    .faq-a{ grid-template-rows:1fr !important; }
+  </style>
+</noscript>
 </head>
 <body>
 
-<nav id="nav">
-  <div class="wrap">
-    <div class="brand"><b>守护星</b> &nbsp;Guardian Star</div>
+<a class="skip" href="#main">跳到主要内容</a>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<!-- ================= 吸顶导航 ================= -->
+<header class="site-nav" id="siteNav">
+  <div class="nav-wrap">
+    <a class="brand" href="#top" aria-label="守护星 Guardian Star，返回顶部">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4l2.6 7L21.6 12l-7 2.6L12 21.6l-2.6-7L2.4 12l7-2.6z" fill="currentColor"/></svg>
+      <span class="brand-cn">守护星</span>
+      <span class="brand-div" aria-hidden="true"></span>
+      <span class="brand-en">GUARDIAN STAR</span>
+    </a>
+
+    <nav class="nav-links" aria-label="页面章节导航">
+      <a href="#pain" data-nav="pain">缘由</a>
+      <a href="#mechanism" data-nav="mechanism">产品机制</a>
+      <a href="#design" data-nav="design">设计理念</a>
+      <a href="#family" data-nav="family">家属端</a>
+      <a href="#boundary" data-nav="boundary">功能边界</a>
+      <a href="#faq" data-nav="faq">常见问题</a>
+    </nav>
+
     <div class="nav-right">
-      <a class="nav-link" href="#detail">产品细节</a>
-      <a class="nav-link" href="#app">家属端</a>
-      <a class="btn-mini" href="#pricing">立即预订</a>
+      <a class="nav-cta" href="#reserve">预约体验</a>
+      <button class="nav-burger" id="navBurger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="打开菜单">
+        <span></span><span></span>
+      </button>
     </div>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="wrap">
-    <span class="eyebrow">居家安全终端 · 家庭版</span>
-    <h1>守护星</h1>
-    <p class="en">Guardian Star</p>
-
-    <p class="slogan">它不防跌倒，<br>它防<em>「死寂」</em>。</p>
-
-    <p class="lede">
-      该有人的房间里，人忽然找不到了——<br>
-      它不是报警器。它先开口问一句。
-    </p>
-
-    <figure class="hero-figure">
-      <div class="shot">
-        <img src="assets/hero.jpg" width="1600" height="1000"
-             alt="白色桌面上的一台米白色小型智能终端，灰色织物上盖，柔和日光，背景是浅色窗帘与墙面。">
-      </div>
-    </figure>
-    <p class="hero-cap">产品示意图 · 最终外观以实物为准</p>
   </div>
 </header>
 
-<div class="numbers reveal">
-  <div class="wrap">
-    <div class="num">
-      <span class="v">2<small>分钟</small></span>
-      <span class="k">人从雷达里消失，到它开口问一句</span>
-    </div>
-    <div class="num">
-      <span class="v">13<small>小时</small></span>
-      <span class="k">人还在、但不动也不应答，最久多久有人知道</span>
-    </div>
-    <div class="num">
-      <span class="v">1<small>次</small></span>
-      <span class="k">同一次异常，只打扰一次，不叫醒全家</span>
-    </div>
-  </div>
-</div>
+<button class="menu-scrim" id="menuScrim" type="button" tabindex="-1" aria-hidden="true" hidden></button>
+<nav class="mobile-menu" id="mobileMenu" aria-label="移动端章节导航" hidden>
+  <a href="#pain">缘由</a>
+  <a href="#mechanism">产品机制</a>
+  <a href="#design">设计理念</a>
+  <a href="#family">家属端</a>
+  <a href="#boundary">功能边界</a>
+  <a href="#faq">常见问题</a>
+  <a class="m-cta" href="#reserve">预约体验（演示）</a>
+</nav>
 
-<section class="wrap detail" id="detail">
-  <div class="reveal">
-    <h2>两个部件，一双手够得着。</h2>
-  </div>
-  <div class="detail-grid">
-    <div class="detail-item reveal">
-      <figure>
-        <img src="assets/detail-button.jpg" width="1100" height="733"
-             alt="金属面板上一枚大型圆形按键的微距特写，边缘有细密倒角，光从侧面打过来。">
-      </figure>
-      <span class="k"><i>01</i>按键</span>
-      <p>直径 60 毫米，凸起 4 毫米。手抖、指关节变形也摸得到；按下去有 4 毫米行程和一声轻响——知道自己按上了。</p>
-    </div>
-    <div class="detail-item reveal">
-      <figure>
-        <img src="assets/detail-window.jpg" width="900" height="600"
-             alt="金属网孔面板的极近微距，孔洞排列致密，表面有细腻的拉丝反光。">
-      </figure>
-      <span class="k"><i>02</i>雷达窗</span>
-      <p>24 GHz，9 个距离门，只回答一个问题：这屋里还有没有人。它不知道你是坐着还是躺着。</p>
-    </div>
-  </div>
-</section>
+<main id="main">
 
-<section>
-  <div class="wrap">
-    <div class="sec-head read reveal">
-      <h2>它只做四件事</h2>
-      <p>分别对应一次异常里可能出现的四种情况：找不到了、出门了、没事了、一直没回应。</p>
-    </div>
+  <!-- ================= 1. Hero ================= -->
+  <section class="hero" id="top" aria-labelledby="heroTitle">
+    <div class="hero-grid">
 
-    <div class="cards">
-      <div class="card reveal">
-        <q>它不问「你怎么摔的」，只问「你还在吗」。</q>
-        <p>雷达只判断人在不在，不判断姿势。所以它从不假装知道你摔没摔——那是另一类设备该干的事。</p>
+      <!-- 左：CSS 3D 产品概念模型 -->
+      <div class="stage" data-tilt data-reveal>
+        <div class="stage-glow" aria-hidden="true"></div>
+        <div class="floor-shadow" aria-hidden="true"></div>
+        <div class="device" id="device" role="img" aria-label="守护星产品概念模型：平放的米灰色哑光圆角方形机身，中央有一个微凹的实体按键，无屏幕、无摄像头。">
+          <div class="dev-layer l3"></div>
+          <div class="dev-layer l2"></div>
+          <div class="dev-layer l1"></div>
+          <div class="dev-face">
+            <span class="face-grain"></span>
+            <span class="dev-btn"><i></i></span>
+            <span class="dev-engrave">GUARDIAN STAR</span>
+          </div>
+        </div>
+        <p class="stage-cap">概念外形 · CSS 渲染，非实物照片</p>
       </div>
-      <div class="card reveal">
-        <q>门开了，它就知道你出门了，绝不瞎报警。</q>
-        <p>门磁是一票否决权。只要门开过，它当天就不再多问一句。买菜、遛弯、去医院，都不会触发。</p>
-      </div>
-      <div class="card reveal">
-        <q>拍一下按键，就是「我没事」。</q>
-        <p>不用解锁、不用找手机、不用对着它说话。老人手边一枚大按键，一巴掌拍下去，这件事就过去了。</p>
-      </div>
-      <div class="card reveal">
-        <q>没人应答，才轮到家属。</q>
-        <p>先问一次，换个说法再问一次，都安静了才推送。家属收到的那一条，是它已经确认过两次的那一条。</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section class="app-band" id="app">
-  <div class="wrap">
-    <div class="app-grid">
-      <div class="phone reveal">
-        <div class="screen">
-          <div class="scr-bar"><span>9:41</span><span>守护星 · 家属端</span></div>
-
-          <div class="scr-id">
-            <span class="ava">张</span>
-            <span>
-              <span class="nm">张阿姨</span>
-              <span class="meta">82 岁 · 独居 · 杭州</span>
-            </span>
-          </div>
-
-          <div class="scr-status">
-            <div class="row">
-              <span class="beacon"></span>
-              <span class="st">状态正常</span>
-              <span class="when">2 分钟前</span>
-            </div>
-            <div class="who">客厅 · 今日已应答 2 次</div>
-          </div>
-
-          <div class="scr-block">
-            <div class="scr-h"><span>今日活动</span><span class="val">6 段</span></div>
-            <div class="tl">
-              <div><b>07:40</b><span>起床 · 卧室</span></div>
-              <div><b>08:15</b><span>早餐 · 厨房</span></div>
-              <div><b>10:20</b><span>晒太阳 · 阳台</span></div>
-              <div><b>13:10</b><span>午休 · 卧室</span></div>
-              <div><b>17:25</b><span>看电视 · 客厅</span></div>
-            </div>
-          </div>
-
-          <div class="scr-block">
-            <div class="scr-h"><span>心率</span><span class="val">手环同步</span></div>
-            <div class="scr-heart">
-              <span class="bpm">72</span><span class="unit">BPM</span>
-              <svg width="86" height="26" viewBox="0 0 86 26" fill="none" aria-hidden="true">
-                <polyline points="0,17 12,14 20,18 28,9 36,20 46,13 56,15 64,11 74,16 86,12"
-                          stroke="#B07C3E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
-              </svg>
-            </div>
-          </div>
-
-          <div class="scr-block">
-            <div class="scr-h"><span>提醒记录</span><span class="val">近 7 天</span></div>
-            <div class="rl">
-              <div><span>今天 08:12 询问</span><span class="s">已应答</span></div>
-              <div><span>昨天 20:04 点名</span><span class="s">已应答</span></div>
-            </div>
-          </div>
-
-          <div class="scr-next">
-            <span class="beacon"></span>
-            <span>今晚 <b>20:00</b> 点名 · 已应答</span>
-          </div>
+      <!-- 右：极简介绍 -->
+      <div class="hero-copy" data-reveal style="--delay:.08s">
+        <p class="eyebrow">Guardian Star</p>
+        <h1 id="heroTitle">将安心，摆在床头。</h1>
+        <p class="hero-sub">让父母安心生活，让牵挂及时抵达。</p>
+        <a class="btn btn-primary" href="#mechanism">
+          了解产品机制
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </a>
+        <div class="hero-meta" aria-label="产品基本属性">
+          <span>概念形态</span>
+          <span>无屏幕</span>
+          <span>无摄像头</span>
         </div>
       </div>
 
-      <div class="app-copy reveal">
-        <span class="k">家属端 App</span>
-        <h2>家属远程端：<br>即使不在身边，也能随时知晓老人状态。</h2>
-        <p>每天早上 9 点、晚上 8 点，它会自己点一次名。你打开手机看到的不是一堆曲线，而是三个字：正常，还是不正常。</p>
-        <ul class="app-list">
-          <li><span class="dot"></span><span><b>一眼看懂。</b>正常 / 待确认 / 已通知，三种状态，不用读数据。</span></li>
-          <li><span class="dot"></span><span><b>今天的轨迹。</b>几点起、去了哪个房间、最后一次活动是几分钟前。</span></li>
-          <li><span class="dot"></span><span><b>分级通知。</b>先推给同住家属，10 分钟无人处理，再推给其他人。</span></li>
+    </div>
+  </section>
+
+  <!-- ================= 2. 痛点共情 ================= -->
+  <section class="sec pain" id="pain" aria-labelledby="painTitle">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <div>
+          <p class="eyebrow">01 — 日常</p>
+          <h2 id="painTitle">你在外打拼，<span class="ln">父母在家生活。</span></h2>
+        </div>
+        <p class="lede">有时候，你需要的不是频繁打扰，而是多一份及时的知晓。守护星希望让守护融入日常，而不是给老人增加新的负担。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. 核心机制 ================= -->
+  <section class="sec sec-soft" id="mechanism" aria-labelledby="mechTitle">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">02 — 核心机制</p>
+        <h2 id="mechTitle">可靠的机制，<span class="ln-m">胜过完美的数字。</span></h2>
+      </div>
+
+      <div class="cards">
+        <article class="card" data-reveal>
+          <span class="card-idx">01</span>
+          <svg class="card-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="2.1"/>
+            <path d="M12 5.2a6.8 6.8 0 0 1 6.8 6.8"/>
+            <path d="M12 1.9A10.1 10.1 0 0 1 22.1 12"/>
+            <path d="M12 18.8A6.8 6.8 0 0 1 5.2 12"/>
+            <path d="M12 12 5.7 5.7"/>
+          </svg>
+          <h3>感知与判断</h3>
+          <p>结合毫米波雷达活动感知与门磁开合事件，辅助判断居家状态。雷达提供其传感能力范围内的目标存在及运动信息，不作为健康或跌倒诊断依据。</p>
+        </article>
+
+        <article class="card" data-reveal style="--delay:.08s">
+          <span class="card-idx">02</span>
+          <svg class="card-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4.2" y="4.2" width="15.6" height="15.6" rx="4.6"/>
+            <circle cx="12" cy="12" r="4.1"/>
+            <path d="M12 17.6v1.9"/>
+          </svg>
+          <h3>主动确认流程</h3>
+          <p>当出现符合设定规则的状态时，启动待确认流程。通过大尺寸实体按键提供便捷的操作入口。</p>
+        </article>
+
+        <article class="card" data-reveal style="--delay:.16s">
+          <span class="card-idx">03</span>
+          <svg class="card-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.6"/>
+            <path d="M12 7.4V12l3.1 1.9"/>
+            <path d="M12 2.6v1.6"/>
+          </svg>
+          <h3>状态待核实提示</h3>
+          <p>产品设计拟通过周期性状态回执机制，辅助家属了解设备运行状态。当超过设定时间未收到设备状态回执时，可在家属端提示“状态待核实”。目前该机制是否具备实际运行能力，以设备通信、后端处理及消息推送的完整测试结果为准。</p>
+        </article>
+      </div>
+
+      <p class="mech-note" data-reveal>以上为设计机制说明；七项功能的实际状态统一见下方「技术边界」。</p>
+    </div>
+  </section>
+
+  <!-- ================= 4. 适老化设计 ================= -->
+  <section class="sec" id="design" aria-labelledby="designTitle">
+    <div class="wrap">
+      <div class="split">
+
+        <div class="design-copy" data-reveal>
+          <p class="eyebrow">03 — 适老化设计</p>
+          <h2 id="designTitle">守护，不应该<span class="ln-m">成为负担。</span></h2>
+          <p class="lede">不需要学习复杂操作，也不必时刻面对屏幕。简洁直观的实体按键，让设备自然融入老人熟悉的生活环境。</p>
+
+          <ul class="principles">
+            <li><b>无屏幕打扰</b><span>NO SCREEN</span></li>
+            <li><b>无摄像头采集</b><span>NO CAMERA</span></li>
+            <li><b>只需一个动作</b><span>ONE PRESS</span></li>
+          </ul>
+        </div>
+
+        <div class="plinth-wrap" data-reveal aria-hidden="true">
+          <div class="plinth">
+            <span class="plinth-btn"></span>
+          </div>
+          <p class="plinth-cap">实体按键 · 一个动作</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5. 家属端 ================= -->
+  <section class="sec sec-soft" id="family" aria-labelledby="familyTitle">
+    <div class="wrap">
+      <div class="family-grid">
+
+        <div class="family-copy" data-reveal>
+          <p class="eyebrow">04 — 家属端</p>
+          <h2 id="familyTitle">不在身边，<span class="ln-m">也想早点知道。</span></h2>
+          <p class="lede">家属端设计以极简卡片呈现设备状态。界面为概念设计，用于说明交互设想。</p>
+        </div>
+
+        <div class="family-visual" data-reveal style="--delay:.1s">
+          <div class="phone-wrap">
+            <div class="phone" role="img" aria-label="家属端概念界面示意：浅灰色卡片显示设备状态正常，另一张卡片显示状态待核实。界面为概念设计，非真实数据。">
+              <div class="screen">
+                <div class="island" aria-hidden="true"></div>
+                <div class="pstat" aria-hidden="true">
+                  <span>9:41</span>
+                  <span class="pstat-icons"><i></i><i></i><i></i><i></i><span class="pbatt"></span></span>
+                </div>
+                <div class="papp" aria-hidden="true">
+                  <div class="papp-top">
+                    <span class="papp-brand">守护星</span>
+                    <span class="papp-avatar"></span>
+                  </div>
+                  <p class="papp-kicker">TODAY</p>
+                  <p class="papp-title">居家状态</p>
+                  <div class="pcards">
+                    <div class="pcard">
+                      <span class="pdot"></span>
+                      <div>
+                        <p class="pc-t">设备状态正常</p>
+                        <p class="pc-s">最近更新 · 今日 09:00</p>
+                      </div>
+                    </div>
+                    <div class="pcard alert">
+                      <span class="pdot"></span>
+                      <div>
+                        <p class="pc-t">状态待核实</p>
+                        <p class="pc-s">超过设定时间未收到状态回执</p>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="papp-desc">仅呈现必要状态，减少打扰。</p>
+                  <p class="papp-note">概念界面 · 非真实数据</p>
+                </div>
+                <div class="home-bar" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="concept-warn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3.6 21 20H3z"/>
+              <path d="M12 9.5v4.4"/>
+              <path d="M12 17.1h.01"/>
+            </svg>
+            <span>界面仅为概念设计演示。未完成真实通信与推送链路，不代表具备远程通知能力。</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6. 技术边界与功能状态 ================= -->
+  <section class="sec" id="boundary" aria-labelledby="boundaryTitle">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">05 — 技术边界</p>
+        <h2 id="boundaryTitle">诚实的边界，<span class="ln-m">才是真正的守护。</span></h2>
+        <p class="lede">以下功能状态统一标记为当前阶段的核验状态，具体可见性以硬件实测与联调结果为准。</p>
+      </div>
+
+      <div class="audit-panel" data-reveal>
+        <ul class="audit">
+          <li>
+            <span class="audit-idx">01</span>
+            <div class="audit-main">
+              <h3>雷达感知</h3>
+              <p>毫米波雷达用于活动感知，提供传感能力范围内的目标存在及运动信息。</p>
+            </div>
+            <span class="tag">待硬件实测核验</span>
+          </li>
+          <li>
+            <span class="audit-idx">02</span>
+            <div class="audit-main">
+              <h3>门磁事件采集</h3>
+              <p>通过有线门磁采集门的开合事件，辅助区分居家与外出状态。</p>
+            </div>
+            <span class="tag">待硬件实测核验</span>
+          </li>
+          <li>
+            <span class="audit-idx">03</span>
+            <div class="audit-main">
+              <h3>异常确认流程</h3>
+              <p>当状态符合设定规则时，启动待确认流程，结合语音提示与实体按键进行确认。</p>
+            </div>
+            <span class="tag">待硬件实测核验</span>
+          </li>
+          <li>
+            <span class="audit-idx">04</span>
+            <div class="audit-main">
+              <h3>实体按键</h3>
+              <p>大尺寸实体按键作为主要确认入口，老人无需学习复杂操作。</p>
+            </div>
+            <span class="tag">待硬件实测核验</span>
+          </li>
+          <li>
+            <span class="audit-idx">05</span>
+            <div class="audit-main">
+              <h3>语音播报</h3>
+              <p>通过扬声器播放预录语音，用于问候与引导确认。</p>
+            </div>
+            <span class="tag">待硬件实测核验</span>
+          </li>
+          <li>
+            <span class="audit-idx">06</span>
+            <div class="audit-main">
+              <h3>状态回执</h3>
+              <p>设计拟通过周期性状态回执机制，辅助家属了解设备运行状态。</p>
+            </div>
+            <span class="tag">待硬件实测核验</span>
+          </li>
+          <li>
+            <span class="audit-idx">07</span>
+            <div class="audit-main">
+              <h3>家属端远程通知</h3>
+              <p>设计拟在家属端呈现“状态待核实”提示；完整链路尚待通信、后端与推送联调验证。</p>
+            </div>
+            <span class="tag">待硬件实测核验</span>
+          </li>
         </ul>
-        <p class="app-note">界面示意 · 页面内数据为演示值</p>
+
+        <p class="fineprint">本页面所列功能状态为当前阶段的临时核验标记，并不代表相关功能已经完成开发或通过测试。实际可用状态需结合项目源码、硬件实物接线、模块测试记录及整机联调证据逐项核实。代码存在、编译通过或模拟运行成功，均不代表硬件功能已经通过验证。</p>
+      </div>
+
+      <div class="disclaimer" data-reveal>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3.6 21 20H3z"/>
+          <path d="M12 9.5v4.4"/>
+          <path d="M12 17.1h.01"/>
+        </svg>
+        <span>本设备不具备跌倒姿态识别功能，不作为医疗诊断依据，不能替代家人照护和紧急救援。</span>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section>
+  <!-- ================= 7. 预约体验（演示） ================= -->
+  <section class="sec sec-soft reserve" id="reserve" aria-labelledby="reserveTitle">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-content:center" data-reveal>06 — 预约体验</p>
+      <h2 id="reserveTitle" data-reveal>先看看，它如何工作。</h2>
+      <p class="lede" data-reveal>当前为产品概念展示阶段。你可以先体验预约流程，或回到上文了解设计理念。</p>
+      <div class="reserve-actions" data-reveal>
+        <button class="btn btn-primary" type="button" data-open-reserve>
+          体验预约流程（演示）
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </button>
+        <a class="btn btn-ghost" href="#design">了解产品设计理念</a>
+      </div>
+      <p class="micro" data-reveal>演示版本 · 不开放真实预约 · 不收集任何个人信息</p>
+    </div>
+  </section>
+
+  <!-- ================= 8. FAQ ================= -->
+  <section class="sec" id="faq" aria-labelledby="faqTitle">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">07 — 常见问题</p>
+        <h2 id="faqTitle">还有这些疑问。</h2>
+      </div>
+
+      <div class="faq-list" data-reveal>
+        <div class="faq-item">
+          <h3>
+            <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA1" id="faqQ1">
+              <span>为什么不做跌倒检测？</span>
+              <span class="faq-ic" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="faqA1" role="region" aria-labelledby="faqQ1">
+            <div><p>守护星的产品设计聚焦于活动感知与状态确认机制。目前不具备跌倒姿态识别功能，我们会根据实际硬件测试结果逐步验证相关能力。</p></div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <h3>
+            <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA2" id="faqQ2">
+              <span>未收到设备状态回执，是否意味着设备损坏或发生危险？</span>
+              <span class="faq-ic" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="faqA2" role="region" aria-labelledby="faqQ2">
+            <div><p>不一定。可能受网络波动影响。家属收到状态待核实提示后，可通过电话等方式进一步确认。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= 页脚 ================= -->
+<footer class="site-foot">
   <div class="wrap">
-    <div class="limits reveal">
-      <h2>它做不到的事，写在前面</h2>
-      <p>一份敢写「我不做什么」的说明，比一份全是优点的说明可信。这四条是物理与成本决定的，不是还没做完。</p>
-      <ul>
-        <li><span class="dash">—</span><span><b>不识别跌倒。</b>倒在地上还在呼吸的人，雷达通常仍然「看得见」，所以它不会响。这正是它需要每天点名两次的原因。</span></li>
-        <li><span class="dash">—</span><span><b>只覆盖一个房间。</b>卫生间是最大的盲区，而老人每天要进出六到十次。</span></li>
-        <li><span class="dash">—</span><span><b>断电、断网就停止守护。</b>安全播报用本地录音，不依赖云端，但拔掉电源它就真的什么都不知道了。</span></li>
-        <li><span class="dash">—</span><span><b>它不会替你叫 120。</b>它只通知人。真正到场的，得是人。</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="spec-band" id="spec">
-  <div class="wrap">
-    <div class="sec-head read reveal">
-      <h2>规格</h2>
-      <p>能做什么、不能做什么，都写在明处。</p>
-    </div>
-
-    <div class="spec-grid">
-      <div class="spec-card reveal">
-        <span class="sk">感知</span>
-        <span class="sv">24 GHz 毫米波雷达</span>
-        <span class="sn">不装摄像头、不用佩戴，只回答一件事：这屋里还有没有人。</span>
+    <div class="foot-top">
+      <div class="foot-brand">
+        <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4l2.6 7L21.6 12l-7 2.6L12 21.6l-2.6-7L2.4 12l7-2.6z" fill="currentColor"/></svg>
+        <b>守护星</b>
+        <span>GUARDIAN STAR</span>
       </div>
-      <div class="spec-card reveal">
-        <span class="sk">覆盖</span>
-        <span class="sv">单房间 · 最远 6 米</span>
-        <span class="sn">放在床头或客厅即可覆盖一间屋。卫生间是盲区，建议另放一台。</span>
-      </div>
-      <div class="spec-card reveal">
-        <span class="sk">交互</span>
-        <span class="sv">60 mm 大按键</span>
-        <span class="sn">一巴掌拍下去就算应答，不用解锁手机、不用对着它说话。</span>
-      </div>
-      <div class="spec-card reveal">
-        <span class="sk">语音</span>
-        <span class="sv">本地播放 · 不联云</span>
-        <span class="sn">问候语是预录人声，断网也能开口；录音不上传。</span>
-      </div>
-      <div class="spec-card reveal">
-        <span class="sk">通知</span>
-        <span class="sv">家属端 App</span>
-        <span class="sn">无人应答后 20 秒内推送，可回看当天活动轨迹。</span>
-      </div>
-      <div class="spec-card reveal">
-        <span class="sk">供电</span>
-        <span class="sv">5V USB-C · 约 11 × 9 × 5.5 cm</span>
-        <span class="sn">断电或断网会立刻提醒家属，不会假装还在工作。</span>
-      </div>
+      <nav class="foot-links" aria-label="页脚导航">
+        <a href="#pain">缘由</a>
+        <a href="#mechanism">产品机制</a>
+        <a href="#design">设计理念</a>
+        <a href="#family">家属端</a>
+        <a href="#boundary">功能边界</a>
+        <a href="#faq">常见问题</a>
+        <a href="#reserve">预约体验</a>
+        <a href="#top">返回顶部 ↑</a>
+      </nav>
     </div>
-  </div>
-</section>
-
-<section class="price" id="pricing">
-  <div class="wrap">
-    <div class="price-card reveal">
-      <p class="price-k">首发体验价</p>
-      <p class="price-v">¥199<small>整机</small></p>
-      <p class="price-sub">含硬件终端、一年 AI 陪伴服务与家属远程提醒</p>
-      <button class="btn primary lg" type="button" data-preorder>立即购买</button>
-      <p class="price-trust">支持 30 天无理由退换 · 顺丰包邮 · 1 年质保</p>
-      <button class="price-alt" type="button" data-preorder>或预约免费上门体验 →</button>
-      <p class="price-note">首发价为量产形态目标价 · 本页为演示页面，暂未开放支付</p>
+    <div class="foot-bottom">
+      <p>© 2026 守护星 GUARDIAN STAR | 产品概念展示。</p>
+      <p class="foot-note">本页面为产品概念展示，不构成销售要约；所有功能状态以硬件实测与整机联调结果为准。</p>
     </div>
-  </div>
-</section>
-
-<section class="cta">
-  <div class="wrap">
-    <p class="promise reveal">它不承诺发现所有意外，<br>只承诺两件有时间上限的事。</p>
-    <div class="btns reveal">
-      <a class="btn primary" href="#pricing">立即预订</a>
-      <a class="btn ghost" href="#detail">了解详情</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div>
-      <p class="f-line">守护星科技 · 专注居家安全终端，让不在身边的家人也能安心。</p>
-      <p class="f-line">本产品不构成医疗器械，不提供医疗诊断或医疗建议 · 页面图片为产品示意图，最终外观以实物为准。</p>
-      <p class="f-line f-contact">商务合作与售后咨询：<a href="mailto:contact@guardianstar.com">contact@guardianstar.com</a></p>
-      <p class="f-line f-copy">© 2026 守护星科技. All Rights Reserved.</p>
-    </div>
-    <figure class="f-qr">
-      <img src="qr-code.png" width="88" height="88"
-           alt="守护星官网二维码：扫码可在手机上打开本页面。">
-      <figcaption>扫码在手机上打开</figcaption>
-    </figure>
   </div>
 </footer>
 
-<dialog class="dlg" id="preorder-dlg">
-  <h3>预约通道即将开放</h3>
-  <p>首批 200 台，开放后按登记顺序发货。</p>
-  <p class="dlg-note">本页为产品演示页面，暂未开放支付，不构成销售要约。</p>
-  <button class="btn primary" type="button" data-close>好</button>
+<!-- ================= 预约弹窗 ================= -->
+<dialog class="modal" id="reserveDialog" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+  <div class="modal-card">
+    <button class="modal-close" type="button" data-close-modal aria-label="关闭弹窗">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h3 id="modalTitle">体验预约（演示）</h3>
+    <p id="modalDesc">当前为产品概念展示，暂未开放真实预约，不会收集或上传您的个人信息。</p>
+    <button class="btn btn-primary" type="button" data-close-modal>我知道了</button>
+    <p class="modal-fine">演示弹窗 · 无表单 · 无网络请求</p>
+  </div>
 </dialog>
 
 <script>
-  // nav 细线：滚过首屏才出现
-  const nav = document.getElementById('nav');
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+(function(){
+  "use strict";
 
-  // 轻量渐显
-  const items = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
-    items.forEach((el) => io.observe(el));
-  } else {
-    items.forEach((el) => el.classList.add('in'));
+  var html = document.documentElement;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- 顶部进度条 + 导航状态 ---------- */
+  var nav = document.getElementById("siteNav");
+  var bar = document.getElementById("progressBar");
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a[data-nav]"));
+  var spySections = navLinks.map(function(a){ return document.getElementById(a.getAttribute("data-nav")); });
+  var ticking = false;
+
+  function updateScrollUI(){
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    if (bar) {
+      bar.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
+    }
+    if (nav) {
+      nav.classList.toggle("scrolled", y > 8);
+    }
+    /* 章节高亮 */
+    var probe = y + window.innerHeight * 0.34;
+    var current = null;
+    for (var i = 0; i < spySections.length; i++) {
+      var sec = spySections[i];
+      if (sec && sec.offsetTop <= probe) { current = sec; }
+    }
+    for (var j = 0; j < navLinks.length; j++) {
+      var active = !!(current && navLinks[j].getAttribute("data-nav") === current.id);
+      navLinks[j].classList.toggle("active", active);
+      if (active) {
+        navLinks[j].setAttribute("aria-current", "true");
+      } else {
+        navLinks[j].removeAttribute("aria-current");
+      }
+    }
+    ticking = false;
   }
 
-  // 预订按钮：弹层。没开放支付，所以只给一句实话
-  const dlg = document.getElementById('preorder-dlg');
-  const openDlg = () => {
-    if (!dlg) return;
-    if (typeof dlg.showModal === 'function') { dlg.showModal(); }
-    else { dlg.setAttribute('open', ''); }
-  };
-  const closeDlg = () => {
-    if (!dlg) return;
-    if (typeof dlg.close === 'function') { dlg.close(); }
-    else { dlg.removeAttribute('open'); }
-  };
-  document.querySelectorAll('[data-preorder]').forEach((el) => {
-    el.addEventListener('click', (e) => { e.preventDefault(); openDlg(); });
+  window.addEventListener("scroll", function(){
+    if (!ticking) { ticking = true; window.requestAnimationFrame(updateScrollUI); }
+  }, { passive: true });
+  window.addEventListener("resize", function(){
+    if (!ticking) { ticking = true; window.requestAnimationFrame(updateScrollUI); }
   });
-  if (dlg) {
-    dlg.addEventListener('click', (e) => {
-      // 点在遮罩上（target 是 dialog 本身）或点在关闭按钮上，都关掉
-      if (e.target === dlg || e.target.hasAttribute('data-close')) closeDlg();
+  updateScrollUI();
+
+  /* ---------- 移动端菜单 ---------- */
+  var burger = document.getElementById("navBurger");
+  var menu = document.getElementById("mobileMenu");
+  var scrim = document.getElementById("menuScrim");
+
+  function setMenu(open, restoreFocus){
+    if (!menu || !burger) return;
+    menu.hidden = !open;
+    if (scrim) scrim.hidden = !open;
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+    html.classList.toggle("menu-open", open);
+    if (open) {
+      var firstLink = menu.querySelector("a");
+      if (firstLink) {
+        window.requestAnimationFrame(function(){ firstLink.focus({ preventScroll: true }); });
+      }
+    } else if (restoreFocus !== false) {
+      burger.focus({ preventScroll: true });
+    }
+  }
+  if (burger && menu) {
+    burger.addEventListener("click", function(){ setMenu(menu.hidden); });
+    Array.prototype.forEach.call(menu.querySelectorAll("a"), function(link){
+      link.addEventListener("click", function(){ setMenu(false, false); });
+    });
+    if (scrim) {
+      scrim.addEventListener("click", function(){ setMenu(false); });
+    }
+    document.addEventListener("pointerdown", function(e){
+      if (menu.hidden) return;
+      if (menu.contains(e.target) || burger.contains(e.target) || (scrim && scrim.contains(e.target))) return;
+      setMenu(false);
+    });
+    document.addEventListener("keydown", function(e){
+      if (e.key === "Escape" && !menu.hidden) { setMenu(false); }
+    });
+    window.addEventListener("resize", function(){
+      if (window.innerWidth > 980 && !menu.hidden) { setMenu(false, false); }
     });
   }
-</script>
 
+  /* ---------- 入场动画 ---------- */
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealEls.forEach(function(el){ el.classList.add("in"); });
+  } else {
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    revealEls.forEach(function(el){ revealObserver.observe(el); });
+  }
+
+  /* ---------- FAQ 手风琴 ---------- */
+  var faqItems = Array.prototype.slice.call(document.querySelectorAll(".faq-item"));
+
+  function setPanelState(item, open){
+    var panel = item.querySelector(".faq-a");
+    if (!panel) return;
+    panel.setAttribute("aria-hidden", String(!open));
+    panel.toggleAttribute("inert", !open);
+  }
+
+  faqItems.forEach(function(item){
+    var btn = item.querySelector(".faq-q");
+    setPanelState(item, item.classList.contains("open"));
+    if (!btn) return;
+    btn.addEventListener("click", function(){
+      var willOpen = !item.classList.contains("open");
+      faqItems.forEach(function(other){
+        if (other !== item) {
+          other.classList.remove("open");
+          var otherBtn = other.querySelector(".faq-q");
+          if (otherBtn) otherBtn.setAttribute("aria-expanded", "false");
+          setPanelState(other, false);
+        }
+      });
+      item.classList.toggle("open", willOpen);
+      btn.setAttribute("aria-expanded", String(willOpen));
+      setPanelState(item, willOpen);
+    });
+  });
+
+  /* ---------- 预约弹窗 ---------- */
+  var dialog = document.getElementById("reserveDialog");
+  var openers = Array.prototype.slice.call(document.querySelectorAll("[data-open-reserve]"));
+  var closers = Array.prototype.slice.call(document.querySelectorAll("[data-close-modal]"));
+  var lastFocus = null;
+
+  function closeDialog(){
+    if (!dialog) return;
+    if (typeof dialog.close === "function" && dialog.open) {
+      dialog.close();
+    } else {
+      dialog.removeAttribute("open");
+      html.classList.remove("modal-open");
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+  }
+
+  if (dialog) {
+    openers.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        lastFocus = document.activeElement;
+        html.classList.add("modal-open");
+        if (typeof dialog.showModal === "function") {
+          if (!dialog.open) dialog.showModal();
+        } else {
+          dialog.setAttribute("open", "");
+        }
+        var closeBtn = dialog.querySelector(".modal-close");
+        if (closeBtn) closeBtn.focus();
+      });
+    });
+
+    closers.forEach(function(btn){ btn.addEventListener("click", closeDialog); });
+
+    dialog.addEventListener("click", function(e){
+      if (e.target === dialog) closeDialog();
+    });
+
+    dialog.addEventListener("close", function(){
+      html.classList.remove("modal-open");
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    });
+  }
+
+  /* ---------- Hero 模型轻微视差 ---------- */
+  var stage = document.querySelector(".stage[data-tilt]");
+  var device = document.getElementById("device");
+  var finePointer = window.matchMedia("(pointer: fine)").matches;
+
+  if (stage && device && finePointer && !reduceMotion) {
+    var rafId = null;
+    stage.addEventListener("pointermove", function(e){
+      var rect = stage.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width - 0.5;
+      var py = (e.clientY - rect.top) / rect.height - 0.5;
+      if (rafId) window.cancelAnimationFrame(rafId);
+      rafId = window.requestAnimationFrame(function(){
+        device.style.setProperty("--rx", (48 - py * 6).toFixed(2) + "deg");
+        device.style.setProperty("--rz", (-14 + px * 8).toFixed(2) + "deg");
+      });
+    });
+    stage.addEventListener("pointerleave", function(){
+      device.style.removeProperty("--rx");
+      device.style.removeProperty("--rz");
+    });
+  }
+
+  /* ---------- 锚点键盘可达性：焦点跳转 ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function(link){
+    link.addEventListener("click", function(){
+      var id = link.getAttribute("href").slice(1);
+      var target = id ? document.getElementById(id) : null;
+      if (!target) return;
+      if (!target.hasAttribute("tabindex")) {
+        target.setAttribute("tabindex", "-1");
+      }
+      try {
+        target.focus({ preventScroll: true });
+      } catch (err) {
+        target.focus();
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
