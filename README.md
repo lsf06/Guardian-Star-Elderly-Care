@@ -156,6 +156,7 @@ python src/mock_run.py --verbose  # 逐秒打印状态机内部变量
 **最后一项是回归测试**：升级之后继续跑 5 分钟静默，必须一条事件都不产生。
 
 ```bash
+python src/preflight.py           # 环境体检：依赖 / 7 句语音 / 串口 / 声卡（缺硬件只 WARN）
 python src/selftest.py            # 协议层自检：用真实报文校验帧解析
 ```
 
@@ -260,6 +261,7 @@ python src/sweep.py data/guardian.csv
 │   ├── sweep.py           # 扫出打扰预算曲线（核心产出）
 │   ├── mock_run.py        # 无硬件跑完整剧本（含回归测试）
 │   ├── selftest.py        # 用真实报文校验解析
+│   ├── preflight.py       # 环境体检：依赖 / 语音 / 串口 / 声卡
 │   ├── test_radar.py      # 雷达连通性 + 0 帧排查
 │   ├── test_door.py       # 门磁电平实测
 │   └── voice.py           # 本地优先播报 + LLM 对话（非安全路径）
