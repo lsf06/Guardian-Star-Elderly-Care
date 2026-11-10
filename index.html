@@ -7,9 +7,13 @@
 <meta name="description" content="守护星是一款面向独居老人场景的居家状态确认终端概念。本页面为产品概念展示，功能状态以硬件实测核验为准。">
 <meta name="theme-color" content="#F7F2E9">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/">
 <meta property="og:title" content="守护星 GUARDIAN STAR — 将安心，摆在床头">
 <meta property="og:description" content="产品概念展示：无屏幕、无摄像头、单键确认。功能状态待硬件实测核验。">
-<meta property="og:image" content="assets/images/hero.jpg">
+<meta property="og:image" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/assets/images/hero.jpg">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1350">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="format-detection" content="telephone=no">
 <link rel="preload" as="image" href="assets/images/hero.jpg" fetchpriority="high">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23F7F2E9'/%3E%3Cpath d='M16 5l2.4 8.6L27 16l-8.6 2.4L16 27l-2.4-8.6L5 16l8.6-2.4z' fill='%23B47B3C'/%3E%3C/svg%3E">
@@ -73,7 +77,9 @@
   ::selection{ background:var(--amber-soft); color:var(--ink); }
   :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; border-radius:5px; }
   h1[tabindex="-1"]:focus,
-  h1[tabindex="-1"]:focus-visible{ outline:none; }
+  h1[tabindex="-1"]:focus-visible,
+  main:focus,
+  main:focus-visible{ outline:none; }
   h1,h2,h3{ margin:0; color:var(--ink); }
   h1,h2{ font-family:var(--serif); font-weight:600; letter-spacing:.01em; line-height:1.18; }
   p{ margin:0; }
@@ -244,7 +250,8 @@
     position:relative; z-index:1;
     width:min(100% - 64px, 1440px);
     margin-inline:auto;
-    min-height:100vh;
+    height:min(100vh, 900px);
+    min-height:640px;
     display:grid;
     grid-template-columns:40% 60%;
     align-items:center;
@@ -252,13 +259,14 @@
     box-sizing:border-box;
   }
   .home-bg{
-    position:absolute; inset:0 0 auto 0; height:100vh;
+    position:absolute; inset:0 0 auto 0;
+    height:min(100vh, 900px); min-height:640px;
     z-index:0; overflow:hidden;
     background:#E7DCCC;
   }
   .home-bg img{
     width:100%; height:100%;
-    object-fit:cover; object-position:64% 50%;
+    object-fit:cover; object-position:64% 56%;
     transform:scale(1.04);
     will-change:transform;
   }
@@ -324,10 +332,20 @@
   .home-strip-inner{
     width:min(100% - 64px, 1440px); margin:0 auto;
     display:grid; grid-template-columns:repeat(3,1fr);
-    gap:24px; padding:22px clamp(24px, 4vw, 64px) 26px;
+    gap:0; padding:22px clamp(24px, 4vw, 64px) 26px;
   }
-  .home-strip div{ font-size:12px; color:var(--ink-3); letter-spacing:.06em; }
-  .home-strip b{ display:block; color:var(--ink); font-weight:500; font-size:13px; margin-bottom:2px; }
+  .home-strip-inner > div{ padding-right:clamp(16px, 2vw, 28px); }
+  .home-strip-inner > div + div{
+    border-left:1px solid var(--line);
+    padding-left:clamp(16px, 2vw, 28px);
+  }
+  .strip-num{
+    display:block; margin-bottom:10px;
+    font-size:9px; letter-spacing:.22em; color:var(--amber-2);
+    font-variant-numeric:tabular-nums;
+  }
+  .home-strip b{ display:block; color:var(--ink); font-weight:500; font-size:13px; margin-bottom:3px; }
+  .home-strip p{ font-size:12px; color:var(--ink-3); letter-spacing:.04em; line-height:1.8; }
 
   /* 首屏入场（每次进入首页重新触发） */
   #view-home.is-intro .home-eyebrow{ animation:fadeUp .9s var(--ease-out) .15s both; }
@@ -530,6 +548,9 @@
   .tech-copy{ min-width:0; }
   .tech-copy h2{ font-size:clamp(1.6rem, 2.6vw, 2.4rem); line-height:1.32; margin-bottom:12px; }
   .tech-copy p{ font-size:.9875rem; line-height:1.9; color:var(--ink-2); max-width:26em; }
+  @media (max-width: 767.98px){
+    .tech-copy h2{ font-size:1.5rem; }
+  }
 
   .flow-block{
     margin-block:clamp(36px, 5vw, 64px);
@@ -568,18 +589,77 @@
   .flow-step:last-child::after{ content:""; }
   .flow-note{ margin-top:14px; font-size:11px; letter-spacing:.04em; color:var(--ink-3); }
 
-  .data-block{ margin-block:clamp(36px, 5vw, 64px); }
-  .data-block h2{ font-size:clamp(1.5rem, 2.4vw, 2rem); margin-bottom:14px; }
-  .data-card{ border-top:1px solid var(--line); }
-  .data-row{
-    display:grid; grid-template-columns:1.4fr .85fr .75fr; gap:16px;
-    padding:13px 0; border-bottom:1px solid var(--line);
-    font-size:.875rem; align-items:baseline;
+  /* 系统架构（深色技术区） */
+  .arch-band{
+    position:relative; overflow:hidden;
+    margin-block:clamp(36px, 5vw, 64px);
+    background:var(--dark); color:var(--cream);
+    border-radius:24px;
+    padding:clamp(26px, 3.6vw, 48px);
   }
-  .data-row.head{ font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); }
-  .data-row strong{ font-weight:600; color:var(--ink); }
-  .data-row em{ font-style:normal; font-size:12px; color:var(--ink-3); }
-  .data-note{ margin-top:14px; }
+  .arch-band::before{
+    content:""; position:absolute; right:-12%; top:-30%;
+    width:58%; height:160%; border-radius:50%;
+    background:radial-gradient(circle, rgba(180,123,60,.22), transparent 66%);
+    filter:blur(20px); pointer-events:none;
+  }
+  .arch-band .eyebrow{ color:var(--amber-3); }
+  .arch-band .eyebrow::before{ background:var(--amber-3); }
+  .arch-band h2{
+    position:relative; z-index:1;
+    color:var(--cream); font-size:clamp(1.5rem, 2.6vw, 2.2rem);
+    line-height:1.3; max-width:18em;
+  }
+  .arch-flow{
+    position:relative; z-index:1;
+    display:flex; align-items:stretch; gap:0; margin-top:26px;
+  }
+  .arch-node{
+    flex:1; min-width:0;
+    border:1px solid rgba(239,230,214,.18);
+    border-radius:14px; padding:14px;
+    background:rgba(255,255,255,.035);
+  }
+  .arch-node .n{ display:block; font-size:9.5px; letter-spacing:.18em; color:#8C8272; margin-bottom:8px; }
+  .arch-node b{ display:block; font-size:.95rem; font-weight:500; color:var(--cream); }
+  .arch-node small{ display:block; margin-top:4px; font-size:10.5px; line-height:1.6; color:var(--cream-2); }
+  .arch-node.is-design{ border-style:dashed; border-color:rgba(216,169,108,.5); }
+  .arch-node.is-design small{ color:var(--amber-3); }
+  .arch-arrow{ flex:0 0 26px; display:grid; place-items:center; color:var(--amber-3); font-size:14px; }
+  .arch-note{
+    position:relative; z-index:1;
+    margin-top:16px; font-size:11px; line-height:1.8; color:var(--cream-2);
+  }
+
+  /* 验证状态 */
+  .verify-block{ margin-block:clamp(36px, 5vw, 64px); }
+  .verify-block h2{ font-size:clamp(1.5rem, 2.4vw, 2rem); margin-bottom:6px; }
+  .verify-sub{ font-size:.9375rem; color:var(--ink-2); max-width:40em; line-height:1.85; }
+  .verify-grid{
+    display:grid; grid-template-columns:repeat(5, minmax(0,1fr));
+    gap:10px; margin-top:22px;
+  }
+  .verify-card{
+    border:1px solid var(--line-soft); border-radius:14px;
+    padding:16px 15px 15px; background:rgba(255,253,248,.55);
+    transition:border-color .4s ease, background .4s ease, transform .4s var(--ease);
+  }
+  .verify-card:hover{ border-color:rgba(180,123,60,.32); background:rgba(255,253,248,.85); transform:translateY(-2px); }
+  .verify-card .st{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:3px 9px; border-radius:999px;
+    font-size:9.5px; font-weight:600; letter-spacing:.1em;
+  }
+  .st.ok{ background:var(--amber-soft); color:var(--amber-2); }
+  .st.wait{ background:rgba(25,21,16,.06); color:var(--ink-3); }
+  .st.no{ background:rgba(25,21,16,.09); color:var(--ink); }
+  .verify-card h3{
+    font-family:var(--serif); font-size:1.12rem; font-weight:600;
+    line-height:1.35; margin:14px 0 6px;
+  }
+  .verify-card p{ font-size:12px; line-height:1.8; color:var(--ink-2); }
+  .verify-note{ margin-top:16px; font-size:11px; line-height:1.85; color:var(--ink-3); }
+  .verify-note a{ color:var(--amber-2); text-decoration:none; border-bottom:1px solid rgba(138,89,38,.35); }
 
   .audit-block{ margin-block:clamp(36px, 5vw, 64px); }
   .audit-head{ display:flex; flex-wrap:wrap; align-items:baseline; gap:12px; margin-bottom:18px; }
@@ -735,6 +815,22 @@
   .pc-t{ font-size:13.5px; font-weight:600; color:#39352F; margin-bottom:3px; line-height:1.5; }
   .pc-s{ font-size:11.5px; line-height:1.65; color:#6F6A62; }
   .papp-note{ margin-top:auto; padding:18px 0 14px; text-align:center; font-size:9.5px; letter-spacing:.12em; color:#7E786F; }
+  .pstate-note{
+    margin-top:14px; font-size:9.5px; line-height:1.6; letter-spacing:.02em;
+    color:#7E786F;
+  }
+  .ptime{
+    margin-top:14px; padding-top:12px;
+    border-top:1px solid rgba(28,27,25,.08);
+    display:grid; gap:7px;
+  }
+  .ptime-row{
+    display:flex; align-items:center; gap:7px;
+    font-size:10px; color:#7E786F;
+  }
+  .ptime-row time{ width:32px; color:#5F5A52; font-weight:600; font-variant-numeric:tabular-nums; }
+  .ptime-dot{ width:5px; height:5px; border-radius:50%; background:#C3B9A8; flex:0 0 auto; }
+  .ptime-row.on .ptime-dot{ background:var(--amber); }
   .home-bar{ width:94px; height:4px; border-radius:2px; background:rgba(28,27,25,.24); margin:0 auto 9px; flex:0 0 auto; }
   .app-note{
     display:inline-flex; align-items:center; gap:9px;
@@ -819,7 +915,7 @@
     .nav-links{ display:none; }
     .nav-burger{ display:flex; }
     .nav-wrap{ gap:12px; }
-    .home-hero{ width:100%; min-height:auto; display:block; padding-top:0; }
+    .home-hero{ width:100%; height:auto; min-height:0; display:block; padding-top:0; }
     .home-bg{ position:relative; inset:auto; height:58svh; min-height:380px; }
     .home-bg img{ object-position:70% 56%; }
     .home-veil{
@@ -834,6 +930,7 @@
     .home-scroll{ display:none; }
   }
   @media (max-width: 980px){
+    .verify-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
     .home-copy{ padding-left:clamp(24px, 4vw, 48px); }
     .media-row, .media-row.reverse, .dark-band .media-row{ grid-template-columns:1fr; }
     .dark-band .media-row figure{ order:-1; }
@@ -864,17 +961,20 @@
     .home-title{ font-size:clamp(2.8rem, 11vw, 3.8rem); }
     .home-sub{ margin-bottom:24px; }
     .home-scroll{ display:none; }
-    .home-strip-inner{ width:100%; padding:18px 20px; grid-template-columns:1fr; gap:12px; }
+    .home-strip-inner{ width:100%; padding:18px 20px; grid-template-columns:1fr; gap:14px; }
+    .home-strip-inner > div{ padding-right:0; }
+    .home-strip-inner > div + div{ border-left:0; padding-left:0; border-top:1px solid var(--line-soft); padding-top:14px; }
     .page{ padding-top:calc(var(--nav-h) + 30px); }
     .media-row figure img{ aspect-ratio:4/3; }
     .dark-band{ border-radius:18px; padding:20px; }
+    .arch-band{ border-radius:18px; padding:20px; }
+    .arch-flow{ flex-direction:column; gap:8px; }
+    .arch-arrow{ height:18px; transform:rotate(90deg); }
+    .arch-node{ padding:12px 14px; }
+    .verify-grid{ grid-template-columns:1fr; }
     .model-stage{ max-width:min(380px, 88vw); }
     .flow-3{ grid-template-columns:1fr; }
     .flow-step::after{ content:"↓"; right:auto; left:50%; top:auto; bottom:-19px; transform:translateX(-50%); }
-    .data-row{ grid-template-columns:1fr; gap:2px; padding:12px 0; }
-    .data-row.head{ display:none; }
-    .data-row strong{ font-size:1rem; }
-    .data-row em{ margin-top:2px; }
     .audit li{ grid-template-columns:1fr; gap:8px; padding:15px 0; }
     .audit-idx{ padding:0; }
     .audit .tag{ justify-self:start; }
@@ -936,7 +1036,7 @@
     </nav>
 
     <div class="nav-right">
-      <button class="nav-cta" type="button" data-open-reserve>预约体验</button>
+      <button class="nav-cta" type="button" data-open-reserve>体验说明</button>
       <button class="nav-burger" id="navBurger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="打开菜单">
         <span></span><span></span>
       </button>
@@ -950,10 +1050,10 @@
   <a href="#/experience" data-route-link="experience">产品体验</a>
   <a href="#/technology" data-route-link="technology">硬核技术</a>
   <a href="#/app" data-route-link="app">家属端</a>
-  <button class="m-cta" type="button" data-open-reserve>预约体验（演示）</button>
+  <button class="m-cta" type="button" data-open-reserve>体验说明（演示）</button>
 </nav>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
   <!-- ================= #/home ================= -->
   <section class="view is-active is-intro" data-view="home" id="view-home" aria-labelledby="homeTitle">
@@ -965,7 +1065,7 @@
 
     <div class="home-hero">
       <div class="home-copy">
-        <p class="eyebrow">GUARDIAN STAR · 概念产品</p>
+        <p class="eyebrow">GUARDIAN STAR · HOME CARE DEVICE</p>
         <h1 class="home-title" id="homeTitle" tabindex="-1"><span class="line"><span>将安心，</span></span><span class="line"><span>摆在床头。</span></span></h1>
         <p class="home-sub">让父母安心生活，让牵挂及时抵达。</p>
         <div class="home-actions">
@@ -985,11 +1085,11 @@
       <div class="home-scroll" aria-hidden="true"><span>SCROLL</span><i></i></div>
     </div>
 
-    <div class="home-strip" aria-hidden="true">
+    <div class="home-strip">
       <div class="home-strip-inner">
-        <div><b>语音先问</b>异常静默时，先开口确认</div>
-        <div><b>单键应答</b>拍一下按键，就够</div>
-        <div><b>状态记录</b>只保留必要信息</div>
+        <div><span class="strip-num">01</span><b>语音先问</b><p>活动状态异常时，先开口确认。</p></div>
+        <div><span class="strip-num">02</span><b>单键应答</b><p>拍一下按键，就够。</p></div>
+        <div><span class="strip-num">03</span><b>状态记录</b><p>只保留必要信息。</p></div>
       </div>
     </div>
   </section>
@@ -1011,7 +1111,7 @@
         <div class="media-copy" data-reveal style="--d:.08s">
           <p class="eyebrow">01 — 语音</p>
           <h2>设备主动语音播报</h2>
-          <p>静默达到设定阈值时，先开口问一句，而不是直接通知家属。</p>
+          <p>当活动状态持续满足预设触发条件时，设备播放预录语音，邀请老人通过实体按键确认。</p>
           <div class="chips">
             <span class="chip">预录语音</span>
             <span class="chip">本地播放</span>
@@ -1023,7 +1123,7 @@
       <div class="dark-band" data-reveal>
         <div class="media-row">
           <div class="media-copy" data-reveal>
-            <p class="eyebrow">有些牵挂，隔着一座城市</p>
+            <p class="eyebrow">02 — 使用 · 有些牵挂，隔着一座城市</p>
             <h2>拍一下按键完成应答</h2>
             <p>一个大按键，按一下就够。老人不需要记住任何规则。</p>
             <div class="chips">
@@ -1104,8 +1204,8 @@
       <div class="tech-grid reverse">
         <div class="tech-copy" data-reveal>
           <p class="eyebrow">02 — 门磁</p>
-          <h2>物理辅助判断：结合门磁开合事件辅助判断</h2>
-          <p>门磁只回答一件事：门有没有开过。它用于辅助区分出门与居家，不做身份识别。</p>
+          <h2>物理辅助判断：<span class="ln-m">结合门磁开合事件辅助判断</span></h2>
+          <p>门磁只能检测门体开合，不能单独确认老人是否外出；它为居家状态判断提供辅助信息。</p>
           <div class="chips">
             <span class="chip">MC-38</span>
             <span class="chip">单扇门</span>
@@ -1117,6 +1217,21 @@
           <figcaption>门磁概念示意 · AI 生成</figcaption>
         </figure>
       </div>
+
+      <section class="arch-band" aria-labelledby="archTitle" data-reveal>
+        <p class="eyebrow">03 — 系统架构 · 设计</p>
+        <h2 id="archTitle">从一次感知，到一次可核实的回执。</h2>
+        <div class="arch-flow">
+          <div class="arch-node"><span class="n">01</span><b>感知层</b><small>毫米波雷达 / 门磁</small></div>
+          <span class="arch-arrow" aria-hidden="true">→</span>
+          <div class="arch-node"><span class="n">02</span><b>本地处理</b><small>树莓派 5 · 状态机</small></div>
+          <span class="arch-arrow" aria-hidden="true">→</span>
+          <div class="arch-node is-design"><span class="n">03</span><b>通信层</b><small>设计架构 · 待联调</small></div>
+          <span class="arch-arrow" aria-hidden="true">→</span>
+          <div class="arch-node is-design"><span class="n">04</span><b>家属端</b><small>设计架构 · 待联调</small></div>
+        </div>
+        <p class="arch-note">虚线节点为设计架构，尚未完成真实通信、后端处理与消息推送联调。</p>
+      </section>
 
       <section class="flow-block" aria-labelledby="flowTitle" data-reveal>
         <div class="flow-head">
@@ -1131,19 +1246,38 @@
         <p class="flow-note">雷达感知 → 语音播报 → 状态记录：流程为设计构想，未接通实机验证。</p>
       </section>
 
-      <section class="data-block" aria-labelledby="dataTitle" data-reveal>
-        <h2 id="dataTitle">自检与指标：区分逻辑值与实测</h2>
-        <div class="data-card">
-          <div class="data-row head"><span>指标</span><span>值 / 状态</span><span>依据</span></div>
-          <div class="data-row"><span>最长无人知晓时间（人在场）</span><strong>13 h</strong><em>逻辑值，非实测</em></div>
-          <div class="data-row"><span>点名检出率</span><strong>100%</strong><em>逻辑保证</em></div>
-          <div class="data-row"><span>同一次静默升级重复次数</span><strong>1 次</strong><em>回归测试保证</em></div>
-          <div class="data-row"><span>语音识别是否参与安全判定</span><strong>否（仅陪聊）</strong><em>代码保证</em></div>
-          <div class="data-row"><span>协议层自检（软件）</span><strong>已回归</strong><em>代码自检，非硬件</em></div>
-          <div class="data-row"><span>静默检出延迟 / 屏息检出率</span><strong>待实测</strong><em>待硬件</em></div>
-          <div class="data-row"><span>跌倒检出</span><strong>不支持</strong><em>明确不做</em></div>
+      <section class="verify-block" aria-labelledby="verifyTitle" data-reveal>
+        <p class="eyebrow">验证状态</p>
+        <h2 id="verifyTitle">先看验证到哪一步，<span class="ln-m">再看能做什么。</span></h2>
+        <p class="verify-sub">把「代码有」与「硬件通」分开标注，避免把逻辑值误读成实测成绩。</p>
+        <div class="verify-grid">
+          <article class="verify-card">
+            <span class="st ok">已具备</span>
+            <h3>代码逻辑</h3>
+            <p>状态机、协议解析、升级锁存已存在于仓库代码中。</p>
+          </article>
+          <article class="verify-card">
+            <span class="st ok">已回归</span>
+            <h3>软件回归</h3>
+            <p>同一次异常事件只升级一次，有回归测试保护。</p>
+          </article>
+          <article class="verify-card">
+            <span class="st wait">待实测</span>
+            <h3>硬件单模块</h3>
+            <p>雷达、门磁、按键与音频尚未完成接线核验。</p>
+          </article>
+          <article class="verify-card">
+            <span class="st wait">待联调</span>
+            <h3>整机联调</h3>
+            <p>通信、后端处理与消息推送链路尚未联调。</p>
+          </article>
+          <article class="verify-card">
+            <span class="st no">不支持</span>
+            <h3>跌倒识别</h3>
+            <p>明确不做，不作为医疗诊断依据。</p>
+          </article>
         </div>
-        <p class="micro data-note">数据来源：仓库 docs/边界与指标.md、feishu/4_指标验证.csv。「逻辑值」由回归与代码保证，不等于硬件实测结果。</p>
+        <p class="verify-note">代码存在 ≠ 软件回归 ≠ 硬件实测 ≠ 整机联调。指标定义与回归记录见 <a href="https://github.com/lsf06/Guardian-Star-Elderly-Care/tree/main/docs" target="_blank" rel="noopener">GitHub 仓库 docs/</a>。</p>
       </section>
 
       <section class="audit-block" aria-labelledby="auditTitle" data-reveal>
@@ -1160,7 +1294,7 @@
             </li>
             <li>
               <span class="audit-idx">02</span>
-              <div class="audit-main"><h3>门磁事件采集</h3><p>采集门的开合事件，辅助区分居家与外出状态。</p></div>
+              <div class="audit-main"><h3>门磁事件采集</h3><p>采集门体开合事件，为居家状态判断提供辅助信息。</p></div>
               <span class="tag">待硬件实测核验</span>
             </li>
             <li>
@@ -1241,11 +1375,11 @@
 
       <div class="app-stage">
         <div class="phone-wrap">
-          <div class="phone" role="img" aria-label="家属端概念界面：今日状态记录，显示设备状态正常与状态待核实两张卡片。非真实数据。">
+          <div class="phone" role="img" aria-label="家属端概念界面：今日状态记录，显示设备状态正常（仅表示设备在线）与状态待核实两张卡片，并附时间线示意。非真实数据。">
             <div class="screen">
               <div class="island" aria-hidden="true"></div>
               <div class="pstat" aria-hidden="true">
-                <span>9:41</span>
+                <span>21:10</span>
                 <span class="pstat-icons"><i></i><i></i><i></i><i></i><span class="pbatt"></span></span>
               </div>
               <div class="papp" aria-hidden="true">
@@ -1260,7 +1394,7 @@
                     <span class="pdot"></span>
                     <div>
                       <p class="pc-t">设备状态正常</p>
-                      <p class="pc-s">最近更新 · 今日 09:00</p>
+                      <p class="pc-s">设备在线 · 09:00 已收到状态回执</p>
                     </div>
                   </div>
                   <div class="pcard alert">
@@ -1270,6 +1404,11 @@
                       <p class="pc-s">超过设定时间未收到状态回执</p>
                     </div>
                   </div>
+                </div>
+                <p class="pstate-note">设备状态不代表老人健康状态。</p>
+                <div class="ptime">
+                  <div class="ptime-row on"><time>09:00</time><span class="ptime-dot"></span><span>状态回执已收到</span></div>
+                  <div class="ptime-row"><time>20:00</time><span class="ptime-dot"></span><span>状态回执待确认</span></div>
                 </div>
                 <p class="papp-note">概念界面 · 非真实数据</p>
               </div>
@@ -1285,7 +1424,7 @@
 
         <div class="app-actions">
           <a class="btn btn-ghost" href="#/technology">查看技术边界</a>
-          <button class="btn btn-primary" type="button" data-open-reserve>预约体验（演示）</button>
+          <button class="btn btn-primary" type="button" data-open-reserve>体验说明（演示）</button>
         </div>
       </div>
     </div>
@@ -1323,7 +1462,7 @@
     <button class="modal-close" type="button" data-close-modal aria-label="关闭弹窗">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
-    <h3 id="modalTitle">体验预约（演示）</h3>
+    <h3 id="modalTitle">产品体验说明</h3>
     <p id="modalDesc">当前为产品概念展示，暂未开放真实预约，不会收集或上传您的个人信息。</p>
     <button class="btn btn-primary" type="button" data-close-modal>我知道了</button>
     <p class="modal-fine">演示弹窗 · 无表单 · 无网络请求</p>
@@ -1619,6 +1758,16 @@
   if (backTop) backTop.addEventListener("click", function(e){
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  });
+
+  var skipLink = document.querySelector(".skip");
+  if (skipLink) skipLink.addEventListener("click", function(e){
+    e.preventDefault();
+    var mainEl = document.getElementById("main");
+    if (mainEl) {
+      try { mainEl.focus({ preventScroll: true }); } catch (err) { mainEl.focus(); }
+    }
+    window.scrollTo(0, 0);
   });
 
   /* ---------- 技术流程：进入视口后依次点亮 ---------- */
