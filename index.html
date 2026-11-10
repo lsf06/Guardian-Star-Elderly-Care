@@ -92,14 +92,18 @@
   /* ---------- 导航 ---------- */
   .site-nav{
     position:fixed; inset:0 0 auto 0; z-index:150;
-    background:linear-gradient(180deg, rgba(247,242,233,.97) 0%, rgba(247,242,233,.86) 100%);
+    background:linear-gradient(180deg, rgba(247,242,233,.62) 0%, rgba(247,242,233,.22) 56%, rgba(247,242,233,0) 100%);
+    border-bottom:1px solid transparent;
+    transition:box-shadow .45s ease, background .45s ease, border-color .45s ease,
+               -webkit-backdrop-filter .45s ease, backdrop-filter .45s ease;
+  }
+  .site-nav.solid{
+    background:linear-gradient(180deg, rgba(247,242,233,.98) 0%, rgba(247,242,233,.9) 100%);
     -webkit-backdrop-filter:saturate(170%) blur(20px);
     backdrop-filter:saturate(170%) blur(20px);
-    border-bottom:1px solid var(--line-soft);
-    transition:box-shadow .4s ease, background .4s ease;
+    border-bottom-color:var(--line-soft);
   }
   .site-nav.scrolled{
-    background:linear-gradient(180deg, rgba(247,242,233,.99) 0%, rgba(247,242,233,.92) 100%);
     box-shadow:0 18px 40px -34px rgba(35,28,19,.5);
   }
   .nav-wrap{
@@ -234,19 +238,39 @@
   }
   .tag::before{ content:""; width:5px; height:5px; border-radius:50%; background:var(--amber); flex:0 0 auto; }
 
-  /* ---------- 首页 ---------- */
+  /* ---------- 首页：全幅摄影首屏 ---------- */
+  #view-home{ position:relative; overflow:clip; }
   .home-hero{
+    position:relative; z-index:1;
     width:min(100% - 64px, 1440px);
     margin-inline:auto;
     min-height:100vh;
-    max-height:900px;
     display:grid;
     grid-template-columns:40% 60%;
     align-items:center;
     padding-top:var(--nav-h);
     box-sizing:border-box;
   }
+  .home-bg{
+    position:absolute; inset:0 0 auto 0; height:100vh;
+    z-index:0; overflow:hidden;
+    background:#E7DCCC;
+  }
+  .home-bg img{
+    width:100%; height:100%;
+    object-fit:cover; object-position:64% 50%;
+    transform:scale(1.04);
+    will-change:transform;
+  }
+  .home-veil{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(90deg, rgba(247,242,233,.95) 0%, rgba(247,242,233,.84) 20%, rgba(247,242,233,.42) 42%, rgba(247,242,233,0) 62%),
+      linear-gradient(0deg, rgba(247,242,233,.8) 0%, rgba(247,242,233,.12) 22%, rgba(247,242,233,0) 42%);
+  }
   .home-copy{
+    position:relative; z-index:2;
+    grid-column:1 / 2;
     padding-left:clamp(24px, 4vw, 64px);
     padding-right:clamp(16px, 2.5vw, 40px);
     padding-block:clamp(28px, 4vh, 48px);
@@ -254,51 +278,66 @@
   }
   .home-title{
     font-family:var(--serif); font-weight:600; color:var(--ink);
-    font-size:clamp(2.2rem, 4.2vw, 5.5rem);
-    line-height:1.06; letter-spacing:.01em; margin:0 0 22px;
-    text-wrap:balance;
+    font-size:clamp(2.6rem, 5.2vw, 5.75rem);
+    line-height:1.04; letter-spacing:.01em; margin:0 0 24px;
   }
-  .home-title .line{ display:block; }
+  .home-title .line{
+    display:block; overflow:hidden; padding-bottom:.08em; margin-bottom:-.08em;
+  }
+  .home-title .line > span{ display:block; }
   .home-sub{
-    font-size:clamp(1.02rem, 1.25vw, 1.2rem);
-    line-height:1.9; color:var(--ink-2); max-width:22em; margin:0 0 30px;
+    font-size:clamp(1.04rem, 1.35vw, 1.24rem);
+    line-height:1.9; color:#3D372F; max-width:22em; margin:0 0 32px;
   }
   .home-actions{ display:flex; flex-wrap:wrap; gap:12px; }
   .home-meta{
-    display:flex; flex-wrap:wrap; gap:9px 20px; margin-top:36px;
-    font-size:11.5px; letter-spacing:.1em; color:var(--ink-3);
+    display:flex; flex-wrap:wrap; gap:9px 20px; margin-top:38px;
+    font-size:11.5px; letter-spacing:.1em; color:#5C5345;
   }
   .home-meta span{ display:inline-flex; align-items:center; gap:8px; }
   .home-meta span::before{ content:""; width:3px; height:3px; border-radius:50%; background:var(--amber); }
-  .home-media{
-    position:relative; height:100%; min-width:0;
-    display:flex; align-items:center; justify-content:center;
-    padding-block:clamp(20px, 4vh, 48px);
+  .home-credit{
+    position:absolute; right:clamp(20px, 4vw, 40px); bottom:20px; z-index:2;
+    font-size:10.5px; letter-spacing:.06em; color:rgba(58,49,38,.64);
+    text-shadow:0 1px 0 rgba(255,255,255,.35);
   }
-  .home-media::before{
-    content:""; position:absolute; inset:8% 4%;
-    background:radial-gradient(ellipse at 55% 45%, rgba(255,248,232,.85), rgba(232,223,208,.15) 58%, transparent 74%);
-    filter:blur(18px); pointer-events:none;
+  .home-scroll{
+    position:absolute; left:50%; bottom:24px; z-index:2;
+    transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    font-size:9px; letter-spacing:.34em; text-indent:.34em; color:rgba(58,49,38,.58);
   }
-  .home-media figure{
-    position:relative; z-index:1; margin:0; width:100%;
-    display:flex; flex-direction:column; align-items:flex-end; gap:12px;
+  .home-scroll i{
+    display:block; width:1px; height:44px;
+    background:linear-gradient(180deg, rgba(58,49,38,.55), rgba(58,49,38,0));
+    overflow:hidden; position:relative;
   }
-  .home-media img{
-    width:100%; height:auto; max-height:calc(900px - 150px);
-    object-fit:contain;
-    border-radius:3px;
-    box-shadow:0 50px 80px -60px rgba(49,38,24,.6);
+  .home-scroll i::after{
+    content:""; position:absolute; left:0; top:0; width:1px; height:14px;
+    background:var(--amber); animation:scrollCue 2.6s var(--ease) infinite;
   }
-  .home-media figcaption{ text-align:right; padding-right:2px; }
   .home-strip{
-    width:min(100% - 64px, 1440px); margin:0 auto;
+    position:relative; z-index:2;
+    width:100%; background:var(--bg);
     border-top:1px solid var(--line);
+  }
+  .home-strip-inner{
+    width:min(100% - 64px, 1440px); margin:0 auto;
     display:grid; grid-template-columns:repeat(3,1fr);
     gap:24px; padding:22px clamp(24px, 4vw, 64px) 26px;
   }
   .home-strip div{ font-size:12px; color:var(--ink-3); letter-spacing:.06em; }
   .home-strip b{ display:block; color:var(--ink); font-weight:500; font-size:13px; margin-bottom:2px; }
+
+  /* 首屏入场（每次进入首页重新触发） */
+  #view-home.is-intro .home-eyebrow{ animation:fadeUp .9s var(--ease-out) .15s both; }
+  #view-home.is-intro .home-title .line > span{ animation:lineUp 1.15s var(--ease-out) both; }
+  #view-home.is-intro .home-title .line:nth-child(2) > span{ animation-delay:.14s; }
+  #view-home.is-intro .home-sub{ animation:fadeUp .95s var(--ease-out) .5s both; }
+  #view-home.is-intro .home-actions{ animation:fadeUp .95s var(--ease-out) .66s both; }
+  #view-home.is-intro .home-meta{ animation:fadeUp .95s var(--ease-out) .8s both; }
+  #view-home.is-intro .home-bg img{ animation:heroMedia 1.9s var(--ease-out) both; }
+  #view-home.is-intro .home-scroll{ animation:fadeUp 1s var(--ease-out) 1.1s both; }
 
   /* ---------- 内页通用 ---------- */
   .page{
@@ -334,8 +373,10 @@
   }
   .media-row figure img{
     width:100%; height:auto; aspect-ratio:16/11; object-fit:cover;
-    display:block;
+    display:block; transition:transform 1.1s var(--ease-out);
   }
+  .media-row figure:hover img,
+  .tech-grid figure:hover img{ transform:scale(1.035); }
   .media-row figure figcaption{
     position:absolute; left:14px; bottom:12px;
     font-size:10px; letter-spacing:.06em; color:rgba(255,252,244,.9);
@@ -370,6 +411,7 @@
     margin-top:clamp(40px, 6vw, 76px);
     padding-top:clamp(28px, 4vw, 52px);
     border-top:1px solid var(--line);
+    scroll-margin-top:calc(var(--nav-h) + 24px);
   }
   .model-stage{
     position:relative; width:100%; max-width:560px; aspect-ratio:1/1;
@@ -478,7 +520,7 @@
     margin:0; border-radius:20px; overflow:hidden; background:var(--stone);
     box-shadow:0 40px 70px -62px rgba(49,38,24,.6);
   }
-  .tech-grid figure img{ width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; display:block; }
+  .tech-grid figure img{ width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; display:block; transition:transform 1.1s var(--ease-out); }
   .tech-grid figure figcaption{
     position:absolute; left:14px; bottom:12px;
     font-size:10px; letter-spacing:.06em; color:rgba(255,252,244,.9);
@@ -502,9 +544,23 @@
   .flow-step{
     position:relative; padding:18px 16px; border-radius:14px;
     background:var(--paper); border:1px solid var(--line-soft);
+    transition:background .6s ease, border-color .6s ease, box-shadow .6s ease;
+    transition-delay:calc(var(--i, 0) * .14s);
   }
-  .flow-step .n{ display:block; font-size:10px; letter-spacing:.18em; color:var(--ink-3); margin-bottom:8px; }
-  .flow-step b{ font-size:1.05rem; font-weight:500; color:var(--ink); }
+  .flow-step .n{
+    display:block; font-size:10px; letter-spacing:.18em; color:var(--ink-3); margin-bottom:8px;
+    transition:color .6s ease; transition-delay:calc(var(--i, 0) * .14s);
+  }
+  .flow-step b{
+    font-size:1.05rem; font-weight:500; color:var(--ink);
+    transition:color .6s ease; transition-delay:calc(var(--i, 0) * .14s);
+  }
+  .flow-block.is-lit .flow-step{
+    background:#FFFDF8; border-color:rgba(180,123,60,.34);
+    box-shadow:0 20px 44px -36px rgba(180,123,60,.55);
+  }
+  .flow-block.is-lit .flow-step .n{ color:var(--amber-2); }
+  .flow-block.is-lit .flow-step b{ color:var(--ink); }
   .flow-step::after{
     content:"→"; position:absolute; right:-16px; top:50%; transform:translateY(-50%);
     color:var(--amber); font-size:14px;
@@ -628,7 +684,7 @@
       0 44px 85px -44px rgba(58,48,34,.6),
       0 2px 4px rgba(58,48,34,.10),
       inset 0 0 0 1px rgba(255,255,255,.7);
-    animation:phoneBreathe 7s ease-in-out infinite;
+    animation:phoneBreathe 7s ease-in-out infinite, phoneFloat 7s ease-in-out infinite;
   }
   .phone::before,.phone::after{
     content:""; position:absolute; width:3px; border-radius:3px;
@@ -735,6 +791,11 @@
   .modal-fine{ margin-top:16px; text-align:center; font-size:11px; letter-spacing:.08em; color:var(--ink-3); }
 
   /* ---------- 动效 ---------- */
+  @keyframes lineUp{ from{ transform:translateY(112%); } to{ transform:none; } }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(18px); } to{ opacity:1; transform:none; } }
+  @keyframes heroMedia{ from{ opacity:0; transform:scale(1.14); } to{ opacity:1; transform:scale(1.04); } }
+  @keyframes scrollCue{ 0%{ transform:translateY(-14px); opacity:0; } 22%{ opacity:1; } 100%{ transform:translateY(44px); opacity:0; } }
+  @keyframes phoneFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-6px); } }
   @keyframes phoneSheen{ 0%,58%{ transform:translateX(-70%) rotate(2deg); } 78%,100%{ transform:translateX(70%) rotate(2deg); } }
   @keyframes phoneBreathe{
     0%,100%{ box-shadow:0 44px 85px -44px rgba(58,48,34,.6), 0 2px 4px rgba(58,48,34,.10), inset 0 0 0 1px rgba(255,255,255,.7); }
@@ -750,9 +811,6 @@
   .js [data-reveal].in{ opacity:1; transform:none; }
 
   /* ---------- 响应式 ---------- */
-  @media (min-height: 901px){
-    .home-hero{ min-height:900px; height:900px; }
-  }
   @media (max-width: 1100px){
     .nav-links{ gap:14px; }
     .nav-links a{ font-size:12.5px; }
@@ -761,10 +819,22 @@
     .nav-links{ display:none; }
     .nav-burger{ display:flex; }
     .nav-wrap{ gap:12px; }
+    .home-hero{ width:100%; min-height:auto; display:block; padding-top:0; }
+    .home-bg{ position:relative; inset:auto; height:58svh; min-height:380px; }
+    .home-bg img{ object-position:70% 56%; }
+    .home-veil{
+      background:
+        linear-gradient(0deg, var(--bg) 0%, rgba(247,242,233,.35) 16%, rgba(247,242,233,0) 42%),
+        linear-gradient(180deg, rgba(247,242,233,.32) 0%, rgba(247,242,233,0) 22%);
+    }
+    .home-credit{ right:clamp(20px, 4vw, 40px); bottom:14px; font-size:10px; }
+    .home-copy{ padding:32px clamp(20px, 4vw, 40px) 8px; }
+    .home-title{ font-size:clamp(2.8rem, 11vw, 3.8rem); }
+    .home-sub{ margin-bottom:24px; }
+    .home-scroll{ display:none; }
   }
   @media (max-width: 980px){
     .home-copy{ padding-left:clamp(24px, 4vw, 48px); }
-    .home-title{ font-size:clamp(2.2rem, 5vw, 3.4rem); }
     .media-row, .media-row.reverse, .dark-band .media-row{ grid-template-columns:1fr; }
     .dark-band .media-row figure{ order:-1; }
     .model-row{ grid-template-columns:1fr; }
@@ -780,17 +850,21 @@
     .brand-en,.brand-div{ display:none; }
     .nav-cta{ height:34px; padding:0 15px; font-size:12.5px; }
     .home-hero{
-      width:100%; min-height:auto; max-height:none;
-      display:block; padding-top:calc(var(--nav-h) + 20px);
+      width:100%; min-height:auto; display:block; padding-top:0;
     }
-    .home-copy{ padding:0 20px 26px; }
-    .home-title{ font-size:clamp(2.3rem, 10vw, 3.1rem); }
+    .home-bg{ position:relative; inset:auto; height:58svh; min-height:360px; }
+    .home-bg img{ object-position:70% 56%; }
+    .home-veil{
+      background:
+        linear-gradient(0deg, var(--bg) 0%, rgba(247,242,233,.35) 16%, rgba(247,242,233,0) 42%),
+        linear-gradient(180deg, rgba(247,242,233,.35) 0%, rgba(247,242,233,0) 22%);
+    }
+    .home-credit{ right:20px; bottom:14px; font-size:10px; }
+    .home-copy{ padding:30px 20px 8px; }
+    .home-title{ font-size:clamp(2.8rem, 11vw, 3.8rem); }
     .home-sub{ margin-bottom:24px; }
-    .home-media{ padding:0 20px; height:auto; }
-    .home-media figure{ align-items:flex-start; }
-    .home-media img{ max-height:none; border-radius:2px; }
-    .home-media figcaption{ text-align:left; }
-    .home-strip{ width:100%; padding:18px 20px; grid-template-columns:1fr; gap:12px; }
+    .home-scroll{ display:none; }
+    .home-strip-inner{ width:100%; padding:18px 20px; grid-template-columns:1fr; gap:12px; }
     .page{ padding-top:calc(var(--nav-h) + 30px); }
     .media-row figure img{ aspect-ratio:4/3; }
     .dark-band{ border-radius:18px; padding:20px; }
@@ -882,18 +956,24 @@
 <main id="main">
 
   <!-- ================= #/home ================= -->
-  <section class="view is-active" data-view="home" id="view-home" aria-labelledby="homeTitle">
+  <section class="view is-active is-intro" data-view="home" id="view-home" aria-labelledby="homeTitle">
+    <div class="home-bg">
+      <img src="assets/images/hero.jpg" width="2400" height="1350" alt="守护星概念设备置于卧室床头柜的场景视觉" fetchpriority="high" decoding="async">
+      <div class="home-veil" aria-hidden="true"></div>
+      <p class="home-credit">概念视觉 · AI 生成示意图，非实物照片</p>
+    </div>
+
     <div class="home-hero">
       <div class="home-copy">
         <p class="eyebrow">GUARDIAN STAR · 概念产品</p>
-        <h1 class="home-title" id="homeTitle" tabindex="-1"><span class="line">将安心，</span><span class="line">摆在床头。</span></h1>
+        <h1 class="home-title" id="homeTitle" tabindex="-1"><span class="line"><span>将安心，</span></span><span class="line"><span>摆在床头。</span></span></h1>
         <p class="home-sub">让父母安心生活，让牵挂及时抵达。</p>
         <div class="home-actions">
           <a class="btn btn-primary" href="#/experience">
             了解产品机制
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn-ghost" href="#/technology">查看技术边界</a>
+          <a class="btn btn-ghost" href="#/experience" data-scroll-model>看它的样子</a>
         </div>
         <div class="home-meta" aria-label="产品基本属性">
           <span>无屏幕</span>
@@ -902,18 +982,15 @@
         </div>
       </div>
 
-      <div class="home-media">
-        <figure>
-          <img src="assets/images/hero.jpg" width="2400" height="1350" alt="守护星概念设备置于卧室床头柜的场景视觉" fetchpriority="high" decoding="async">
-          <figcaption class="cap">概念视觉 · AI 生成示意图，非实物照片</figcaption>
-        </figure>
-      </div>
+      <div class="home-scroll" aria-hidden="true"><span>SCROLL</span><i></i></div>
     </div>
 
     <div class="home-strip" aria-hidden="true">
-      <div><b>语音先问</b>异常静默时，先开口确认</div>
-      <div><b>单键应答</b>拍一下按键，就够</div>
-      <div><b>状态记录</b>只保留必要信息</div>
+      <div class="home-strip-inner">
+        <div><b>语音先问</b>异常静默时，先开口确认</div>
+        <div><b>单键应答</b>拍一下按键，就够</div>
+        <div><b>状态记录</b>只保留必要信息</div>
+      </div>
     </div>
   </section>
 
@@ -943,7 +1020,7 @@
         </div>
       </div>
 
-      <div class="dark-band">
+      <div class="dark-band" data-reveal>
         <div class="media-row">
           <div class="media-copy" data-reveal>
             <p class="eyebrow">有些牵挂，隔着一座城市</p>
@@ -1041,20 +1118,20 @@
         </figure>
       </div>
 
-      <section class="flow-block" aria-labelledby="flowTitle">
+      <section class="flow-block" aria-labelledby="flowTitle" data-reveal>
         <div class="flow-head">
           <h2 id="flowTitle">设计交互流程</h2>
           <span>DESIGN FLOW · 概念构想</span>
         </div>
         <ol class="flow-3">
-          <li class="flow-step"><span class="n">01</span><b>雷达感知</b></li>
-          <li class="flow-step"><span class="n">02</span><b>语音播报</b></li>
-          <li class="flow-step"><span class="n">03</span><b>状态记录</b></li>
+          <li class="flow-step" style="--i:0"><span class="n">01</span><b>雷达感知</b></li>
+          <li class="flow-step" style="--i:1"><span class="n">02</span><b>语音播报</b></li>
+          <li class="flow-step" style="--i:2"><span class="n">03</span><b>状态记录</b></li>
         </ol>
         <p class="flow-note">雷达感知 → 语音播报 → 状态记录：流程为设计构想，未接通实机验证。</p>
       </section>
 
-      <section class="data-block" aria-labelledby="dataTitle">
+      <section class="data-block" aria-labelledby="dataTitle" data-reveal>
         <h2 id="dataTitle">自检与指标：区分逻辑值与实测</h2>
         <div class="data-card">
           <div class="data-row head"><span>指标</span><span>值 / 状态</span><span>依据</span></div>
@@ -1069,7 +1146,7 @@
         <p class="micro data-note">数据来源：仓库 docs/边界与指标.md、feishu/4_指标验证.csv。「逻辑值」由回归与代码保证，不等于硬件实测结果。</p>
       </section>
 
-      <section class="audit-block" aria-labelledby="auditTitle">
+      <section class="audit-block" aria-labelledby="auditTitle" data-reveal>
         <div class="audit-head">
           <p class="eyebrow" style="margin:0">功能状态清单</p>
           <h2 id="auditTitle">七项功能，全部待硬件实测核验</h2>
@@ -1120,7 +1197,7 @@
         </div>
       </section>
 
-      <section class="faq-block" aria-labelledby="faqTitle">
+      <section class="faq-block" aria-labelledby="faqTitle" data-reveal>
         <h2 id="faqTitle">还有这些疑问。</h2>
         <div class="faq-list">
           <div class="faq-item">
@@ -1271,6 +1348,44 @@
   var views = Array.prototype.slice.call(document.querySelectorAll(".view"));
   var routeLinks = Array.prototype.slice.call(document.querySelectorAll("[data-route-link]"));
   var nav = document.getElementById("siteNav");
+  var homeView = document.getElementById("view-home");
+  var homeBg = document.querySelector(".home-bg");
+  var homeCopy = document.querySelector(".home-copy");
+  var currentRoute = "home";
+  var pendingModel = false;
+
+  function homeParallaxOn(){
+    return !reduceMotion && window.innerWidth > 900 && window.matchMedia("(pointer: fine)").matches;
+  }
+
+  function updateNavState(){
+    var y = window.pageYOffset || 0;
+    nav.classList.toggle("solid", currentRoute !== "home" || y > 12);
+    nav.classList.toggle("scrolled", y > 12);
+  }
+
+  function resetHomeScene(){
+    if (homeBg) homeBg.style.transform = "";
+    if (homeCopy) { homeCopy.style.transform = ""; homeCopy.style.opacity = ""; }
+  }
+
+  function updateHomeScene(){
+    if (currentRoute !== "home" || !homeParallaxOn()) { resetHomeScene(); return; }
+    var y = window.pageYOffset || 0;
+    var vh = window.innerHeight;
+    if (homeBg) homeBg.style.transform = "translate3d(0," + (y * 0.16).toFixed(1) + "px,0)";
+    if (homeCopy) {
+      homeCopy.style.transform = "translate3d(0," + (y * 0.045).toFixed(1) + "px,0)";
+      homeCopy.style.opacity = String(1 - Math.min(y / (vh * 0.72), 1) * 0.85);
+    }
+  }
+
+  function playHomeIntro(){
+    if (!homeView) return;
+    homeView.classList.remove("is-intro");
+    void homeView.offsetWidth;
+    homeView.classList.add("is-intro");
+  }
 
   function parseRoute(){
     var raw = (location.hash || "").replace(/^#\/?/, "").replace(/\/+$/, "");
@@ -1291,6 +1406,7 @@
     if (!validHash) {
       history.replaceState(null, "", "#/" + route);
     }
+    currentRoute = route;
     views.forEach(function(view){
       var active = view.getAttribute("data-view") === route;
       if (active) {
@@ -1306,12 +1422,24 @@
     setActiveLink(route);
     document.title = TITLES[route];
     window.scrollTo(0, 0);
+    if (route === "home") playHomeIntro();
+    updateNavState();
+    updateHomeScene();
     if (!initial) {
       var heading = document.querySelector('#view-' + route + ' h1');
       if (heading) {
         if (!heading.hasAttribute("tabindex")) heading.setAttribute("tabindex", "-1");
         try { heading.focus({ preventScroll: true }); } catch (err) { heading.focus(); }
       }
+    }
+    if (route === "experience" && pendingModel) {
+      pendingModel = false;
+      window.setTimeout(function(){
+        var modelRow = document.querySelector(".model-row");
+        if (modelRow) modelRow.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      }, 420);
+    } else if (route !== "experience") {
+      pendingModel = false;
     }
     closeMenu();
   }
@@ -1468,21 +1596,48 @@
     });
   }
 
-  /* ---------- 导航阴影 / 页脚返回顶部 ---------- */
+  /* ---------- 导航状态 / 首屏视差 / 页脚返回顶部 ---------- */
   var ticking = false;
+  function onScrollFrame(){
+    updateNavState();
+    updateHomeScene();
+    ticking = false;
+  }
   window.addEventListener("scroll", function(){
     if (ticking) return;
     ticking = true;
-    window.requestAnimationFrame(function(){
-      nav.classList.toggle("scrolled", (window.pageYOffset || 0) > 12);
-      ticking = false;
-    });
+    window.requestAnimationFrame(onScrollFrame);
   }, { passive: true });
+  window.addEventListener("resize", function(){
+    updateNavState();
+    updateHomeScene();
+  });
+  updateNavState();
+  updateHomeScene();
+
   var backTop = document.querySelector("[data-scroll-top]");
   if (backTop) backTop.addEventListener("click", function(e){
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   });
+
+  /* ---------- 技术流程：进入视口后依次点亮 ---------- */
+  var flowBlock = document.querySelector(".flow-block");
+  if (flowBlock) {
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      flowBlock.classList.add("is-lit");
+    } else {
+      var flowObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            flowBlock.classList.add("is-lit");
+            flowObserver.unobserve(flowBlock);
+          }
+        });
+      }, { threshold: 0.4 });
+      flowObserver.observe(flowBlock);
+    }
+  }
 
   /* ---------- 启动路由 ---------- */
   Array.prototype.forEach.call(routeLinks, function(link){
@@ -1490,6 +1645,16 @@
       closeMenu(false);
       if (parseRoute() === link.getAttribute("data-route-link")) {
         window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+      }
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-scroll-model]"), function(link){
+    link.addEventListener("click", function(){
+      if (parseRoute() === "experience") {
+        var modelRow = document.querySelector(".model-row");
+        if (modelRow) modelRow.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      } else {
+        pendingModel = true;
       }
     });
   });
