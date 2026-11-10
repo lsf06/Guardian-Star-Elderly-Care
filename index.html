@@ -347,6 +347,32 @@
   .home-strip b{ display:block; color:var(--ink); font-weight:500; font-size:13px; margin-bottom:3px; }
   .home-strip p{ font-size:12px; color:var(--ink-3); letter-spacing:.04em; line-height:1.8; }
 
+  .home-promise{ padding-top:clamp(24px, 3.8vw, 42px); }
+  .home-promise-head{
+    width:min(100% - 64px, 1440px); margin:0 auto;
+    padding:0 clamp(24px, 4vw, 64px);
+  }
+  .home-promise-head .eyebrow{ margin-bottom:10px; }
+  .home-promise-sub{
+    font-size:clamp(1rem, 1.4vw, 1.15rem); line-height:1.8;
+    color:var(--ink-2); max-width:34em;
+  }
+  .home-promise .home-strip-inner{ padding-top:26px; }
+  .home-promise .strip-num{
+    margin-bottom:12px; font-size:9.5px; letter-spacing:.13em;
+    color:var(--ink-3);
+  }
+  .home-promise b{
+    font-family:var(--serif); font-weight:600;
+    font-size:clamp(1.6rem, 2.6vw, 2.2rem); line-height:1.1;
+    color:var(--ink); margin-bottom:6px;
+  }
+  .home-promise-note{
+    width:min(100% - 64px, 1440px); margin:0 auto;
+    padding:0 clamp(24px, 4vw, 64px) 24px;
+    font-size:10.5px; line-height:1.7; color:var(--ink-3);
+  }
+
   /* 首屏入场（每次进入首页重新触发） */
   #view-home.is-intro .home-eyebrow{ animation:fadeUp .9s var(--ease-out) .15s both; }
   #view-home.is-intro .home-title .line > span{ animation:lineUp 1.15s var(--ease-out) both; }
@@ -659,6 +685,11 @@
   .tech-copy{ min-width:0; }
   .tech-copy h2{ font-size:clamp(1.6rem, 2.6vw, 2.4rem); line-height:1.32; margin-bottom:12px; }
   .tech-copy p{ font-size:.9875rem; line-height:1.9; color:var(--ink-2); max-width:26em; }
+  .placement-note{
+    margin-top:12px; padding-left:12px;
+    border-left:2px solid rgba(180,123,60,.45);
+    font-size:11.5px; line-height:1.8; color:var(--ink-3); max-width:30em;
+  }
   @media (max-width: 767.98px){
     .tech-copy h2{ font-size:1.5rem; }
   }
@@ -708,9 +739,8 @@
   /* 验证状态 */
   .verify-block{ margin-block:clamp(36px, 5vw, 64px); }
   .verify-block h2{ font-size:clamp(1.5rem, 2.4vw, 2rem); margin-bottom:6px; }
-  .verify-sub{ font-size:.9375rem; color:var(--ink-2); max-width:40em; line-height:1.85; }
   .verify-grid{
-    display:grid; grid-template-columns:repeat(5, minmax(0,1fr));
+    display:grid; grid-template-columns:repeat(4, minmax(0,1fr));
     gap:10px; margin-top:22px;
   }
   .verify-card{
@@ -1036,6 +1066,8 @@
     .home-sub{ margin-bottom:24px; }
     .home-scroll{ display:none; }
     .home-strip-inner{ width:100%; padding:18px 20px; grid-template-columns:1fr; gap:14px; }
+    .home-promise-head,.home-promise-note{ width:100%; padding-inline:20px; }
+    .home-promise b{ font-size:1.7rem; }
     .home-strip-inner > div{ padding-right:0; }
     .home-strip-inner > div + div{ border-left:0; padding-left:0; border-top:1px solid var(--line-soft); padding-top:14px; }
     .page{ padding-top:calc(var(--nav-h) + 30px); }
@@ -1177,12 +1209,17 @@
       <div class="home-scroll" aria-hidden="true"><span>SCROLL</span><i></i></div>
     </div>
 
-    <div class="home-strip">
-      <div class="home-strip-inner">
-        <div><span class="strip-num">01</span><b>语音先问</b><p>活动状态异常时，先开口确认。</p></div>
-        <div><span class="strip-num">02</span><b>单键应答</b><p>拍一下按键，就够。</p></div>
-        <div><span class="strip-num">03</span><b>状态记录</b><p>只保留必要信息。</p></div>
+    <div class="home-strip home-promise">
+      <div class="home-promise-head">
+        <p class="eyebrow">设计承诺 / DESIGN PROMISE</p>
+        <p class="home-promise-sub">有上限的守护：最坏情况下，多久一定有人知道。</p>
       </div>
+      <div class="home-strip-inner">
+        <div><span class="strip-num">01 · 雷达里消失</span><b>分钟级</b><p>先开口问一句，无人应答再升级。</p></div>
+        <div><span class="strip-num">02 · 人在场但不应答</span><b>小时级</b><p>每日点名兜底，不让沉默持续太久。</p></div>
+        <div><span class="strip-num">03 · 设备掉线 / 被拔掉</span><b>当天</b><p>状态回执缺失，家属当天可发现。</p></div>
+      </div>
+      <p class="home-promise-note">以上为设计目标，非硬件实测；验证状态见技术页，数值定义见仓库文档。</p>
     </div>
   </section>
 
@@ -1390,6 +1427,7 @@
           </div>
         </div>
         <p class="wf-map-note">流程示意图，不代表当前设备已完成全部功能验证。等待时长、回执周期等参数为演示预设，未经实测标定。图中 SOS 为独立求助路径；当前概念模型仅展示中央确认键，按键数量与颜色以最终工业设计为准。</p>
+        <p class="wf-map-note">另有每日点名（设计为 9:00 / 20:00）用于人在场但不应答的兜底，独立于上方异常升级链路。</p>
       </section>
 
       <div class="tech-next" data-reveal>
@@ -1416,7 +1454,8 @@
         <div class="tech-copy" data-reveal style="--d:.08s">
           <p class="eyebrow">01 — 硬件</p>
           <h2>核心硬件组成：<span class="ln">树莓派5 + LD2410C</span></h2>
-          <p>树莓派负责本地判断与音频播放；LD2410C 只提供目标存在与运动信息，不作为健康或跌倒诊断依据。</p>
+          <p>树莓派负责本地判断与音频播放；LD2410C 只提供目标存在与运动信息。</p>
+          <p class="placement-note">摆放建议：2–4 m、高 60–90 cm；LD2410 静止检测从 1.5 m 起，茶几 / 床头柜不适合。</p>
           <div class="chips">
             <span class="chip">24 GHz FMCW</span>
             <span class="chip">本地音频</span>
@@ -1465,7 +1504,6 @@
       <section class="verify-block" aria-labelledby="verifyTitle" data-reveal>
         <p class="eyebrow">验证状态</p>
         <h2 id="verifyTitle">先看验证到哪一步，<span class="ln-m">再看能做什么。</span></h2>
-        <p class="verify-sub">把「代码有」与「硬件通」分开标注，避免把逻辑值误读成实测成绩。</p>
         <div class="verify-grid">
           <article class="verify-card">
             <span class="st ok">已具备</span>
@@ -1486,11 +1524,6 @@
             <span class="st wait">待联调</span>
             <h3>整机联调</h3>
             <p>通信、后端处理与消息推送链路尚未联调。</p>
-          </article>
-          <article class="verify-card">
-            <span class="st no">不支持</span>
-            <h3>跌倒识别</h3>
-            <p>明确不做，不作为医疗诊断依据。</p>
           </article>
         </div>
         <p class="verify-note">代码存在 ≠ 软件回归 ≠ 硬件实测 ≠ 整机联调。指标定义与回归记录见 <a href="https://github.com/lsf06/Guardian-Star-Elderly-Care/tree/main/docs" target="_blank" rel="noopener">GitHub 仓库 docs/</a>。</p>
