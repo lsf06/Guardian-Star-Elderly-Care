@@ -527,6 +527,117 @@
   .model-hint svg{ width:14px; height:14px; color:var(--amber-2); }
   @media (pointer: coarse){ .model-hint{ display:none; } }
 
+  /* ---------- 工作流程 ---------- */
+  .wf-tabs{
+    display:flex; gap:6px; margin-top:6px;
+    border-bottom:1px solid var(--line);
+    overflow-x:auto; scrollbar-width:none;
+  }
+  .wf-tabs::-webkit-scrollbar{ display:none; }
+  .wf-tab{
+    flex:1 0 auto; min-width:112px;
+    padding:15px 14px 14px;
+    border:0; border-bottom:2px solid transparent;
+    background:none; text-align:left; cursor:pointer;
+    transition:border-color .35s ease, background .35s ease;
+  }
+  .wf-tab .wf-num{
+    display:block; font-size:9.5px; letter-spacing:.2em;
+    color:var(--ink-3); margin-bottom:7px; font-variant-numeric:tabular-nums;
+    transition:color .35s ease;
+  }
+  .wf-tab b{
+    display:block; font-size:.9375rem; font-weight:500; color:var(--ink-2);
+    margin-bottom:3px; transition:color .35s ease;
+  }
+  .wf-tab small{ display:block; font-size:10.5px; line-height:1.5; color:var(--ink-3); }
+  .wf-tab.is-active{ border-bottom-color:var(--amber); }
+  .wf-tab.is-active .wf-num{ color:var(--amber-2); }
+  .wf-tab.is-active b{ color:var(--ink); }
+  .wf-tab:hover b{ color:var(--ink); }
+
+  .wf-panels{ margin-top:24px; }
+  .wf-panel{
+    padding:clamp(22px, 3.4vw, 40px);
+    border:1px solid var(--line-soft); border-radius:22px;
+    background:rgba(255,253,248,.6);
+  }
+  .wf-panel[hidden]{ display:none; }
+  .wf-panel-top{ display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:12px; }
+  .wf-panel-top h2{
+    font-size:clamp(1.6rem, 2.9vw, 2.35rem);
+    line-height:1.28; margin:0;
+  }
+  .wf-status{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:4px 11px; border-radius:999px;
+    font-size:10px; font-weight:600; letter-spacing:.06em;
+    background:rgba(25,21,16,.06); color:var(--ink-3);
+  }
+  .wf-status::before{ content:""; width:5px; height:5px; border-radius:50%; background:var(--amber); }
+  .wf-status.is-plan{ background:rgba(25,21,16,.08); color:var(--ink-2); }
+  .wf-status.is-plan::before{ background:var(--ink-3); }
+  .wf-summary{
+    margin-top:12px; max-width:40em;
+    font-size:1rem; line-height:1.9; color:var(--ink-2);
+  }
+  .wf-cols{
+    display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:clamp(18px, 3vw, 36px); margin-top:26px;
+    padding-top:22px; border-top:1px solid var(--line-soft);
+  }
+  .wf-col .wf-k{
+    display:block; margin-bottom:8px;
+    font-size:9.5px; letter-spacing:.18em; color:var(--ink-3);
+  }
+  .wf-col p{ font-size:.9rem; line-height:1.85; color:var(--ink-2); }
+
+  .wf-map{
+    margin-top:clamp(36px, 5vw, 64px);
+    padding:clamp(22px, 3.4vw, 40px);
+    border:1px solid var(--line-soft); border-radius:24px;
+    background:linear-gradient(180deg, #F2EADC, #F7F2E9);
+  }
+  .wf-map-head{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:10px; }
+  .wf-map-head h2{ font-size:clamp(1.45rem, 2.4vw, 2rem); }
+  .wf-map-head span{ font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); }
+  .wf-diagram{ display:flex; align-items:stretch; margin-top:24px; }
+  .wf-node{
+    flex:1; min-width:0;
+    padding:14px;
+    border:1px solid var(--line); border-radius:14px;
+    background:rgba(255,253,248,.7);
+  }
+  .wf-node .n{
+    display:block; font-size:9.5px; letter-spacing:.18em;
+    color:var(--ink-3); margin-bottom:8px; font-variant-numeric:tabular-nums;
+  }
+  .wf-node b{ display:block; font-size:.9rem; font-weight:500; color:var(--ink); line-height:1.4; }
+  .wf-node small{ display:block; margin-top:4px; font-size:10px; line-height:1.6; color:var(--ink-3); }
+  .wf-node.is-decision{ border-style:dashed; background:rgba(255,253,248,.35); }
+  .wf-node.is-decision b{ font-family:var(--serif); font-weight:600; }
+  .wf-arrow{ flex:0 0 26px; display:grid; place-items:center; color:var(--amber); font-size:13px; }
+  .wf-branch{
+    display:flex; align-items:flex-start; gap:12px;
+    margin-top:14px; padding:14px 16px;
+    border:1px dashed rgba(180,123,60,.42); border-radius:14px;
+    background:rgba(243,230,210,.35);
+  }
+  .wf-sos-dot{ width:8px; height:8px; border-radius:50%; background:var(--amber); margin-top:6px; flex:0 0 auto; }
+  .wf-branch b{ display:block; font-size:.9rem; font-weight:500; color:var(--ink); margin-bottom:3px; }
+  .wf-branch p{ font-size:11px; line-height:1.75; color:var(--ink-2); }
+  .wf-map-note{ margin-top:14px; font-size:11px; line-height:1.85; color:var(--ink-3); }
+
+  .tech-next{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    gap:16px; margin-block:clamp(30px, 4.5vw, 52px);
+    padding:18px 22px;
+    border:1px solid var(--line-soft); border-radius:16px;
+    background:rgba(255,253,248,.5);
+  }
+  .tech-next p{ font-size:.9375rem; color:var(--ink-2); }
+  .tech-next .btn{ height:44px; padding:0 22px; font-size:13.5px; }
+
   /* ---------- 硬核技术 ---------- */
   .tech-grid{
     display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
@@ -551,43 +662,6 @@
   @media (max-width: 767.98px){
     .tech-copy h2{ font-size:1.5rem; }
   }
-
-  .flow-block{
-    margin-block:clamp(36px, 5vw, 64px);
-    padding:clamp(22px, 3.4vw, 40px);
-    border:1px solid var(--line-soft); border-radius:22px;
-    background:rgba(255,253,248,.55);
-  }
-  .flow-head{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:22px; }
-  .flow-head h2{ font-size:clamp(1.4rem, 2.2vw, 1.9rem); }
-  .flow-head span{ font-size:11px; letter-spacing:.14em; color:var(--ink-3); }
-  .flow-3{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-  .flow-step{
-    position:relative; padding:18px 16px; border-radius:14px;
-    background:var(--paper); border:1px solid var(--line-soft);
-    transition:background .6s ease, border-color .6s ease, box-shadow .6s ease;
-    transition-delay:calc(var(--i, 0) * .14s);
-  }
-  .flow-step .n{
-    display:block; font-size:10px; letter-spacing:.18em; color:var(--ink-3); margin-bottom:8px;
-    transition:color .6s ease; transition-delay:calc(var(--i, 0) * .14s);
-  }
-  .flow-step b{
-    font-size:1.05rem; font-weight:500; color:var(--ink);
-    transition:color .6s ease; transition-delay:calc(var(--i, 0) * .14s);
-  }
-  .flow-block.is-lit .flow-step{
-    background:#FFFDF8; border-color:rgba(180,123,60,.34);
-    box-shadow:0 20px 44px -36px rgba(180,123,60,.55);
-  }
-  .flow-block.is-lit .flow-step .n{ color:var(--amber-2); }
-  .flow-block.is-lit .flow-step b{ color:var(--ink); }
-  .flow-step::after{
-    content:"→"; position:absolute; right:-16px; top:50%; transform:translateY(-50%);
-    color:var(--amber); font-size:14px;
-  }
-  .flow-step:last-child::after{ content:""; }
-  .flow-note{ margin-top:14px; font-size:11px; letter-spacing:.04em; color:var(--ink-3); }
 
   /* 系统架构（深色技术区） */
   .arch-band{
@@ -973,8 +1047,24 @@
     .arch-node{ padding:12px 14px; }
     .verify-grid{ grid-template-columns:1fr; }
     .model-stage{ max-width:min(380px, 88vw); }
-    .flow-3{ grid-template-columns:1fr; }
-    .flow-step::after{ content:"↓"; right:auto; left:50%; top:auto; bottom:-19px; transform:translateX(-50%); }
+    .wf-tabs{ display:grid; grid-template-columns:1fr 1fr; gap:8px; border-bottom:0; overflow:visible; }
+    .wf-tab{
+      min-width:0; padding:11px 12px;
+      border:1px solid var(--line-soft); border-radius:12px;
+      background:rgba(255,253,248,.5);
+    }
+    .wf-tab.is-active{
+      border-color:rgba(180,123,60,.45);
+      background:rgba(243,230,210,.48);
+    }
+    .wf-tab:last-child{ grid-column:1 / -1; }
+    .wf-tab .wf-num{ margin-bottom:5px; }
+    .wf-panel{ padding:20px; }
+    .wf-cols{ grid-template-columns:1fr; gap:16px; margin-top:20px; padding-top:18px; }
+    .wf-diagram{ flex-direction:column; }
+    .wf-arrow{ height:18px; transform:rotate(90deg); }
+    .wf-node{ padding:12px 14px; }
+    .tech-next{ flex-direction:column; align-items:flex-start; }
     .audit li{ grid-template-columns:1fr; gap:8px; padding:15px 0; }
     .audit-idx{ padding:0; }
     .audit .tag{ justify-self:start; }
@@ -1031,6 +1121,7 @@
     <nav class="nav-links" aria-label="站点导航">
       <a href="#/home" data-route-link="home">首页</a>
       <a href="#/experience" data-route-link="experience">产品体验</a>
+      <a href="#/workflow" data-route-link="workflow">工作流程</a>
       <a href="#/technology" data-route-link="technology">硬核技术</a>
       <a href="#/app" data-route-link="app">家属端</a>
     </nav>
@@ -1048,6 +1139,7 @@
 <nav class="mobile-menu" id="mobileMenu" aria-label="移动端站点导航" hidden>
   <a href="#/home" data-route-link="home">首页</a>
   <a href="#/experience" data-route-link="experience">产品体验</a>
+  <a href="#/workflow" data-route-link="workflow">工作流程</a>
   <a href="#/technology" data-route-link="technology">硬核技术</a>
   <a href="#/app" data-route-link="app">家属端</a>
   <button class="m-cta" type="button" data-open-reserve>体验说明（演示）</button>
@@ -1111,7 +1203,7 @@
         <div class="media-copy" data-reveal style="--d:.08s">
           <p class="eyebrow">01 — 语音</p>
           <h2>设备主动语音播报</h2>
-          <p>当活动状态持续满足预设触发条件时，设备播放预录语音，邀请老人通过实体按键确认。</p>
+          <p>预录语音先问一句，邀请老人按键确认，而不是直接通知家属。</p>
           <div class="chips">
             <span class="chip">预录语音</span>
             <span class="chip">本地播放</span>
@@ -1171,6 +1263,138 @@
             移动鼠标 · 观察光影变化
           </span>
         </div>
+      </div>
+
+      <div class="tech-next" data-reveal>
+        <p>下一步：完整的异常确认与升级流程。</p>
+        <a class="btn btn-ghost" href="#/workflow">查看工作流程 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= #/workflow ================= -->
+  <section class="view page" data-view="workflow" id="view-workflow" aria-labelledby="wfTitle" hidden>
+    <div class="page-wrap">
+      <header class="page-head">
+        <p class="eyebrow">工作流程</p>
+        <h1 class="page-title" id="wfTitle" tabindex="-1">从日常守护，<span class="ln-m">到紧急介入。</span></h1>
+        <p class="page-sub">五个阶段，看清设备、系统与家属端各自做什么。</p>
+      </header>
+
+      <div class="wf-tabs" role="tablist" aria-label="工作流程阶段">
+        <button class="wf-tab is-active" role="tab" type="button" id="wfTab1" aria-controls="wfPanel1" aria-selected="true" tabindex="0">
+          <span class="wf-num">01</span><b>日常感知</b><small>雷达 + 门磁</small>
+        </button>
+        <button class="wf-tab" role="tab" type="button" id="wfTab2" aria-controls="wfPanel2" aria-selected="false" tabindex="-1">
+          <span class="wf-num">02</span><b>异常确认</b><small>语音 + 按键</small>
+        </button>
+        <button class="wf-tab" role="tab" type="button" id="wfTab3" aria-controls="wfPanel3" aria-selected="false" tabindex="-1">
+          <span class="wf-num">03</span><b>无响应升级</b><small>家属通知</small>
+        </button>
+        <button class="wf-tab" role="tab" type="button" id="wfTab4" aria-controls="wfPanel4" aria-selected="false" tabindex="-1">
+          <span class="wf-num">04</span><b>主动求助</b><small>SOS 按键</small>
+        </button>
+        <button class="wf-tab" role="tab" type="button" id="wfTab5" aria-controls="wfPanel5" aria-selected="false" tabindex="-1">
+          <span class="wf-num">05</span><b>日常陪伴</b><small>规划功能</small>
+        </button>
+      </div>
+
+      <div class="wf-panels">
+        <div class="wf-panel" role="tabpanel" id="wfPanel1" aria-labelledby="wfTab1" tabindex="0">
+          <div class="wf-panel-top">
+            <h2>日常感知</h2>
+            <span class="wf-status">设计流程 · 待实测</span>
+          </div>
+          <p class="wf-summary">先把房间里的活动，变成可参考的日常基线。</p>
+          <div class="wf-cols">
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>毫米波雷达持续输出存在与运动信息；门磁记录门体开合事件。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>两类信号共同作为居家状态判断的参考，不单独作为“外出”或“出事”的结论。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>无异常时不打扰，只保留必要的状态记录。</p></div>
+          </div>
+        </div>
+
+        <div class="wf-panel" role="tabpanel" id="wfPanel2" aria-labelledby="wfTab2" tabindex="0" hidden>
+          <div class="wf-panel-top">
+            <h2>异常确认</h2>
+            <span class="wf-status">演示流程 · 参数待标定</span>
+          </div>
+          <p class="wf-summary">先问一句，而不是直接报警。</p>
+          <div class="wf-cols">
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>扬声器播放预录语音；确认按键（设计）作为老人的回应入口。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>活动状态持续满足预设条件时，设备邀请老人按键确认；等待时长为演示预设。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>未确认前不向家属推送；确认后记录事件，按规则恢复日常感知。</p></div>
+          </div>
+        </div>
+
+        <div class="wf-panel" role="tabpanel" id="wfPanel3" aria-labelledby="wfTab3" tabindex="0" hidden>
+          <div class="wf-panel-top">
+            <h2>无响应升级</h2>
+            <span class="wf-status">设计链路 · 待联调</span>
+          </div>
+          <p class="wf-summary">把“没有回应”变成“待家属核实”，而不是医学判断。</p>
+          <div class="wf-cols">
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>Wi-Fi 通信与家属端通知为设计架构。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>超过预设等待时间仍未确认，按规则升级为待家属核实的异常事件；不做医学意义上的高危判定。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>家属端提示“状态待核实”；实际可达性以通信、后端与推送联调结果为准。</p></div>
+          </div>
+        </div>
+
+        <div class="wf-panel" role="tabpanel" id="wfPanel4" aria-labelledby="wfTab4" tabindex="0" hidden>
+          <div class="wf-panel-top">
+            <h2>主动求助</h2>
+            <span class="wf-status">设计功能 · 待实测</span>
+          </div>
+          <p class="wf-summary">SOS 是独立入口，不等到无响应升级之后才出现。</p>
+          <div class="wf-cols">
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>独立 SOS 实体按键（设计）。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>本地呼救与远程通知是两条独立链路；本地优先，远程依赖网络、服务与失败处理。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>远程通知待联调；未完成前不宣称“必然送达”。</p></div>
+          </div>
+        </div>
+
+        <div class="wf-panel" role="tabpanel" id="wfPanel5" aria-labelledby="wfTab5" tabindex="0" hidden>
+          <div class="wf-panel-top">
+            <h2>日常陪伴</h2>
+            <span class="wf-status is-plan">演示功能 · 模型待装</span>
+          </div>
+          <p class="wf-summary">陪伴是附加价值，不参与安全判定。</p>
+          <div class="wf-cols">
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>USB 麦克风（演示用，尚未装配）。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>离线识别与大模型对话链路已在代码中打通；麦克风、离线模型与云端服务尚未装配完成。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>家属端不展示闲聊内容；语音不参与异常判定与升级。</p></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="wf-map" aria-labelledby="wfMapTitle" data-reveal>
+        <div class="wf-map-head">
+          <h2 id="wfMapTitle">异常确认，不是一次报警。</h2>
+          <span>DECISION FLOW · 设计示意</span>
+        </div>
+        <div class="wf-diagram">
+          <div class="wf-node"><span class="n">01</span><b>雷达 + 门磁</b><small>持续感知</small></div>
+          <span class="wf-arrow" aria-hidden="true">→</span>
+          <div class="wf-node is-decision"><span class="n">?</span><b>满足预设条件？</b><small>否 · 继续日常感知</small></div>
+          <span class="wf-arrow" aria-hidden="true">→</span>
+          <div class="wf-node"><span class="n">02</span><b>语音提醒</b><small>邀请按键确认</small></div>
+          <span class="wf-arrow" aria-hidden="true">→</span>
+          <div class="wf-node is-decision"><span class="n">?</span><b>按键确认？</b><small>是 · 记录事件<br>未确认 · 升级</small></div>
+          <span class="wf-arrow" aria-hidden="true">→</span>
+          <div class="wf-node"><span class="n">03</span><b>按规则升级</b><small>家属通知 / 核实</small></div>
+        </div>
+        <div class="wf-branch">
+          <span class="wf-sos-dot" aria-hidden="true"></span>
+          <div>
+            <b>独立路径 · SOS 主动求助</b>
+            <p>本地呼救与家属通知为两条独立链路；远程通知以实际服务回执为准，未完成联调前不宣称必达。</p>
+          </div>
+        </div>
+        <p class="wf-map-note">流程示意图，不代表当前设备已完成全部功能验证。等待时长、回执周期等参数为演示预设，未经实测标定。图中 SOS 为独立求助路径；当前概念模型仅展示中央确认键，按键数量与颜色以最终工业设计为准。</p>
+      </section>
+
+      <div class="tech-next" data-reveal>
+        <p>想先看验证到哪一步？</p>
+        <a class="btn btn-ghost" href="#/technology">查看技术边界 →</a>
       </div>
     </div>
   </section>
@@ -1233,18 +1457,10 @@
         <p class="arch-note">虚线节点为设计架构，尚未完成真实通信、后端处理与消息推送联调。</p>
       </section>
 
-      <section class="flow-block" aria-labelledby="flowTitle" data-reveal>
-        <div class="flow-head">
-          <h2 id="flowTitle">设计交互流程</h2>
-          <span>DESIGN FLOW · 概念构想</span>
-        </div>
-        <ol class="flow-3">
-          <li class="flow-step" style="--i:0"><span class="n">01</span><b>雷达感知</b></li>
-          <li class="flow-step" style="--i:1"><span class="n">02</span><b>语音播报</b></li>
-          <li class="flow-step" style="--i:2"><span class="n">03</span><b>状态记录</b></li>
-        </ol>
-        <p class="flow-note">雷达感知 → 语音播报 → 状态记录：流程为设计构想，未接通实机验证。</p>
-      </section>
+      <div class="tech-next" data-reveal>
+        <p>完整的异常确认与升级流程，已在「工作流程」页单独展开。</p>
+        <a class="btn btn-ghost" href="#/workflow">查看工作流程 →</a>
+      </div>
 
       <section class="verify-block" aria-labelledby="verifyTitle" data-reveal>
         <p class="eyebrow">验证状态</p>
@@ -1394,7 +1610,7 @@
                     <span class="pdot"></span>
                     <div>
                       <p class="pc-t">设备状态正常</p>
-                      <p class="pc-s">设备在线 · 09:00 已收到状态回执</p>
+                      <p class="pc-s">设备在线 · 最近回执 09:00</p>
                     </div>
                   </div>
                   <div class="pcard alert">
@@ -1407,8 +1623,8 @@
                 </div>
                 <p class="pstate-note">设备状态不代表老人健康状态。</p>
                 <div class="ptime">
-                  <div class="ptime-row on"><time>09:00</time><span class="ptime-dot"></span><span>状态回执已收到</span></div>
-                  <div class="ptime-row"><time>20:00</time><span class="ptime-dot"></span><span>状态回执待确认</span></div>
+                  <div class="ptime-row on"><time>09:00</time><span class="ptime-dot"></span><span>设备状态回执</span></div>
+                  <div class="ptime-row"><time>20:00</time><span class="ptime-dot"></span><span>下一次回执（计划）</span></div>
                 </div>
                 <p class="papp-note">概念界面 · 非真实数据</p>
               </div>
@@ -1444,6 +1660,7 @@
       <nav class="foot-links" aria-label="页脚导航">
         <a href="#/home">首页</a>
         <a href="#/experience">产品体验</a>
+        <a href="#/workflow">工作流程</a>
         <a href="#/technology">硬核技术</a>
         <a href="#/app">家属端</a>
         <a href="#top" data-scroll-top>返回顶部 ↑</a>
@@ -1477,10 +1694,11 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Hash 路由 ---------- */
-  var ROUTES = ["home", "experience", "technology", "app"];
+  var ROUTES = ["home", "experience", "workflow", "technology", "app"];
   var TITLES = {
     home: "守护星 GUARDIAN STAR — 将安心，摆在床头",
     experience: "产品体验 · 守护星 GUARDIAN STAR",
+    workflow: "工作流程 · 守护星 GUARDIAN STAR",
     technology: "硬核技术 · 守护星 GUARDIAN STAR",
     app: "家属端 · 守护星 GUARDIAN STAR"
   };
@@ -1770,22 +1988,34 @@
     window.scrollTo(0, 0);
   });
 
-  /* ---------- 技术流程：进入视口后依次点亮 ---------- */
-  var flowBlock = document.querySelector(".flow-block");
-  if (flowBlock) {
-    if (reduceMotion || !("IntersectionObserver" in window)) {
-      flowBlock.classList.add("is-lit");
-    } else {
-      var flowObserver = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if (entry.isIntersecting) {
-            flowBlock.classList.add("is-lit");
-            flowObserver.unobserve(flowBlock);
-          }
-        });
-      }, { threshold: 0.4 });
-      flowObserver.observe(flowBlock);
-    }
+  /* ---------- 工作流程：阶段切换 ---------- */
+  var wfTabs = Array.prototype.slice.call(document.querySelectorAll(".wf-tab"));
+  var wfPanels = Array.prototype.slice.call(document.querySelectorAll(".wf-panel"));
+  function activateWf(index, focusTab){
+    wfTabs.forEach(function(tab, i){
+      var on = i === index;
+      tab.classList.toggle("is-active", on);
+      tab.setAttribute("aria-selected", String(on));
+      tab.tabIndex = on ? 0 : -1;
+    });
+    wfPanels.forEach(function(panel, i){
+      panel.hidden = i !== index;
+    });
+    if (focusTab && wfTabs[index]) wfTabs[index].focus();
+  }
+  if (wfTabs.length && wfPanels.length) {
+    wfTabs.forEach(function(tab, i){
+      tab.addEventListener("click", function(){ activateWf(i, false); });
+      tab.addEventListener("keydown", function(e){
+        var next = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (i + 1) % wfTabs.length;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (i - 1 + wfTabs.length) % wfTabs.length;
+        else if (e.key === "Home") next = 0;
+        else if (e.key === "End") next = wfTabs.length - 1;
+        if (next !== null) { e.preventDefault(); activateWf(next, true); }
+      });
+    });
+    activateWf(0, false);
   }
 
   /* ---------- 启动路由 ---------- */
