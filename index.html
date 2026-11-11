@@ -614,6 +614,38 @@
     box-shadow:0 0 0 3px rgba(170,47,40,.40), 0 34px 70px -50px rgba(58,48,34,.55);
   }
   .photo-stage .stage-cap{ position:static; margin-top:10px; }
+  .model-stage-3d{
+    aspect-ratio:1 / 1; perspective:none; max-width:560px;
+  }
+  .model-3d{
+    position:relative; width:100%; height:100%;
+    border-radius:24px; overflow:hidden;
+    background:radial-gradient(120% 100% at 50% 0%, #F3EADB 0%, #E8DBC8 55%, #D9CAB4 100%);
+    box-shadow:0 34px 70px -50px rgba(58,48,34,.55), 0 2px 4px rgba(58,48,34,.10);
+  }
+  .model-3d::after{
+    content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:radial-gradient(80% 70% at 50% 45%, transparent 55%, rgba(80,64,45,.10) 100%);
+  }
+  .model-3d canvas{
+    display:block; width:100%; height:100%;
+    cursor:grab; touch-action:none;
+  }
+  .model-3d canvas:active{ cursor:grabbing; }
+  .model-fallback{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; display:block;
+  }
+  .model-actions{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+  .model-action{
+    appearance:none; border:1px solid var(--line); background:rgba(255,253,248,.65);
+    border-radius:999px; padding:8px 13px; font:inherit; font-size:12px;
+    letter-spacing:.02em; color:var(--ink-2); cursor:pointer;
+    transition:background .25s ease, border-color .25s ease, color .25s ease;
+  }
+  .model-action:hover{ background:#FFFDF8; border-color:rgba(180,123,60,.38); color:var(--ink); }
+  .model-action:focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+  .model-stage-3d .stage-cap{ position:static; margin-top:10px; }
   .stage-cap{
     position:absolute; left:0; right:0; bottom:1%;
     text-align:center; font-size:10.5px; letter-spacing:.1em; color:var(--ink-3);
@@ -1375,29 +1407,32 @@
       </div>
 
       <div class="model-row">
-        <div class="model-stage photo-stage" data-reveal>
-          <div class="model-photo-wrap" id="modelDisc" role="group" aria-label="守护星产品近景：米灰色圆形机身，中央是确认键，右下是红色 SOS 键；无屏幕、无摄像头。">
-            <img class="model-photo" src="assets/images/detail.jpg" width="970" height="695" alt="守护星双键产品近景：中央确认键与红色 SOS 键、磨砂机身与暖色分缝" decoding="async">
-            <button class="photo-hot photo-hot-confirm" type="button" id="discConfirm" aria-label="演示：按下确认键"></button>
-            <button class="photo-hot photo-hot-sos" type="button" id="discSos" aria-label="演示：按下红色 SOS 求助键"></button>
+        <div class="model-stage model-stage-3d" data-reveal>
+          <div class="model-3d" id="model3d" role="group" aria-label="守护星产品 3D 概念模型：米灰色圆盘机身，中央确认键，右下红色 SOS 键；可拖动旋转。">
+            <canvas id="model3dCanvas" aria-hidden="true"></canvas>
+            <img class="model-fallback" id="model3dFallback" src="assets/images/detail.jpg" width="970" height="695" alt="守护星双键产品近景（3D 不可用时的替代图）" hidden>
           </div>
-          <p class="stage-cap">产品近景 · AI 生成概念图，非实物照片</p>
+          <p class="stage-cap">产品 3D 概念模型 · 拖动旋转，非工程扫描</p>
         </div>
 
         <div class="model-copy" data-reveal style="--d:.08s">
-          <p class="eyebrow">03 — 近景</p>
-          <h2>看清两个按键。</h2>
-          <p class="model-note">第二张产品图的近景；不是工程模型，按键位置以实拍为准。</p>
+          <p class="eyebrow">03 — 3D</p>
+          <h2>转过来，看清两个按键。</h2>
+          <p class="model-note">按第二张实物图做的 3D 概念模型；可拖动旋转，颜色与按键位置以实拍为准，非工程扫描。</p>
           <div class="chips">
             <span class="chip">确认键</span>
             <span class="chip">红色 SOS</span>
             <span class="chip">无屏幕</span>
           </div>
+          <div class="model-actions">
+            <button type="button" class="model-action" data-model-action="confirm">确认键演示</button>
+            <button type="button" class="model-action" data-model-action="sos">SOS 演示</button>
+          </div>
           <span class="model-hint">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l6.5 17 2.2-7.3L21 10.5z"/></svg>
-            点按按键试交互
+            拖动旋转 · 点按按键
           </span>
-          <p class="model-demo" id="modelDemoNote" aria-live="polite">点按按键试试：界面演示，不代表硬件实测。</p>
+          <p class="model-demo" id="modelDemoNote" aria-live="polite">拖动旋转，点按按键试试：界面演示，不代表硬件实测。</p>
         </div>
       </div>
 
@@ -2174,8 +2209,7 @@
     });
   }
 
-  /* ---------- 产品近景：点按按键演示 ---------- */
-  var disc = document.getElementById("modelDisc");
+  /* ---------- 产品 3D：由 assets/js/model3d.js 初始化 ---------- */
 
   /* ---------- 家属端：日常 / 待核实切换 ---------- */
   var stateBtns = Array.prototype.slice.call(document.querySelectorAll("[data-app-state]"));
@@ -2194,25 +2228,6 @@
     btn.addEventListener("click", function(){ setAppState(btn.getAttribute("data-app-state")); });
   });
   if (stateBtns.length && statePanels.length) setAppState("normal");
-
-  /* ---------- 按键演示：点按确认 / SOS ---------- */
-  var discConfirm = document.getElementById("discConfirm");
-  var discSos = document.getElementById("discSos");
-  var modelDemoNote = document.getElementById("modelDemoNote");
-  if (disc && discConfirm && discSos && modelDemoNote) {
-    discConfirm.addEventListener("click", function(){
-      disc.classList.remove("is-sos");
-      disc.classList.add("is-confirmed");
-      modelDemoNote.textContent = "已记录一次确认 · 界面演示，不代表硬件实测";
-      window.setTimeout(function(){ disc.classList.remove("is-confirmed"); }, 1400);
-    });
-    discSos.addEventListener("click", function(){
-      disc.classList.remove("is-confirmed");
-      disc.classList.add("is-sos");
-      modelDemoNote.textContent = "SOS 演示 · 本地呼救优先，远程通知待联调";
-      window.setTimeout(function(){ disc.classList.remove("is-sos"); }, 1800);
-    });
-  }
 
   /* ---------- 导航状态 / 首屏视差 / 页脚返回顶部 ---------- */
   var ticking = false;
@@ -2302,5 +2317,8 @@
   showRoute(initial, true);
 })();
 </script>
+<script src="assets/vendor/three.min.js"></script>
+<script src="assets/js/model-top-data.js"></script>
+<script src="assets/js/model3d.js"></script>
 </body>
 </html>
