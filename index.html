@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>守护星 GUARDIAN STAR — 将安心，摆在床头</title>
+<title>守护星 GUARDIAN STAR — 将安心，留在卧室</title>
 <meta name="description" content="守护星是一款面向独居老人场景的居家状态确认终端概念。本页面为产品概念展示，功能状态以硬件实测核验为准。">
 <meta name="theme-color" content="#F7F2E9">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/">
-<meta property="og:title" content="守护星 GUARDIAN STAR — 将安心，摆在床头">
+<meta property="og:title" content="守护星 GUARDIAN STAR — 将安心，留在卧室">
 <meta property="og:description" content="产品概念展示：无屏幕、无摄像头、确认键 + 红色 SOS。功能状态待硬件实测核验。">
 <meta property="og:image" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/assets/images/hero.jpg">
 <meta property="og:image:width" content="2400">
@@ -304,10 +304,16 @@
   }
   .home-meta span{ display:inline-flex; align-items:center; gap:8px; }
   .home-meta span::before{ content:""; width:3px; height:3px; border-radius:50%; background:var(--amber); }
+  .home-placement{
+    margin-top:14px; font-size:11px; line-height:1.6;
+    color:#6A6153; letter-spacing:.02em;
+  }
   .home-credit{
     position:absolute; right:clamp(20px, 4vw, 40px); bottom:20px; z-index:2;
-    font-size:10.5px; letter-spacing:.06em; color:rgba(58,49,38,.64);
-    text-shadow:0 1px 0 rgba(255,255,255,.35);
+    display:inline-flex; align-items:center;
+    padding:6px 10px; border:1px solid rgba(58,49,38,.16); border-radius:999px;
+    background:rgba(247,242,233,.78); backdrop-filter:blur(4px);
+    font-size:10px; letter-spacing:.04em; color:rgba(58,49,38,.78);
   }
   .home-scroll{
     position:absolute; left:50%; bottom:24px; z-index:2;
@@ -1254,15 +1260,15 @@
   <!-- ================= #/home ================= -->
   <section class="view is-active is-intro" data-view="home" id="view-home" aria-labelledby="homeTitle">
     <div class="home-bg">
-      <img src="assets/images/hero.jpg" width="2400" height="1350" alt="守护星概念设备置于卧室床头柜，中央确认键与红色 SOS 键清晰可见" fetchpriority="high" decoding="async">
+      <img src="assets/images/hero.jpg" width="2400" height="1350" alt="守护星概念设备置于卧室场景，中央确认键与红色 SOS 键清晰可见（概念示意，非安装位置）" fetchpriority="high" decoding="async">
       <div class="home-veil" aria-hidden="true"></div>
-      <p class="home-credit">概念视觉 · AI 生成示意图，非实物照片</p>
+      <p class="home-credit">场景示意 · 非安装位置 · AI 生成</p>
     </div>
 
     <div class="home-hero">
       <div class="home-copy">
         <p class="eyebrow">GUARDIAN STAR · HOME CARE DEVICE</p>
-        <h1 class="home-title" id="homeTitle" tabindex="-1"><span class="line"><span>将安心，</span></span><span class="line"><span>摆在床头。</span></span></h1>
+        <h1 class="home-title" id="homeTitle" tabindex="-1"><span class="line"><span>将安心，</span></span><span class="line"><span>留在卧室。</span></span></h1>
         <p class="home-sub">让父母安心生活，让牵挂及时抵达。</p>
         <div class="home-actions">
           <a class="btn btn-primary" href="#/workflow">
@@ -1276,6 +1282,7 @@
           <span>无摄像头</span>
           <span>确认键 + SOS</span>
         </div>
+        <p class="home-placement">摆放建议：离床 2–4 m，别放床头柜 / 茶几。</p>
       </div>
 
       <div class="home-scroll" aria-hidden="true"><span>SCROLL</span><i></i></div>
@@ -1291,7 +1298,7 @@
         <div><span class="strip-num">02 · 人在场但不应答</span><b>约 13 小时</b><p>每日点名兜底，不让沉默持续太久。</p></div>
         <div><span class="strip-num">03 · 设备掉线 / 被拔掉</span><b>当天</b><p>状态回执缺失，家属当天可发现。</p></div>
       </div>
-      <p class="home-promise-note">以上为设计目标，非硬件实测；2 分钟 / 13 小时为逻辑推算，实际以整机联调为准。定义见仓库文档与「验证边界」页。</p>
+      <p class="home-promise-note">以上为设计目标，非硬件实测；2 分钟 / 13 小时为逻辑推算，基于推荐摆位与默认参数，实际以整机联调为准。定义见仓库文档与「验证边界」页。</p>
     </div>
   </section>
 
@@ -1333,8 +1340,8 @@
             </div>
           </div>
           <figure data-reveal style="--d:.08s">
-            <img src="assets/images/scene.jpg" width="1800" height="1200" alt="一位老人坐在床边，身旁放着守护星概念设备的情景示意" decoding="async">
-            <figcaption>情景示意 · AI 生成</figcaption>
+            <img src="assets/images/scene.jpg" width="1800" height="1200" alt="一位老人坐在床边，守护星概念设备置于画面桌面（情景示意，非安装位置）" decoding="async">
+            <figcaption>情景示意 · AI 生成，非安装示意</figcaption>
           </figure>
         </div>
       </div>
@@ -1517,7 +1524,7 @@
           <p class="eyebrow">01 — 硬件</p>
           <h2>核心硬件组成：<span class="ln">树莓派5 + LD2410C</span></h2>
           <p>树莓派负责本地判断与音频播放；LD2410C 只提供目标存在与运动信息。</p>
-          <p class="placement-note">摆放建议：2–4 m、高 60–90 cm；LD2410 静止检测从 1.5 m 起，茶几 / 床头柜不适合。</p>
+          <p class="placement-note">摆放建议：2–4 m、高 60–90 cm；本方案默认关闭 0–1.5 m 的静止门限，静止检测实际从 1.5 m 起；床头柜 / 茶几不适合。</p>
           <div class="chips">
             <span class="chip">24 GHz FMCW</span>
             <span class="chip">本地音频</span>
@@ -1587,7 +1594,7 @@
 
       <div class="limits" data-reveal>
         <span>单房间覆盖</span>
-        <span>1.5 m 内不可用</span>
+        <span>1.5 m 内不可用（默认配置）</span>
         <span>不识别跌倒</span>
         <span>断电即失效</span>
         <span>不替代急救</span>
@@ -1705,7 +1712,7 @@
               </button>
             </h3>
             <div class="faq-a" id="faqA3" role="region" aria-labelledby="faqQ3">
-              <div><p>不建议。雷达对静止目标的检测从 1.5 m 起；床头柜、茶几通常太近，容易漏掉躺着或坐着不动的人。建议放在 2–4 m 远、离地 60–90 cm 的位置，中间不要有柜门或墙壁遮挡。</p></div>
+              <div><p>不建议。本方案默认关闭 0–1.5 m 的静止门限；床头柜、茶几通常太近，容易漏掉躺着或坐着不动的人。建议放在 2–4 m 远、离地 60–90 cm 的位置，中间不要有柜门或墙壁遮挡。</p></div>
             </div>
           </div>
           <div class="faq-item">
@@ -1921,7 +1928,7 @@
   /* ---------- Hash 路由 ---------- */
   var ROUTES = ["home", "experience", "workflow", "technology", "app", "boundary"];
   var TITLES = {
-    home: "守护星 GUARDIAN STAR — 将安心，摆在床头",
+    home: "守护星 GUARDIAN STAR — 将安心，留在卧室",
     experience: "产品体验 · 守护星 GUARDIAN STAR",
     workflow: "产品机制 · 守护星 GUARDIAN STAR",
     technology: "硬核技术 · 守护星 GUARDIAN STAR",
