@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -11,8 +11,8 @@
 <meta property="og:title" content="守护星 GUARDIAN STAR — 将安心，摆在床头">
 <meta property="og:description" content="产品概念展示：无屏幕、无摄像头、确认键 + 红色 SOS。功能状态待硬件实测核验。">
 <meta property="og:image" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/assets/images/hero.jpg">
-<meta property="og:image:width" content="1600">
-<meta property="og:image:height" content="997">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1350">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="format-detection" content="telephone=no">
 <link rel="preload" as="image" href="assets/images/hero.jpg" fetchpriority="high">
@@ -266,7 +266,7 @@
   }
   .home-bg img{
     width:100%; height:100%;
-    object-fit:cover; object-position:64% 85%;
+    object-fit:cover; object-position:64% 56%;
     transform:scale(1.04);
     will-change:transform;
   }
@@ -475,27 +475,33 @@
   }
   .model-disc{
     position:absolute; left:50%; top:50%; width:86%; aspect-ratio:1;
-    transform:translate(-50%,-52%) rotateX(var(--rx,54deg)) rotateZ(var(--rz,-12deg));
+    transform:translate(-50%,-52%) rotateX(var(--rx,46deg)) rotateZ(var(--rz,-10deg));
     transform-style:preserve-3d;
     transition:transform .55s var(--ease);
     will-change:transform;
   }
   .disc-layer{ position:absolute; inset:0; border-radius:50%; }
-  .disc-layer.l1{ transform:translate3d(0,8px,-6px); background:linear-gradient(180deg,#D6CBB8,#C7BBA6); }
-  .disc-layer.l2{ transform:translate3d(0,16px,-12px); background:#C1B49E; }
+  .disc-layer.l1{ transform:translate3d(0,8px,-6px); background:#C9BDA9; }
+  .disc-layer.l2{ transform:translate3d(0,16px,-12px); background:#C9BDA9; }
   .disc-layer.l3{
-    transform:translate3d(0,24px,-18px); background:#B7AA93;
-    box-shadow:0 20px 26px -14px rgba(64,52,36,.45);
+    transform:translate3d(0,24px,-18px); background:#C9BDA9;
+  }
+  .disc-layer.l4{ transform:translate3d(0,32px,-20px); background:#C9BDA9; }
+  .disc-layer.l5{ transform:translate3d(0,40px,-22px); background:#C9BDA9; }
+  .disc-layer.l6{ transform:translate3d(0,48px,-24px); background:#C9BDA9; }
+  .disc-layer.l7{
+    transform:translate3d(0,56px,-26px); background:#C9BDA9;
+    box-shadow:0 20px 28px -16px rgba(64,52,36,.45);
   }
   .disc-top{
     position:absolute; inset:0; border-radius:50%; overflow:hidden;
     pointer-events:none;
-    background:radial-gradient(125% 110% at 30% 16%, #F4EDDF 0%, #EADFCC 34%, #DED2BD 70%, #D2C5AE 100%);
+    background:radial-gradient(125% 110% at 30% 16%, #F3ECDF 0%, #E8DDCC 36%, #DBD0BE 72%, #D0C4AF 100%);
     box-shadow:
-      inset 0 0 0 1px rgba(255,255,255,.5),
-      inset 0 -8px 22px rgba(95,80,58,.18),
-      inset 0 0 90px rgba(255,255,255,.12),
-      0 2px 5px rgba(64,52,36,.16);
+      inset 0 0 0 1px rgba(255,255,255,.45),
+      inset 0 -7px 18px rgba(95,80,58,.14),
+      inset 0 0 70px rgba(255,255,255,.10),
+      0 2px 5px rgba(64,52,36,.14);
   }
   .disc-grain{
     position:absolute; inset:0;
@@ -505,27 +511,27 @@
   }
   .disc-rim{
     position:absolute; inset:1.4%; border-radius:50%;
-    border:1px solid rgba(216,169,108,.55);
-    box-shadow:0 0 18px rgba(216,169,108,.38), inset 0 0 12px rgba(255,221,170,.22);
-    opacity:.9; pointer-events:none;
+    border:1px solid rgba(216,169,108,.38);
+    box-shadow:0 0 12px rgba(216,169,108,.22), inset 0 0 10px rgba(255,221,170,.16);
+    opacity:.8; pointer-events:none;
   }
   .disc-btn{
-    position:absolute; left:50%; top:50%; width:27%; aspect-ratio:1;
+    position:absolute; left:50%; top:50%; width:26%; aspect-ratio:1;
     transform:translate(-50%,-50%); border-radius:50%;
     display:grid; place-items:center;
     background:radial-gradient(130% 120% at 34% 26%, #E4DCCD 0%, #D7CDBB 54%, #CCC1AC 100%);
     box-shadow:
-      inset 0 7px 15px rgba(88,74,54,.30),
-      inset 0 -3px 3px rgba(255,255,255,.55),
-      0 0 0 1px rgba(146,128,100,.22);
+      inset 0 4px 9px rgba(88,74,54,.22),
+      inset 0 -2px 2px rgba(255,255,255,.6),
+      0 0 0 1px rgba(146,128,100,.20);
   }
   .disc-btn i{
     display:block; width:40%; aspect-ratio:1; border-radius:50%;
     background:radial-gradient(120% 120% at 34% 28%, #DFD6C8, #CCC2B0 70%, #C5BAA7 100%);
-    box-shadow:inset 0 3px 7px rgba(88,74,54,.24), 0 1px 0 rgba(255,255,255,.35);
+    box-shadow:inset 0 2px 5px rgba(88,74,54,.18), 0 1px 0 rgba(255,255,255,.38);
   }
   .disc-sos{
-    position:absolute; left:63%; top:61%; width:9%; aspect-ratio:1;
+    position:absolute; left:62%; top:56%; width:8%; aspect-ratio:1;
     transform:translate(-50%,-50%); border-radius:50%;
     background:radial-gradient(circle at 36% 30%, #F07A6E 0%, #D23A30 46%, #9E1F18 100%);
     box-shadow:
@@ -555,7 +561,7 @@
     border-radius:50%; cursor:pointer; pointer-events:auto;
   }
   .model-hot-confirm{ left:50%; top:47%; width:30%; aspect-ratio:1; transform:translate(-50%,-50%); }
-  .model-hot-sos{ left:62%; top:59%; width:12%; aspect-ratio:1; transform:translate(-50%,-50%); }
+  .model-hot-sos{ left:62%; top:56%; width:11%; aspect-ratio:1; transform:translate(-50%,-50%); }
   .model-hot:focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
   .model-demo{
     margin-top:12px; text-align:left;
@@ -1248,7 +1254,7 @@
   <!-- ================= #/home ================= -->
   <section class="view is-active is-intro" data-view="home" id="view-home" aria-labelledby="homeTitle">
     <div class="home-bg">
-      <img src="assets/images/hero.jpg" width="1600" height="997" alt="守护星概念设备置于卧室床头柜，中央确认键与红色 SOS 键清晰可见" fetchpriority="high" decoding="async">
+      <img src="assets/images/hero.jpg" width="2400" height="1350" alt="守护星概念设备置于卧室床头柜，中央确认键与红色 SOS 键清晰可见" fetchpriority="high" decoding="async">
       <div class="home-veil" aria-hidden="true"></div>
       <p class="home-credit">概念视觉 · AI 生成示意图，非实物照片</p>
     </div>
@@ -1338,6 +1344,10 @@
           <div class="model-glow" aria-hidden="true"></div>
           <div class="model-floor" aria-hidden="true"></div>
           <div class="model-disc" id="modelDisc" role="group" aria-label="守护星产品概念模型：扁平的圆形米灰色磨砂机身，中央是确认键，右下是红色 SOS 键；无屏幕、无摄像头。">
+            <div class="disc-layer l7" aria-hidden="true"></div>
+            <div class="disc-layer l6" aria-hidden="true"></div>
+            <div class="disc-layer l5" aria-hidden="true"></div>
+            <div class="disc-layer l4" aria-hidden="true"></div>
             <div class="disc-layer l3" aria-hidden="true"></div>
             <div class="disc-layer l2" aria-hidden="true"></div>
             <div class="disc-layer l1" aria-hidden="true"></div>
@@ -2156,8 +2166,8 @@
       var rect = stage.getBoundingClientRect();
       var px = (e.clientX - rect.left) / rect.width - 0.5;
       var py = (e.clientY - rect.top) / rect.height - 0.5;
-      disc.style.setProperty("--rx", (54 - py * 9).toFixed(2) + "deg");
-      disc.style.setProperty("--rz", (-12 + px * 11).toFixed(2) + "deg");
+      disc.style.setProperty("--rx", (46 - py * 8).toFixed(2) + "deg");
+      disc.style.setProperty("--rz", (-10 + px * 10).toFixed(2) + "deg");
       stage.style.setProperty("--lx", ((px + 0.5) * 100).toFixed(1) + "%");
       stage.style.setProperty("--ly", ((py + 0.5) * 100).toFixed(1) + "%");
     });
