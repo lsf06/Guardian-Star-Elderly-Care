@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -9,10 +9,10 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/">
 <meta property="og:title" content="守护星 GUARDIAN STAR — 将安心，摆在床头">
-<meta property="og:description" content="产品概念展示：无屏幕、无摄像头、单键确认。功能状态待硬件实测核验。">
+<meta property="og:description" content="产品概念展示：无屏幕、无摄像头、确认键 + 红色 SOS。功能状态待硬件实测核验。">
 <meta property="og:image" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/assets/images/hero.jpg">
-<meta property="og:image:width" content="2400">
-<meta property="og:image:height" content="1350">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="997">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="format-detection" content="telephone=no">
 <link rel="preload" as="image" href="assets/images/hero.jpg" fetchpriority="high">
@@ -266,7 +266,7 @@
   }
   .home-bg img{
     width:100%; height:100%;
-    object-fit:cover; object-position:64% 56%;
+    object-fit:cover; object-position:64% 85%;
     transform:scale(1.04);
     will-change:transform;
   }
@@ -489,6 +489,7 @@
   }
   .disc-top{
     position:absolute; inset:0; border-radius:50%; overflow:hidden;
+    pointer-events:none;
     background:radial-gradient(125% 110% at 30% 16%, #F4EDDF 0%, #EADFCC 34%, #DED2BD 70%, #D2C5AE 100%);
     box-shadow:
       inset 0 0 0 1px rgba(255,255,255,.5),
@@ -522,6 +523,43 @@
     display:block; width:40%; aspect-ratio:1; border-radius:50%;
     background:radial-gradient(120% 120% at 34% 28%, #DFD6C8, #CCC2B0 70%, #C5BAA7 100%);
     box-shadow:inset 0 3px 7px rgba(88,74,54,.24), 0 1px 0 rgba(255,255,255,.35);
+  }
+  .disc-sos{
+    position:absolute; left:63%; top:61%; width:9%; aspect-ratio:1;
+    transform:translate(-50%,-50%); border-radius:50%;
+    background:radial-gradient(circle at 36% 30%, #F07A6E 0%, #D23A30 46%, #9E1F18 100%);
+    box-shadow:
+      inset 0 2px 3px rgba(255,255,255,.45),
+      inset 0 -2px 3px rgba(80,0,0,.45),
+      0 0 0 2px rgba(120,30,24,.16),
+      0 2px 5px rgba(60,20,16,.35);
+    z-index:2;
+  }
+  .disc-sos::after{
+    content:""; position:absolute; inset:17%; border-radius:50%;
+    border:1px solid rgba(255,214,205,.35);
+  }
+  .model-disc.is-confirmed .disc-light{ opacity:.92; }
+  .model-disc.is-sos .disc-sos{
+    box-shadow:
+      inset 0 2px 3px rgba(255,255,255,.45),
+      inset 0 -2px 3px rgba(80,0,0,.45),
+      0 0 0 4px rgba(210,58,48,.22),
+      0 0 22px rgba(210,58,48,.55);
+  }
+  .model-hotspots{
+    position:absolute; inset:0; z-index:6; pointer-events:none;
+  }
+  .model-hot{
+    position:absolute; border:0; padding:0; background:transparent;
+    border-radius:50%; cursor:pointer; pointer-events:auto;
+  }
+  .model-hot-confirm{ left:50%; top:47%; width:30%; aspect-ratio:1; transform:translate(-50%,-50%); }
+  .model-hot-sos{ left:62%; top:59%; width:12%; aspect-ratio:1; transform:translate(-50%,-50%); }
+  .model-hot:focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+  .model-demo{
+    margin-top:12px; text-align:left;
+    font-size:10px; line-height:1.6; color:var(--ink-3); letter-spacing:.04em;
   }
   .disc-engrave{
     position:absolute; left:0; right:0; bottom:12%;
@@ -618,41 +656,21 @@
   }
   .wf-col p{ font-size:.9rem; line-height:1.85; color:var(--ink-2); }
 
-  .wf-map{
-    margin-top:clamp(36px, 5vw, 64px);
-    padding:clamp(22px, 3.4vw, 40px);
-    border:1px solid var(--line-soft); border-radius:24px;
+  .wf-daily{
+    margin-top:clamp(30px, 4vw, 48px);
+    padding:clamp(22px, 3.2vw, 36px);
+    border:1px solid var(--line-soft); border-radius:20px;
     background:linear-gradient(180deg, #F2EADC, #F7F2E9);
   }
-  .wf-map-head{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:10px; }
-  .wf-map-head h2{ font-size:clamp(1.45rem, 2.4vw, 2rem); }
-  .wf-map-head span{ font-size:10.5px; letter-spacing:.14em; color:var(--ink-3); }
-  .wf-diagram{ display:flex; align-items:stretch; margin-top:24px; }
-  .wf-node{
-    flex:1; min-width:0;
-    padding:14px;
-    border:1px solid var(--line); border-radius:14px;
-    background:rgba(255,253,248,.7);
+  .wf-daily h2{
+    font-size:clamp(1.4rem, 2.3vw, 1.9rem);
+    line-height:1.35; margin:2px 0 10px;
   }
-  .wf-node .n{
-    display:block; font-size:9.5px; letter-spacing:.18em;
-    color:var(--ink-3); margin-bottom:8px; font-variant-numeric:tabular-nums;
+  .wf-daily p{
+    font-size:.9375rem; line-height:1.85; color:var(--ink-2);
+    max-width:48em;
   }
-  .wf-node b{ display:block; font-size:.9rem; font-weight:500; color:var(--ink); line-height:1.4; }
-  .wf-node small{ display:block; margin-top:4px; font-size:10px; line-height:1.6; color:var(--ink-3); }
-  .wf-node.is-decision{ border-style:dashed; background:rgba(255,253,248,.35); }
-  .wf-node.is-decision b{ font-family:var(--serif); font-weight:600; }
-  .wf-arrow{ flex:0 0 26px; display:grid; place-items:center; color:var(--amber); font-size:13px; }
-  .wf-branch{
-    display:flex; align-items:flex-start; gap:12px;
-    margin-top:14px; padding:14px 16px;
-    border:1px dashed rgba(180,123,60,.42); border-radius:14px;
-    background:rgba(243,230,210,.35);
-  }
-  .wf-sos-dot{ width:8px; height:8px; border-radius:50%; background:var(--amber); margin-top:6px; flex:0 0 auto; }
-  .wf-branch b{ display:block; font-size:.9rem; font-weight:500; color:var(--ink); margin-bottom:3px; }
-  .wf-branch p{ font-size:11px; line-height:1.75; color:var(--ink-2); }
-  .wf-map-note{ margin-top:14px; font-size:11px; line-height:1.85; color:var(--ink-3); }
+  .wf-daily .wf-daily-note{ margin-top:10px; font-size:10.5px; color:var(--ink-3); }
 
   .tech-next{
     display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
@@ -663,6 +681,25 @@
   }
   .tech-next p{ font-size:.9375rem; color:var(--ink-2); }
   .tech-next .btn{ height:44px; padding:0 22px; font-size:13.5px; }
+  .tech-next-actions{ display:flex; flex-wrap:wrap; gap:8px; }
+
+  .tech-points{
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:10px; margin-block:clamp(30px, 4vw, 48px);
+  }
+  .tech-points > div{
+    padding:16px 15px; border:1px solid var(--line-soft); border-radius:14px;
+    background:rgba(255,253,248,.55);
+  }
+  .tech-points span{ display:block; font-size:9.5px; letter-spacing:.18em; color:var(--amber-2); margin-bottom:8px; }
+  .tech-points b{ display:block; font-family:var(--serif); font-size:1.08rem; font-weight:600; color:var(--ink); margin-bottom:5px; }
+  .tech-points p{ font-size:12px; line-height:1.8; color:var(--ink-2); }
+
+  .limits{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 clamp(18px,3vw,28px); }
+  .limits span{
+    padding:7px 11px; border:1px solid var(--line); border-radius:999px;
+    font-size:11px; color:var(--ink-2); background:rgba(255,253,248,.5);
+  }
 
   /* ---------- 硬核技术 ---------- */
   .tech-grid{
@@ -945,6 +982,33 @@
   .app-note svg{ width:14px; height:14px; flex:0 0 auto; }
   .app-actions{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px; }
 
+  .app-state-switch{
+    display:inline-flex; align-items:center; gap:4px;
+    padding:4px; margin:0 auto 8px;
+    border:1px solid rgba(28,27,25,.10); border-radius:999px;
+    background:rgba(250,248,244,.7);
+  }
+  .state-btn{
+    border:0; background:none; cursor:pointer;
+    padding:8px 15px; border-radius:999px;
+    font:inherit; font-size:12px; color:var(--ink-3);
+    transition:background .25s ease, color .25s ease;
+  }
+  .state-btn.is-active{ background:var(--ink); color:#FBF7EF; }
+  .app-state-hint{ text-align:center; font-size:10px; color:var(--ink-3); margin-bottom:14px; }
+  .pstate-panel[hidden]{ display:none; }
+  .app-guide{
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:10px; width:min(100%, 680px); margin:20px auto 0;
+  }
+  .app-guide > div{
+    padding:14px; border:1px solid rgba(255,255,255,.55); border-radius:14px;
+    background:rgba(250,248,244,.7); text-align:left;
+  }
+  .app-guide span{ display:block; font-size:9.5px; letter-spacing:.18em; color:var(--amber-2); margin-bottom:7px; }
+  .app-guide b{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+  .app-guide p{ font-size:11px; line-height:1.7; color:var(--ink-2); }
+
   /* ---------- 页脚 ---------- */
   .site-foot{
     background:var(--dark); color:#BFB5A4;
@@ -1014,6 +1078,7 @@
   @media (max-width: 1100px){
     .nav-links{ gap:14px; }
     .nav-links a{ font-size:12.5px; }
+    .nav-cta{ display:none; }
   }
   @media (max-width: 900px){
     .nav-links{ display:none; }
@@ -1093,9 +1158,7 @@
     .wf-tab .wf-num{ margin-bottom:5px; }
     .wf-panel{ padding:20px; }
     .wf-cols{ grid-template-columns:1fr; gap:16px; margin-top:20px; padding-top:18px; }
-    .wf-diagram{ flex-direction:column; }
-    .wf-arrow{ height:18px; transform:rotate(90deg); }
-    .wf-node{ padding:12px 14px; }
+    .tech-points{ grid-template-columns:1fr; }
     .tech-next{ flex-direction:column; align-items:flex-start; }
     .audit li{ grid-template-columns:1fr; gap:8px; padding:15px 0; }
     .audit-idx{ padding:0; }
@@ -1106,6 +1169,7 @@
     .app-page{ min-height:100vh; align-items:flex-start; }
     .app-inner{ width:100%; padding-inline:20px; padding-top:30px; }
     .phone{ width:min(300px, 76vw); }
+    .app-guide{ grid-template-columns:1fr; width:100%; }
     .app-actions .btn{ width:100%; max-width:320px; }
     .site-foot{ padding-top:36px; }
     .foot-inner{ width:100%; padding-inline:20px; }
@@ -1153,9 +1217,10 @@
     <nav class="nav-links" aria-label="站点导航">
       <a href="#/home" data-route-link="home">首页</a>
       <a href="#/experience" data-route-link="experience">产品体验</a>
-      <a href="#/workflow" data-route-link="workflow">工作流程</a>
+      <a href="#/workflow" data-route-link="workflow">产品机制</a>
       <a href="#/technology" data-route-link="technology">硬核技术</a>
       <a href="#/app" data-route-link="app">家属端</a>
+      <a href="#/boundary" data-route-link="boundary">验证边界</a>
     </nav>
 
     <div class="nav-right">
@@ -1171,9 +1236,10 @@
 <nav class="mobile-menu" id="mobileMenu" aria-label="移动端站点导航" hidden>
   <a href="#/home" data-route-link="home">首页</a>
   <a href="#/experience" data-route-link="experience">产品体验</a>
-  <a href="#/workflow" data-route-link="workflow">工作流程</a>
+  <a href="#/workflow" data-route-link="workflow">产品机制</a>
   <a href="#/technology" data-route-link="technology">硬核技术</a>
   <a href="#/app" data-route-link="app">家属端</a>
+  <a href="#/boundary" data-route-link="boundary">验证边界</a>
   <button class="m-cta" type="button" data-open-reserve>体验说明（演示）</button>
 </nav>
 
@@ -1182,7 +1248,7 @@
   <!-- ================= #/home ================= -->
   <section class="view is-active is-intro" data-view="home" id="view-home" aria-labelledby="homeTitle">
     <div class="home-bg">
-      <img src="assets/images/hero.jpg" width="2400" height="1350" alt="守护星概念设备置于卧室床头柜的场景视觉" fetchpriority="high" decoding="async">
+      <img src="assets/images/hero.jpg" width="1600" height="997" alt="守护星概念设备置于卧室床头柜，中央确认键与红色 SOS 键清晰可见" fetchpriority="high" decoding="async">
       <div class="home-veil" aria-hidden="true"></div>
       <p class="home-credit">概念视觉 · AI 生成示意图，非实物照片</p>
     </div>
@@ -1193,7 +1259,7 @@
         <h1 class="home-title" id="homeTitle" tabindex="-1"><span class="line"><span>将安心，</span></span><span class="line"><span>摆在床头。</span></span></h1>
         <p class="home-sub">让父母安心生活，让牵挂及时抵达。</p>
         <div class="home-actions">
-          <a class="btn btn-primary" href="#/experience">
+          <a class="btn btn-primary" href="#/workflow">
             了解产品机制
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </a>
@@ -1202,7 +1268,7 @@
         <div class="home-meta" aria-label="产品基本属性">
           <span>无屏幕</span>
           <span>无摄像头</span>
-          <span>单键确认</span>
+          <span>确认键 + SOS</span>
         </div>
       </div>
 
@@ -1215,11 +1281,11 @@
         <p class="home-promise-sub">有上限的守护：最坏情况下，多久一定有人知道。</p>
       </div>
       <div class="home-strip-inner">
-        <div><span class="strip-num">01 · 雷达里消失</span><b>分钟级</b><p>先开口问一句，无人应答再升级。</p></div>
-        <div><span class="strip-num">02 · 人在场但不应答</span><b>小时级</b><p>每日点名兜底，不让沉默持续太久。</p></div>
+        <div><span class="strip-num">01 · 人从雷达里消失，门没开</span><b>约 2 分钟</b><p>先开口问一句，无人应答再升级。</p></div>
+        <div><span class="strip-num">02 · 人在场但不应答</span><b>约 13 小时</b><p>每日点名兜底，不让沉默持续太久。</p></div>
         <div><span class="strip-num">03 · 设备掉线 / 被拔掉</span><b>当天</b><p>状态回执缺失，家属当天可发现。</p></div>
       </div>
-      <p class="home-promise-note">以上为设计目标，非硬件实测；验证状态见技术页，数值定义见仓库文档。</p>
+      <p class="home-promise-note">以上为设计目标，非硬件实测；2 分钟 / 13 小时为逻辑推算，实际以整机联调为准。定义见仓库文档与「验证边界」页。</p>
     </div>
   </section>
 
@@ -1229,22 +1295,22 @@
       <header class="page-head">
         <p class="eyebrow">产品体验</p>
         <h1 class="page-title" id="expTitle" tabindex="-1">把守护，<span class="ln-m">做成一个动作。</span></h1>
-        <p class="page-sub">语音先问，按键回应。没有屏幕，也不需要学习。</p>
+        <p class="page-sub">没有屏幕，只有两个按键：确认，和 SOS。</p>
       </header>
 
       <div class="media-row">
         <figure data-reveal>
-          <img src="assets/images/detail.jpg" width="1600" height="1410" alt="守护星概念设备的磨砂机身与暖色分缝细节" decoding="async">
+          <img src="assets/images/detail.jpg" width="970" height="695" alt="守护星概念设备的磨砂机身、中央确认键与红色 SOS 键细节" decoding="async">
           <figcaption>材质概念 · AI 生成</figcaption>
         </figure>
         <div class="media-copy" data-reveal style="--d:.08s">
-          <p class="eyebrow">01 — 语音</p>
-          <h2>设备主动语音播报</h2>
-          <p>预录语音先问一句，邀请老人按键确认，而不是直接通知家属。</p>
+          <p class="eyebrow">01 — 外观</p>
+          <h2>没有屏幕，只有两个按键</h2>
+          <p>米灰色磨砂机身，不拍照、不显示。中间是确认键，右下是红色 SOS 键。</p>
           <div class="chips">
-            <span class="chip">预录语音</span>
-            <span class="chip">本地播放</span>
-            <span class="chip">概念交互</span>
+            <span class="chip">无屏幕</span>
+            <span class="chip">无摄像头</span>
+            <span class="chip">确认键 + SOS</span>
           </div>
         </div>
       </div>
@@ -1252,12 +1318,12 @@
       <div class="dark-band" data-reveal>
         <div class="media-row">
           <div class="media-copy" data-reveal>
-            <p class="eyebrow">02 — 使用 · 有些牵挂，隔着一座城市</p>
+            <p class="eyebrow">02 — 使用</p>
             <h2>拍一下按键完成应答</h2>
-            <p>一个大按键，按一下就够。老人不需要记住任何规则。</p>
+            <p>老人按一下确认键，就表示“我没事”。红色 SOS 用于主动求助，不用先等设备来问。</p>
             <div class="chips">
-              <span class="chip">单一动作</span>
-              <span class="chip">无需学习</span>
+              <span class="chip">按一下就行</span>
+              <span class="chip">SOS 求助</span>
             </div>
           </div>
           <figure data-reveal style="--d:.08s">
@@ -1271,7 +1337,7 @@
         <div class="model-stage" data-reveal>
           <div class="model-glow" aria-hidden="true"></div>
           <div class="model-floor" aria-hidden="true"></div>
-          <div class="model-disc" id="modelDisc" role="img" aria-label="守护星产品概念模型：扁平的圆形米灰色磨砂机身，中央有一个微凹的实体按键，边缘有一圈暖色分缝，无屏幕、无摄像头。">
+          <div class="model-disc" id="modelDisc" role="group" aria-label="守护星产品概念模型：扁平的圆形米灰色磨砂机身，中央是确认键，右下是红色 SOS 键；无屏幕、无摄像头。">
             <div class="disc-layer l3" aria-hidden="true"></div>
             <div class="disc-layer l2" aria-hidden="true"></div>
             <div class="disc-layer l1" aria-hidden="true"></div>
@@ -1279,32 +1345,38 @@
               <span class="disc-grain" aria-hidden="true"></span>
               <span class="disc-rim" aria-hidden="true"></span>
               <span class="disc-btn" aria-hidden="true"><i></i></span>
+              <span class="disc-sos" aria-hidden="true"></span>
               <span class="disc-engrave" aria-hidden="true">GUARDIAN STAR</span>
               <span class="disc-light" aria-hidden="true"></span>
             </div>
+          </div>
+          <div class="model-hotspots">
+            <button class="model-hot model-hot-confirm" type="button" id="discConfirm" aria-label="演示：按下确认键"></button>
+            <button class="model-hot model-hot-sos" type="button" id="discSos" aria-label="演示：按下红色 SOS 求助键"></button>
           </div>
           <p class="stage-cap">概念外形 · CSS 渲染，非实物照片</p>
         </div>
 
         <div class="model-copy" data-reveal style="--d:.08s">
           <p class="eyebrow">03 — 形态</p>
-          <h2>先在光里，看看它。</h2>
+          <h2>转过来，看清两个按键。</h2>
           <p class="model-note">基于现有设计参数，尽可能准确复现长宽厚比例与外观，非实物精确扫描。</p>
           <div class="chips">
+            <span class="chip">确认键</span>
+            <span class="chip">红色 SOS</span>
             <span class="chip">无屏幕</span>
-            <span class="chip">无摄像头</span>
-            <span class="chip">中央单键</span>
           </div>
           <span class="model-hint">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l6.5 17 2.2-7.3L21 10.5z"/></svg>
-            移动鼠标 · 观察光影变化
+            移动鼠标看光影 · 点按按键试交互
           </span>
+          <p class="model-demo" id="modelDemoNote" aria-live="polite">点按按键试试：界面演示，不代表硬件实测。</p>
         </div>
       </div>
 
       <div class="tech-next" data-reveal>
-        <p>下一步：完整的异常确认与升级流程。</p>
-        <a class="btn btn-ghost" href="#/workflow">查看工作流程 →</a>
+        <p>下一步：看它怎么工作。</p>
+        <a class="btn btn-ghost" href="#/workflow">了解产品机制 →</a>
       </div>
     </div>
   </section>
@@ -1313,126 +1385,106 @@
   <section class="view page" data-view="workflow" id="view-workflow" aria-labelledby="wfTitle" hidden>
     <div class="page-wrap">
       <header class="page-head">
-        <p class="eyebrow">工作流程</p>
-        <h1 class="page-title" id="wfTitle" tabindex="-1">从日常守护，<span class="ln-m">到紧急介入。</span></h1>
-        <p class="page-sub">五个阶段，看清设备、系统与家属端各自做什么。</p>
+        <p class="eyebrow">产品机制</p>
+        <h1 class="page-title" id="wfTitle" tabindex="-1">它是怎么工作的。</h1>
+        <p class="page-sub">先看，再问，等一个按键；没人回应，才找家属。</p>
       </header>
 
-      <div class="wf-tabs" role="tablist" aria-label="工作流程阶段">
+      <div class="wf-tabs" role="tablist" aria-label="产品机制阶段">
         <button class="wf-tab is-active" role="tab" type="button" id="wfTab1" aria-controls="wfPanel1" aria-selected="true" tabindex="0">
           <span class="wf-num">01</span><b>日常感知</b><small>雷达 + 门磁</small>
         </button>
         <button class="wf-tab" role="tab" type="button" id="wfTab2" aria-controls="wfPanel2" aria-selected="false" tabindex="-1">
-          <span class="wf-num">02</span><b>异常确认</b><small>语音 + 按键</small>
+          <span class="wf-num">02</span><b>发现异常</b><small>先问一句</small>
         </button>
         <button class="wf-tab" role="tab" type="button" id="wfTab3" aria-controls="wfPanel3" aria-selected="false" tabindex="-1">
-          <span class="wf-num">03</span><b>无响应升级</b><small>家属通知</small>
+          <span class="wf-num">03</span><b>联系家属</b><small>待核实</small>
         </button>
         <button class="wf-tab" role="tab" type="button" id="wfTab4" aria-controls="wfPanel4" aria-selected="false" tabindex="-1">
-          <span class="wf-num">04</span><b>主动求助</b><small>SOS 按键</small>
+          <span class="wf-num">04</span><b>主动求助</b><small>红色 SOS</small>
         </button>
         <button class="wf-tab" role="tab" type="button" id="wfTab5" aria-controls="wfPanel5" aria-selected="false" tabindex="-1">
-          <span class="wf-num">05</span><b>日常陪伴</b><small>规划功能</small>
+          <span class="wf-num">05</span><b>日常陪伴</b><small>演示功能</small>
         </button>
       </div>
 
       <div class="wf-panels">
         <div class="wf-panel" role="tabpanel" id="wfPanel1" aria-labelledby="wfTab1" tabindex="0">
           <div class="wf-panel-top">
-            <h2>日常感知</h2>
+            <h2>平时，它只是安静地看着</h2>
             <span class="wf-status">设计流程 · 待实测</span>
           </div>
-          <p class="wf-summary">先把房间里的活动，变成可参考的日常基线。</p>
+          <p class="wf-summary">不拍照、不录音，只判断屋里有没有人、门有没有开。</p>
           <div class="wf-cols">
-            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>毫米波雷达持续输出存在与运动信息；门磁记录门体开合事件。</p></div>
-            <div class="wf-col"><span class="wf-k">系统动作</span><p>两类信号共同作为居家状态判断的参考，不单独作为“外出”或“出事”的结论。</p></div>
-            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>无异常时不打扰，只保留必要的状态记录。</p></div>
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>毫米波雷达感知有没有人、动不动；门磁记录门开没开。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>它不会因为一次没动静就报警，会先看是不是一段时间都不对劲。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>没有异常，就不打扰。</p></div>
           </div>
         </div>
 
         <div class="wf-panel" role="tabpanel" id="wfPanel2" aria-labelledby="wfTab2" tabindex="0" hidden>
           <div class="wf-panel-top">
-            <h2>异常确认</h2>
+            <h2>觉得不对劲，先问一句</h2>
             <span class="wf-status">演示流程 · 参数待标定</span>
           </div>
-          <p class="wf-summary">先问一句，而不是直接报警。</p>
+          <p class="wf-summary">设备主动语音播报：先问，不直接报警。</p>
           <div class="wf-cols">
-            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>扬声器播放预录语音；确认按键（设计）作为老人的回应入口。</p></div>
-            <div class="wf-col"><span class="wf-k">系统动作</span><p>活动状态持续满足预设条件时，设备邀请老人按键确认；等待时长为演示预设。</p></div>
-            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>未确认前不向家属推送；确认后记录事件，按规则恢复日常感知。</p></div>
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>扬声器播放预录语音；老人按一下确认键就能回应。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>如果一段时间没有正常活动，它会问：“您还好吗？按一下手边的键。”</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>在老人回应之前，家属端不会收到消息。</p></div>
           </div>
         </div>
 
         <div class="wf-panel" role="tabpanel" id="wfPanel3" aria-labelledby="wfTab3" tabindex="0" hidden>
           <div class="wf-panel-top">
-            <h2>无响应升级</h2>
+            <h2>没人回应，才联系家属</h2>
             <span class="wf-status">设计链路 · 待联调</span>
           </div>
-          <p class="wf-summary">把“没有回应”变成“待家属核实”，而不是医学判断。</p>
+          <p class="wf-summary">它说的是“状态待核实”，不是“出事了”。</p>
           <div class="wf-cols">
-            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>Wi-Fi 通信与家属端通知为设计架构。</p></div>
-            <div class="wf-col"><span class="wf-k">系统动作</span><p>超过预设等待时间仍未确认，按规则升级为待家属核实的异常事件；不做医学意义上的高危判定。</p></div>
-            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>家属端提示“状态待核实”；实际可达性以通信、后端与推送联调结果为准。</p></div>
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>Wi-Fi 通信（设计）。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>再提醒一次；仍然没有回应，就把这件事标成“待家属核实”。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>家属端显示“状态待核实”，请先打电话确认；通知链路待联调。</p></div>
           </div>
         </div>
 
         <div class="wf-panel" role="tabpanel" id="wfPanel4" aria-labelledby="wfTab4" tabindex="0" hidden>
           <div class="wf-panel-top">
-            <h2>主动求助</h2>
+            <h2>红色 SOS，随时能按</h2>
             <span class="wf-status">设计功能 · 待实测</span>
           </div>
-          <p class="wf-summary">SOS 是独立入口，不等到无响应升级之后才出现。</p>
+          <p class="wf-summary">不用等设备来问。</p>
           <div class="wf-cols">
-            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>独立 SOS 实体按键（设计；硬件待实测）。</p></div>
-            <div class="wf-col"><span class="wf-k">系统动作</span><p>本地呼救与远程通知是两条独立链路；本地优先，远程依赖网络、服务与失败处理。</p></div>
-            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>远程通知待联调；未完成前不宣称“必然送达”。</p></div>
+            <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>红色 SOS 实体按键（硬件待实测）。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>本地先响，同时尝试通知家属；本地呼救和远程通知是两条独立链路。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>远程通知未联调前，不保证一定送达。</p></div>
           </div>
         </div>
 
         <div class="wf-panel" role="tabpanel" id="wfPanel5" aria-labelledby="wfTab5" tabindex="0" hidden>
           <div class="wf-panel-top">
-            <h2>日常陪伴</h2>
+            <h2>平时还能说说话</h2>
             <span class="wf-status is-plan">演示功能 · 模型待装</span>
           </div>
-          <p class="wf-summary">陪伴是附加价值，不参与安全判定。</p>
+          <p class="wf-summary">陪聊是附加功能，不参与安全判断。</p>
           <div class="wf-cols">
             <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>USB 麦克风（演示用，尚未装配）。</p></div>
-            <div class="wf-col"><span class="wf-k">系统动作</span><p>离线识别与大模型对话链路已在代码中打通；麦克风与离线模型尚未装配，云端服务是否可用以实际配置为准。</p></div>
-            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>家属端不展示闲聊内容；语音不参与异常判定与升级。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>离线识别和大模型对话链路已在代码中打通；模型还没装。</p></div>
+            <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>家属端看不到聊天内容；语音不参与异常判断。</p></div>
           </div>
         </div>
       </div>
 
-      <section class="wf-map" aria-labelledby="wfMapTitle" data-reveal>
-        <div class="wf-map-head">
-          <h2 id="wfMapTitle">异常确认，不是一次报警。</h2>
-          <span>DECISION FLOW · 设计示意</span>
-        </div>
-        <div class="wf-diagram">
-          <div class="wf-node"><span class="n">01</span><b>雷达 + 门磁</b><small>持续感知</small></div>
-          <span class="wf-arrow" aria-hidden="true">→</span>
-          <div class="wf-node is-decision"><span class="n">?</span><b>满足预设条件？</b><small>否 · 继续日常感知</small></div>
-          <span class="wf-arrow" aria-hidden="true">→</span>
-          <div class="wf-node"><span class="n">02</span><b>语音提醒</b><small>邀请按键确认</small></div>
-          <span class="wf-arrow" aria-hidden="true">→</span>
-          <div class="wf-node is-decision"><span class="n">?</span><b>按键确认？</b><small>是 · 记录事件<br>未确认 · 升级</small></div>
-          <span class="wf-arrow" aria-hidden="true">→</span>
-          <div class="wf-node"><span class="n">03</span><b>按规则升级</b><small>家属通知 / 核实</small></div>
-        </div>
-        <div class="wf-branch">
-          <span class="wf-sos-dot" aria-hidden="true"></span>
-          <div>
-            <b>独立路径 · SOS 主动求助</b>
-            <p>本地呼救与家属通知为两条独立链路；远程通知以实际服务回执为准，未完成联调前不宣称必达。</p>
-          </div>
-        </div>
-        <p class="wf-map-note">流程示意图，不代表当前设备已完成全部功能验证。等待时长、回执周期等参数为演示预设，未经实测标定。图中 SOS 为独立求助路径；当前概念模型仅展示中央确认键，按键数量与颜色以最终工业设计为准。</p>
-        <p class="wf-map-note">另有每日点名（设计为 9:00 / 20:00）用于人在场但不应答的兜底，独立于上方异常升级链路。</p>
+      <section class="wf-daily" data-reveal>
+        <p class="eyebrow">另一条兜底</p>
+        <h2>每天两次点名，防止“人还在，但动不了”。</h2>
+        <p>每天 9:00 和 20:00，设备会主动问一句。老人按一下确认键，就记一次“今日平安”；没有回应，才进入上面的核实流程。</p>
+        <p class="wf-daily-note">设计值，不是硬件实测；它和异常升级是两条不同的路径。</p>
       </section>
 
       <div class="tech-next" data-reveal>
-        <p>想先看验证到哪一步？</p>
-        <a class="btn btn-ghost" href="#/technology">查看技术边界 →</a>
+        <p>想先看它用什么做的？</p>
+        <a class="btn btn-ghost" href="#/technology">看硬核技术 →</a>
       </div>
     </div>
   </section>
@@ -1442,8 +1494,8 @@
     <div class="page-wrap">
       <header class="page-head">
         <p class="eyebrow">硬核技术</p>
-        <h1 class="page-title" id="techTitle" tabindex="-1">诚实的边界，<span class="ln">才是真正的守护。</span></h1>
-        <p class="page-sub">硬件、流程与七项功能状态，逐项标注真实可用性。</p>
+        <h1 class="page-title" id="techTitle" tabindex="-1">它靠什么感知，<span class="ln">又怎么判断。</span></h1>
+        <p class="page-sub">硬件、判断和连接，不堆参数。</p>
       </header>
 
       <div class="tech-grid">
@@ -1483,7 +1535,7 @@
 
       <section class="arch-band" aria-labelledby="archTitle" data-reveal>
         <p class="eyebrow">03 — 系统架构 · 设计</p>
-        <h2 id="archTitle">从一次感知，到一次可核实的回执。</h2>
+        <h2 id="archTitle">从感知，到家属端。</h2>
         <div class="arch-flow">
           <div class="arch-node"><span class="n">01</span><b>感知层</b><small>毫米波雷达 / 门磁</small></div>
           <span class="arch-arrow" aria-hidden="true">→</span>
@@ -1496,9 +1548,39 @@
         <p class="arch-note">虚线节点为设计架构，尚未完成真实通信、后端处理与消息推送联调。</p>
       </section>
 
+      <div class="tech-points" data-reveal>
+        <div><span>01</span><b>只感知，不拍摄</b><p>雷达只判断有没有人、动不动；门磁只记录门开合。没有摄像头。</p></div>
+        <div><span>02</span><b>本地判断</b><p>状态机在树莓派上运行；安全播报用本地预录音频，设计上断网也能播。</p></div>
+        <div><span>03</span><b>云端只负责陪聊与通知</b><p>陪聊和远程通知才需要网络；安全判定不依赖云。</p></div>
+      </div>
+
       <div class="tech-next" data-reveal>
-        <p>完整的异常确认与升级流程，已在「工作流程」页单独展开。</p>
-        <a class="btn btn-ghost" href="#/workflow">查看工作流程 →</a>
+        <p>下一步：看它验证到哪一步，或者它是怎么工作的。</p>
+        <div class="tech-next-actions">
+          <a class="btn btn-ghost" href="#/boundary">验证与边界 →</a>
+          <a class="btn btn-ghost" href="#/workflow">产品机制 →</a>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- ================= #/boundary ================= -->
+  <section class="view page" data-view="boundary" id="view-boundary" aria-labelledby="boundaryTitle" hidden>
+    <div class="page-wrap">
+      <header class="page-head">
+        <p class="eyebrow">验证与边界</p>
+        <h1 class="page-title" id="boundaryTitle" tabindex="-1">诚实的边界，<span class="ln">才是真正的守护。</span></h1>
+        <p class="page-sub">哪些已经做到，哪些还在验证，哪些明确不做。</p>
+      </header>
+
+      <div class="limits" data-reveal>
+        <span>单房间覆盖</span>
+        <span>1.5 m 内不可用</span>
+        <span>不识别跌倒</span>
+        <span>断电即失效</span>
+        <span>不替代急救</span>
       </div>
 
       <section class="verify-block" aria-labelledby="verifyTitle" data-reveal>
@@ -1591,7 +1673,7 @@
               </button>
             </h3>
             <div class="faq-a" id="faqA1" role="region" aria-labelledby="faqQ1">
-              <div><p>守护星的产品设计聚焦于活动感知与状态确认机制。目前不具备跌倒姿态识别功能，我们会根据实际硬件测试结果逐步验证相关能力。</p></div>
+              <div><p>跌倒识别是另一条技术路线。更关键的是：人倒在地上但还在呼吸时，雷达仍可能判断“有人”，异常确认不会触发。每日点名是补这个盲区，不是跌倒检测。</p></div>
             </div>
           </div>
           <div class="faq-item">
@@ -1605,8 +1687,81 @@
               <div><p>不一定。可能受网络波动影响。家属收到状态待核实提示后，可通过电话等方式进一步确认。</p></div>
             </div>
           </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA3" id="faqQ3">
+                <span>能放床头柜或茶几上吗？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA3" role="region" aria-labelledby="faqQ3">
+              <div><p>不建议。雷达对静止目标的检测从 1.5 m 起；床头柜、茶几通常太近，容易漏掉躺着或坐着不动的人。建议放在 2–4 m 远、离地 60–90 cm 的位置，中间不要有柜门或墙壁遮挡。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA4" id="faqQ4">
+                <span>一台设备能覆盖几个房间？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA4" role="region" aria-labelledby="faqQ4">
+              <div><p>一个房间。墙和门会挡住雷达，卫生间、厨房这些隔间是盲区。它不是全屋监护设备。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA5" id="faqQ5">
+                <span>断电、断网还能用吗？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA5" role="region" aria-labelledby="faqQ5">
+              <div><p>断电就停止工作，不能监护。断网只影响远程通知；本地预录语音设计上仍能播放。家属当天收不到“今日平安”回执，就能发现设备异常。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA6" id="faqQ6">
+                <span>会录像或录音吗？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA6" role="region" aria-labelledby="faqQ6">
+              <div><p>不会录像：没有摄像头。不会保存录音：问候是预录音频；语音陪聊是演示功能，聊天内容不参与安全判断，也不在设备里保存。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA7" id="faqQ7">
+                <span>能替代家人或急救吗？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA7" role="region" aria-labelledby="faqQ7">
+              <div><p>不能。它只做“先问一句、没人回应再通知家属核实”，不能替代电话确认、上门查看或 120。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA8" id="faqQ8">
+                <span>为什么每天要点名？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA8" role="region" aria-labelledby="faqQ8">
+              <div><p>雷达能看见“有人”，但看不见“人能不能动”。人倒在地上但还在呼吸时，它可能仍判断有人，异常确认不会触发。每日点名把这段盲区变成有上限的承诺：没有回应，才进入待核实。</p></div>
+            </div>
+          </div>
         </div>
       </section>
+      <div class="tech-next" data-reveal>
+        <p>想回看技术组成？</p>
+        <div class="tech-next-actions">
+          <a class="btn btn-ghost" href="#/technology">硬核技术 →</a>
+          <a class="btn btn-ghost" href="#/workflow">产品机制 →</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1623,8 +1778,14 @@
       </div>
 
       <div class="app-stage">
+        <div class="app-state-switch" role="group" aria-label="切换家属端演示状态">
+          <button class="state-btn is-active" type="button" data-app-state="normal" aria-pressed="true">日常状态</button>
+          <button class="state-btn" type="button" data-app-state="alert" aria-pressed="false">待核实</button>
+        </div>
+        <p class="app-state-hint">点一下，切换两种概念状态</p>
+
         <div class="phone-wrap">
-          <div class="phone" role="img" aria-label="家属端概念界面：今日状态记录，显示设备状态正常（仅表示设备在线）与状态待核实两张卡片，并附时间线示意。非真实数据。">
+          <div class="phone" role="img" aria-label="家属端概念界面：可切换日常与待核实两种状态；日常显示设备在线，待核实显示需要家属电话确认。非真实数据。">
             <div class="screen">
               <div class="island" aria-hidden="true"></div>
               <div class="pstat" aria-hidden="true">
@@ -1638,27 +1799,41 @@
                 </div>
                 <p class="papp-kicker">TODAY</p>
                 <p class="papp-title">今日状态记录</p>
-                <div class="pcards">
-                  <div class="pcard">
-                    <span class="pdot"></span>
-                    <div>
-                      <p class="pc-t">设备状态正常</p>
-                      <p class="pc-s">设备在线 · 最近回执 09:00</p>
+
+                <div class="pstate-panel" data-phone-panel="normal">
+                  <div class="pcards">
+                    <div class="pcard">
+                      <span class="pdot"></span>
+                      <div>
+                        <p class="pc-t">设备状态正常</p>
+                        <p class="pc-s">设备在线 · 最近回执 09:00</p>
+                      </div>
                     </div>
                   </div>
-                  <div class="pcard alert">
-                    <span class="pdot"></span>
-                    <div>
-                      <p class="pc-t">状态待核实</p>
-                      <p class="pc-s">超过设定时间未收到状态回执</p>
-                    </div>
+                  <p class="pstate-note">今天还没有需要核实的状态。</p>
+                  <div class="ptime">
+                    <div class="ptime-row on"><time>09:00</time><span class="ptime-dot"></span><span>设备状态回执</span></div>
+                    <div class="ptime-row"><time>20:00</time><span class="ptime-dot"></span><span>下一次回执（计划）</span></div>
                   </div>
                 </div>
-                <p class="pstate-note">设备状态不代表老人健康状态。</p>
-                <div class="ptime">
-                  <div class="ptime-row on"><time>09:00</time><span class="ptime-dot"></span><span>设备状态回执</span></div>
-                  <div class="ptime-row"><time>20:00</time><span class="ptime-dot"></span><span>下一次回执（计划）</span></div>
+
+                <div class="pstate-panel" data-phone-panel="alert" hidden>
+                  <div class="pcards">
+                    <div class="pcard alert">
+                      <span class="pdot"></span>
+                      <div>
+                        <p class="pc-t">状态待核实</p>
+                        <p class="pc-s">超过约定时间没有收到按键确认</p>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="pstate-note">设备状态不代表老人健康状态。建议先打电话。</p>
+                  <div class="ptime">
+                    <div class="ptime-row on"><time>09:00</time><span class="ptime-dot"></span><span>设备状态回执</span></div>
+                    <div class="ptime-row"><time>20:00</time><span class="ptime-dot"></span><span>状态待核实</span></div>
+                  </div>
                 </div>
+
                 <p class="papp-note">概念界面 · 非真实数据</p>
               </div>
               <div class="home-bar" aria-hidden="true"></div>
@@ -1671,8 +1846,14 @@
           <span>概念设计演示，非真实监护结果。</span>
         </div>
 
+        <div class="app-guide">
+          <div><span>01</span><b>先打电话</b><p>看到“状态待核实”，先联系老人。</p></div>
+          <div><span>02</span><b>联系不上</b><p>联系邻居，或上门看一眼。</p></div>
+          <div><span>03</span><b>紧急情况</b><p>直接拨打 120。</p></div>
+        </div>
+
         <div class="app-actions">
-          <a class="btn btn-ghost" href="#/technology">查看技术边界</a>
+          <a class="btn btn-ghost" href="#/boundary">查看验证边界</a>
           <button class="btn btn-primary" type="button" data-open-reserve>体验说明（演示）</button>
         </div>
       </div>
@@ -1693,9 +1874,10 @@
       <nav class="foot-links" aria-label="页脚导航">
         <a href="#/home">首页</a>
         <a href="#/experience">产品体验</a>
-        <a href="#/workflow">工作流程</a>
+        <a href="#/workflow">产品机制</a>
         <a href="#/technology">硬核技术</a>
         <a href="#/app">家属端</a>
+        <a href="#/boundary">验证边界</a>
         <a href="#top" data-scroll-top>返回顶部 ↑</a>
       </nav>
     </div>
@@ -1727,13 +1909,14 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Hash 路由 ---------- */
-  var ROUTES = ["home", "experience", "workflow", "technology", "app"];
+  var ROUTES = ["home", "experience", "workflow", "technology", "app", "boundary"];
   var TITLES = {
     home: "守护星 GUARDIAN STAR — 将安心，摆在床头",
     experience: "产品体验 · 守护星 GUARDIAN STAR",
-    workflow: "工作流程 · 守护星 GUARDIAN STAR",
+    workflow: "产品机制 · 守护星 GUARDIAN STAR",
     technology: "硬核技术 · 守护星 GUARDIAN STAR",
-    app: "家属端 · 守护星 GUARDIAN STAR"
+    app: "家属端 · 守护星 GUARDIAN STAR",
+    boundary: "验证与边界 · 守护星 GUARDIAN STAR"
   };
   var views = Array.prototype.slice.call(document.querySelectorAll(".view"));
   var routeLinks = Array.prototype.slice.call(document.querySelectorAll("[data-route-link]"));
@@ -1983,6 +2166,43 @@
       disc.style.removeProperty("--rz");
       stage.style.removeProperty("--lx");
       stage.style.removeProperty("--ly");
+    });
+  }
+
+  /* ---------- 家属端：日常 / 待核实切换 ---------- */
+  var stateBtns = Array.prototype.slice.call(document.querySelectorAll("[data-app-state]"));
+  var statePanels = Array.prototype.slice.call(document.querySelectorAll("[data-phone-panel]"));
+  function setAppState(state){
+    stateBtns.forEach(function(btn){
+      var on = btn.getAttribute("data-app-state") === state;
+      btn.classList.toggle("is-active", on);
+      btn.setAttribute("aria-pressed", String(on));
+    });
+    statePanels.forEach(function(panel){
+      panel.hidden = panel.getAttribute("data-phone-panel") !== state;
+    });
+  }
+  stateBtns.forEach(function(btn){
+    btn.addEventListener("click", function(){ setAppState(btn.getAttribute("data-app-state")); });
+  });
+  if (stateBtns.length && statePanels.length) setAppState("normal");
+
+  /* ---------- 按键演示：点按确认 / SOS ---------- */
+  var discConfirm = document.getElementById("discConfirm");
+  var discSos = document.getElementById("discSos");
+  var modelDemoNote = document.getElementById("modelDemoNote");
+  if (disc && discConfirm && discSos && modelDemoNote) {
+    discConfirm.addEventListener("click", function(){
+      disc.classList.remove("is-sos");
+      disc.classList.add("is-confirmed");
+      modelDemoNote.textContent = "已记录一次确认 · 界面演示，不代表硬件实测";
+      window.setTimeout(function(){ disc.classList.remove("is-confirmed"); }, 1400);
+    });
+    discSos.addEventListener("click", function(){
+      disc.classList.remove("is-confirmed");
+      disc.classList.add("is-sos");
+      modelDemoNote.textContent = "SOS 演示 · 本地呼救优先，远程通知待联调";
+      window.setTimeout(function(){ disc.classList.remove("is-sos"); }, 1800);
     });
   }
 
