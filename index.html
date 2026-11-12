@@ -379,6 +379,42 @@
     font-size:10.5px; line-height:1.7; color:var(--ink-3);
   }
 
+  /* ---------- 首页：概念片 ---------- */
+  .home-film{
+    position:relative; z-index:2;
+    background:var(--dark); color:var(--cream);
+    padding:clamp(40px, 6vw, 84px) 0 clamp(38px, 5vw, 64px);
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  .film-inner{
+    width:min(100% - 64px, 1180px); margin-inline:auto;
+    padding-inline:clamp(8px, 2vw, 24px);
+  }
+  .film-head{ max-width:760px; margin-bottom:clamp(20px, 3vw, 32px); }
+  .film-head .eyebrow{ color:var(--amber-3); margin-bottom:12px; }
+  .film-head .eyebrow::before{ background:var(--amber-3); }
+  .film-head h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:clamp(1.7rem, 2.8vw, 2.5rem);
+    line-height:1.25; color:var(--cream); margin:0 0 10px;
+  }
+  .film-head p{
+    font-size:1rem; line-height:1.85; color:var(--cream-2); max-width:34em;
+  }
+  .film-frame{
+    position:relative; margin:0; border-radius:20px; overflow:hidden;
+    background:#000; aspect-ratio:16/9;
+    box-shadow:0 50px 90px -50px rgba(0,0,0,.85);
+  }
+  .film-frame video{
+    width:100%; height:100%; display:block;
+    object-fit:cover; background:#000;
+  }
+  .film-note{
+    margin-top:12px; font-size:10.5px; line-height:1.7;
+    letter-spacing:.03em; color:rgba(239,230,214,.62);
+  }
+
   /* 首屏入场（每次进入首页重新触发） */
   #view-home.is-intro .home-eyebrow{ animation:fadeUp .9s var(--ease-out) .15s both; }
   #view-home.is-intro .home-title .line > span{ animation:lineUp 1.15s var(--ease-out) both; }
@@ -1214,6 +1250,10 @@
     .home-promise b{ font-size:1.7rem; }
     .home-strip-inner > div{ padding-right:0; }
     .home-strip-inner > div + div{ border-left:0; padding-left:0; border-top:1px solid var(--line-soft); padding-top:14px; }
+    .home-film{ padding:36px 0 42px; }
+    .film-inner{ width:calc(100% - 40px); padding-inline:0; }
+    .film-head h2{ font-size:1.7rem; }
+    .film-frame{ border-radius:14px; }
     .page{ padding-top:calc(var(--nav-h) + 30px); }
     .media-row figure img{ aspect-ratio:4/3; }
     .dark-band{ border-radius:18px; padding:20px; }
@@ -1367,6 +1407,23 @@
       </div>
       <p class="home-promise-note">以上为设计目标，非硬件实测；2 分钟 / 13 小时为逻辑推算，基于推荐摆位与默认参数，实际以整机联调为准。定义见仓库文档与「验证边界」页。</p>
     </div>
+
+    <section class="home-film" aria-labelledby="filmTitle">
+      <div class="film-inner">
+        <div class="film-head">
+          <p class="eyebrow">概念片 / FILM · 01:01</p>
+          <h2 id="filmTitle">一次沉默，如何被看见。</h2>
+          <p>从雷达发现异常、门磁判断出门，到老人拍一下按键、红色 SOS 优先呼救——61 秒，看完它的完整逻辑。</p>
+        </div>
+        <figure class="film-frame">
+          <video controls preload="none" playsinline width="1280" height="720" poster="assets/video/guardian-concept-poster.jpg" aria-label="守护星概念片：独居老人居家场景、毫米波雷达、门磁与两个按键">
+            <source src="assets/video/guardian-concept.mp4" type="video/mp4">
+            您的浏览器不支持视频播放，可前往产品体验页查看图文说明。
+          </video>
+        </figure>
+        <p class="film-note">概念片 · AI 生成，非实物拍摄；片中按键交互为动画演示，不代表硬件实测。</p>
+      </div>
+    </section>
   </section>
 
   <!-- ================= #/experience ================= -->
