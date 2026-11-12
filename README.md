@@ -30,7 +30,7 @@
 | **拿到外部教程或别人的代码，能不能照做** | [docs/外部教程核对表.md](docs/外部教程核对表.md) —— 操作层可抄、代码层别混，附 Vosk 正确接入的三行命令 |
 | **硬件到货当天按什么顺序验** | **[docs/硬件到货当天_checklist.md](docs/硬件到货当天_checklist.md)** —— 7 个已知坑、执行顺序、卡住时发什么 |
 | 要买什么、怎么跟老师报 | [hardware/采购申请单.md](hardware/采购申请单.md) —— 必购 157 元 / 可选 139 元 / 明确不买的三种 |
-| **要给老师看的飞书多维表格** | **[feishu/README_多维表格说明.md](feishu/README_多维表格说明.md)** —— 表里有什么、怎么更新；一条命令 `python tools/feishu_sync.py` 同步开发日志 |
+| **要给老师看的飞书多维表格** | **[feishu/README_多维表格说明.md](feishu/README_多维表格说明.md)** —— 表里有什么、老师怎么看；仓库内 `feishu/*.csv` 是 11-04 的只读快照，**已停止自动同步** |
 | 一段 200 字项目简介（填表用） | [项目简介](#项目简介约-200-字可直接粘进申报表--答辩-ppt-首页) —— 就在下面第一段 |
 
 ---
@@ -268,7 +268,11 @@ python src/sweep.py data/guardian.csv
 │   └── voice.py           # 本地优先播报 + LLM 对话（非安全路径）
 ├── tools/
 │   ├── audio_kit.py       # 录音体检（不需要声卡）+ m4a → WAV
-│   └── make_audio.py      # 临时 TTS，答辩前必须换成真人
+│   ├── make_audio.py      # 临时 TTS，答辩前必须换成真人
+│   ├── plot_sweep.py      # 按 sweep 结果画指标图
+│   ├── make_qr.py         # 生成主页二维码
+│   ├── feishu_sync.py     # 已停用（2026-11-09）：曾按天同步开发日志到多维表格
+│   └── feishu_export.py   # 已停用：导出四张 CSV 快照
 ├── audio/                 # 真人语音：ask / ask_again / resolved / fault / away / sos（+ 可选 checkin）
 ├── hardware/
 │   ├── BOM.md             # 采购、摆放、验收顺序
@@ -284,8 +288,13 @@ python src/sweep.py data/guardian.csv
 │   ├── 采集记录表.md       # 打印出来，真机采集当天边测边填
 │   ├── 外部教程核对表.md   # 拿到别人给的教程/代码时先对一遍：哪些能抄、哪些会复活旧 bug
 │   └── figs/              # 打扰预算曲线、静默事件时间轴
+├── requirements.txt       # Python 依赖（pyserial / gpiozero 等）
 ├── data/schema.md         # CSV 数据字典
-└── demo/                  # 10 秒终端录屏
+├── demo/                  # 10 秒终端录屏（mock_run.mp4）
+├── feishu/                # 多维表格快照：四张 CSV + 说明（2026-11-09 起停用同步）
+├── assets/                # 官网图片，本地引用，离线可看
+├── index.html             # 项目主页（GitHub Pages 入口）
+└── qr-code.png            # 主页二维码，答辩 PPT 用
 ```
 
 ## 项目状态
