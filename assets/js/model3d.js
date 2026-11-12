@@ -6,6 +6,9 @@
   var canvas = document.getElementById("model3dCanvas");
   var fallback = document.getElementById("model3dFallback");
   var note = document.getElementById("modelDemoNote");
+  var signal = document.getElementById("model3dSignal");
+  var signalTitle = document.getElementById("model3dSignalTitle");
+  var signalSub = document.getElementById("model3dSignalSub");
   var stageCap = document.querySelector(".model-stage-3d .stage-cap");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -250,6 +253,21 @@
   var currentY = targetY, currentX = targetX;
   var pulse = 0, pulseType = "";
 
+  function showSignal(name) {
+    if (!signal) return;
+    var alarm = name === "sos";
+    container.setAttribute("data-signal", alarm ? "alert" : "confirm");
+    if (signalTitle) signalTitle.textContent = alarm ? "报警 · 已发起求助" : "我没事";
+    if (signalSub) {
+      signalSub.textContent = alarm
+        ? "SOS 演示 · 本地呼救优先，远程通知待联调"
+        : "已记录一次确认 · 界面演示，不代表硬件实测";
+    }
+    signal.classList.remove("is-pop");
+    void signal.offsetWidth;
+    signal.classList.add("is-pop");
+  }
+
   function setNote(name) {
     if (!note) return;
     if (name === "sos") {
@@ -260,6 +278,7 @@
       pulseType = "confirm";
     }
     pulse = 1;
+    showSignal(name);
   }
 
   canvas.addEventListener("pointerdown", function (e) {
@@ -330,8 +349,8 @@
         sosMat.emissiveIntensity = 0.22 + pulse * 0.85;
       } else {
         keyButton.scale.setScalar(1 - (s - 1) * 0.45);
-        keyMat.emissive.setHex(0x2e2417);
-        keyMat.emissiveIntensity = pulse * 0.22;
+        keyMat.emissive.setHex(0x2e7d6b);
+        keyMat.emissiveIntensity = pulse * 0.55;
       }
     } else {
       sosButton.scale.setScalar(1);

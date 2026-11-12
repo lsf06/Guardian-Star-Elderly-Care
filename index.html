@@ -751,6 +751,75 @@
     cursor:grab; touch-action:none;
   }
   .model-3d canvas:active{ cursor:grabbing; }
+  .model-3d-signal{
+    position:absolute; left:14px; right:14px; bottom:14px; z-index:5;
+    display:flex; align-items:center; gap:13px;
+    padding:13px 16px; border-radius:14px;
+    color:#fff; pointer-events:none;
+    opacity:0; transform:translateY(12px) scale(.97);
+    background:linear-gradient(135deg, rgba(46,125,107,.97), rgba(34,98,84,.97));
+    border:1px solid rgba(255,255,255,.35);
+    box-shadow:0 16px 32px rgba(38,34,26,.18), inset 0 1px 0 rgba(255,255,255,.28);
+    transition:opacity .3s ease, transform .3s var(--ease-out), background .3s ease;
+  }
+  .model-3d[data-signal="confirm"] .model-3d-signal,
+  .model-3d[data-signal="alert"] .model-3d-signal{ opacity:1; transform:none; }
+  .model-3d[data-signal="alert"] .model-3d-signal{
+    background:linear-gradient(135deg, rgba(198,69,60,.98), rgba(150,34,27,.98));
+    border-color:rgba(255,255,255,.42);
+  }
+  .model-3d-signal.is-pop{ animation:signalPop .5s cubic-bezier(.18,.82,.25,1) both; }
+  @keyframes signalPop{
+    0%{ opacity:0; transform:translateY(16px) scale(.92); }
+    60%{ opacity:1; transform:translateY(-2px) scale(1.015); }
+    100%{ opacity:1; transform:none; }
+  }
+  .model-3d-signal-icon{
+    flex:none; display:grid; place-items:center; width:38px; height:38px; border-radius:50%;
+    background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35);
+  }
+  .model-3d-signal-icon svg{ width:21px; height:21px; display:none; }
+  .model-3d[data-signal="confirm"] .sig-ok,
+  .model-3d[data-signal="alert"] .sig-alert{ display:block; }
+  .model-3d-signal-copy{ min-width:0; display:flex; flex-direction:column; gap:2px; }
+  .model-3d-signal-copy strong{
+    font-size:clamp(1.5rem, 3.4vw, 2.1rem); line-height:1.1;
+    letter-spacing:.02em; font-weight:800;
+  }
+  .model-3d-signal-copy span{
+    font-family:var(--mono); font-size:9.5px; line-height:1.55; letter-spacing:.05em;
+    color:rgba(255,255,255,.82);
+  }
+  .model-3d[data-signal="alert"] .model-3d-signal::after{
+    content:""; position:absolute; inset:-5px; border-radius:18px; pointer-events:none;
+    border:2px solid rgba(198,69,60,.55);
+    animation:alertRing 1.15s ease-out infinite;
+  }
+  @keyframes alertRing{ 0%{ opacity:.85; transform:scale(1); } 100%{ opacity:0; transform:scale(1.045); } }
+  .model-3d[data-signal="confirm"]{
+    border-color:rgba(46,125,107,.55);
+    box-shadow:0 0 0 3px rgba(46,125,107,.15), 0 18px 40px rgba(46,125,107,.14), inset 0 1px 0 rgba(255,255,255,.7);
+  }
+  .model-3d[data-signal="alert"]{
+    border-color:rgba(198,69,60,.7);
+    animation:stageAlarm 1.1s ease-in-out infinite;
+  }
+  @keyframes stageAlarm{
+    0%,100%{ box-shadow:0 0 0 3px rgba(198,69,60,.18), 0 0 40px rgba(198,69,60,.3), inset 0 1px 0 rgba(255,255,255,.7); }
+    50%{ box-shadow:0 0 0 7px rgba(198,69,60,.10), 0 0 72px rgba(198,69,60,.5), inset 0 1px 0 rgba(255,255,255,.7); }
+  }
+  .model-3d[data-signal="confirm"] .model-3d-badge{
+    color:#fff; background:rgba(46,125,107,.95); border-color:rgba(255,255,255,.4);
+  }
+  .model-3d[data-signal="confirm"] .model-3d-badge::before{
+    background:#fff; box-shadow:0 0 10px rgba(255,255,255,.9);
+  }
+  .model-3d[data-signal="alert"] .model-3d-badge{
+    color:#fff; background:rgba(198,69,60,.95); border-color:rgba(255,255,255,.45);
+  }
+  .model-3d[data-signal="alert"] .model-3d-badge::before{
+    background:#fff; box-shadow:0 0 10px rgba(255,255,255,.9);
+  }
   .model-3d-badge{
     position:absolute; left:14px; top:14px; z-index:4; pointer-events:none;
     display:inline-flex; align-items:center; gap:7px;
@@ -1730,6 +1799,16 @@
             <span class="model-3d-badge" aria-hidden="true">3D · 拖动旋转</span>
             <canvas id="model3dCanvas" aria-hidden="true"></canvas>
             <img class="model-fallback" id="model3dFallback" src="assets/images/detail.jpg" width="970" height="695" alt="守护星双键产品近景（3D 不可用时的替代图）" hidden>
+            <div class="model-3d-signal" id="model3dSignal" aria-live="assertive" aria-atomic="true">
+              <span class="model-3d-signal-icon" aria-hidden="true">
+                <svg class="sig-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                <svg class="sig-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 22 20.5H2z"/><path d="M12 9.5v5"/><path d="M12 17.8v.2"/></svg>
+              </span>
+              <span class="model-3d-signal-copy">
+                <strong id="model3dSignalTitle">我没事</strong>
+                <span id="model3dSignalSub">已记录一次确认 · 界面演示</span>
+              </span>
+            </div>
           </div>
           <p class="stage-cap">产品 3D 概念模型 · 拖动旋转，非工程扫描</p>
         </div>
