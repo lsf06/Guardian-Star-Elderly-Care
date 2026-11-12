@@ -20,14 +20,14 @@
 
   var renderer;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
   } catch (err) { fail(); return; }
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  renderer.setClearColor(0xf3ebdd, 1);
+  renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.86;
+  renderer.toneMappingExposure = 1.12;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -42,14 +42,14 @@
     c.width = 512; c.height = 256;
     var ctx = c.getContext("2d");
     var g = ctx.createLinearGradient(0, 0, 0, 256);
-    g.addColorStop(0, "#fbfbf8");
-    g.addColorStop(0.42, "#ecebe6");
-    g.addColorStop(0.72, "#cfc9be");
-    g.addColorStop(1, "#9f9688");
+    g.addColorStop(0, "#f3ede2");
+    g.addColorStop(0.42, "#e8e0d2");
+    g.addColorStop(0.72, "#d8d0c0");
+    g.addColorStop(1, "#c9c1b1");
     ctx.fillStyle = g; ctx.fillRect(0, 0, 512, 256);
     var w = ctx.createRadialGradient(150, 78, 5, 150, 78, 150);
-    w.addColorStop(0, "rgba(255,253,247,.95)");
-    w.addColorStop(1, "rgba(255,253,247,0)");
+    w.addColorStop(0, "rgba(255,244,224,.9)");
+    w.addColorStop(1, "rgba(255,244,224,0)");
     ctx.fillStyle = w; ctx.fillRect(0, 0, 512, 256);
     var t = new THREE.CanvasTexture(c);
     t.mapping = THREE.EquirectangularReflectionMapping;
@@ -57,10 +57,10 @@
     return t;
   }
   scene.environment = makeEnvironment();
-  if ("environmentIntensity" in scene) scene.environmentIntensity = 0.42;
+  if ("environmentIntensity" in scene) scene.environmentIntensity = 0.9;
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x8f8a80, 0.45));
-  var keyLight = new THREE.DirectionalLight(0xfff6e8, 0.95);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8cfc0, 0.9));
+  var keyLight = new THREE.DirectionalLight(0xfff2dd, 2.2);
   keyLight.position.set(3.2, 5, 3.8);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.set(1024, 1024);
@@ -72,17 +72,20 @@
   keyLight.shadow.camera.bottom = -3.2;
   keyLight.shadow.bias = -0.0006;
   scene.add(keyLight);
-  var fill = new THREE.DirectionalLight(0xdfe8ff, 0.28);
+  var fill = new THREE.DirectionalLight(0xdfe8ff, 0.7);
   fill.position.set(-4, 2.5, 2);
   scene.add(fill);
-  var rim = new THREE.PointLight(0xffdfb8, 0.4, 8, 2);
-  rim.position.set(0, 2.8, -3);
+  var rim = new THREE.PointLight(0xffc98a, 0.8, 9, 2);
+  rim.position.set(-1.8, 2.2, -3);
   scene.add(rim);
+  var rimCool = new THREE.PointLight(0x9fd8c6, 0.4, 8, 2);
+  rimCool.position.set(2.6, 1.2, -2.4);
+  scene.add(rimCool);
 
   /* ---- floor ---- */
   var floor = new THREE.Mesh(
     new THREE.CircleGeometry(2.4, 64),
-    new THREE.ShadowMaterial({ opacity: 0.18 })
+    new THREE.ShadowMaterial({ opacity: 0.28 })
   );
   floor.rotation.x = -Math.PI / 2;
   floor.position.y = -0.195;
@@ -148,7 +151,7 @@
     metalness: 0.0,
     clearcoat: 0.12,
     clearcoatRoughness: 0.55,
-    envMapIntensity: 0.45,
+    envMapIntensity: 0.6,
     bumpMap: grain,
     bumpScale: 0.0018,
     side: THREE.DoubleSide
@@ -161,7 +164,7 @@
   /* gold seam */
   var seam = new THREE.Mesh(
     new THREE.TorusGeometry(0.996, 0.008, 12, 180),
-    new THREE.MeshPhysicalMaterial({ color: 0xc8a168, metalness: 0.75, roughness: 0.32, clearcoat: 0.4 })
+    new THREE.MeshPhysicalMaterial({ color: 0xd9b173, metalness: 0.85, roughness: 0.24, clearcoat: 0.5, emissive: 0x2a1a06, emissiveIntensity: 0.5 })
   );
   seam.rotation.x = Math.PI / 2;
   seam.position.y = 0.075;
