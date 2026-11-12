@@ -292,7 +292,7 @@ python src/sweep.py data/guardian.csv
 ├── data/schema.md         # CSV 数据字典
 ├── demo/                  # 10 秒终端录屏（mock_run.mp4）
 ├── feishu/                # 多维表格快照：四张 CSV + 说明（2026-11-09 起停用同步）
-├── assets/                # 官网图片，本地引用，离线可看
+├── assets/                # 官网素材：images/ 概念图、js/ 3D 模型、vendor/ three.js
 ├── index.html             # 项目主页（GitHub Pages 入口）
 └── qr-code.png            # 主页二维码，答辩 PPT 用
 ```
