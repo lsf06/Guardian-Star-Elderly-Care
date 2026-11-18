@@ -23,6 +23,9 @@ raw*.bin
 # 注意：sweep_result.csv 必须进仓库 —— 它是「打扰预算曲线」背后的真实数字，
 # 也是这个项目最值得提交的产出之一。不要忽略它。
 
+# 推送失败记录：运行时产生的、含老人异常内容，不进仓库
+data/_push_failed.jsonl
+
 # 系统杂项
 .DS_Store
 Thumbs.db

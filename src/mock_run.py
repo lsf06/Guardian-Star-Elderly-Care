@@ -172,6 +172,28 @@ def main():
         print("FAIL: 点名后按键没有计入 checkin_ok —— 家属端看不到「今日平安」，")
         print("      也就无法通过「今天没收到平安」发现设备被拔了")
         ok = False
+    # 只计数不够：必须产生一个能让 guardian_main 真的推出去的事件。
+    # 「家属当天没收到平安就知道被拔了」这句话，成立的前提是平安消息真的发出去了。
+    if not any(x[1] == "checkin_ok" for x in blog):
+        print("FAIL: 点名按键只改了计数，没有产生 checkin_ok 事件 —— ")
+        print("      家属永远收不到「今日平安」，「被拔掉当天就知道」不成立")
+        ok = False
+
+    # 另一条路径：点名已经开始，老人隔一分钟才按。同样必须发出「今日平安」。
+    gp = Guardian(ccfg, t0=0.0)
+    plog = []
+    t = 0.0
+    for minute in range(8 * 60, 10 * 60):
+        for k, _ in gp.update(t, seen=True, pressed=(minute == 9 * 60 + 2),
+                              now_tod=float(minute * 60)):
+            plog.append((minute, k))
+        t += 60.0
+    if not any(x[1] == "checkin_ok" for x in plog):
+        print("FAIL: 点名进行中才按键，没有产生 checkin_ok 事件 —— 家属端漏收平安")
+        ok = False
+    if any(x[1] == "escalate" for x in plog):
+        print("FAIL: 点名进行中按了键，仍然升级推送（误报）")
+        ok = False
 
     # ---- 回归测试：播报期间的自激不能取消事件（漏报）--------------------
     # 真机现象：喇叭响的时候，同一颗雷达把振动读成「微动」，状态机看到 seen=True。

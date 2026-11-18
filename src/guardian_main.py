@@ -123,6 +123,12 @@ def main():
                     _announce(g, ser, cfg.resolved_text, "resolved")
                 elif kind == "escalate":
                     voice.push_family(cfg.push_text)
+                elif kind == "checkin_ok":
+                    # 每天一条「今日平安」。它同时是两个东西：
+                    #   1) 家属要的日常安心；
+                    #   2) 死手开关 —— 哪天没收到，就是设备被拔了/坏了。
+                    # 所以这条必须真的发出去，只在本地计数等于没发。
+                    voice.push_family(text)
                 elif kind == "fault":
                     _announce(g, ser, "我这边的雷达好像没连上，请看一下线。", "fault")
                 elif kind == "startup":

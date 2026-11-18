@@ -11,6 +11,7 @@
 """
 import os
 import subprocess
+import time
 
 AUDIO_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "audio")
 
@@ -152,25 +153,66 @@ def chat(text, timeout=20):
         return "我这边有点听不清，您再说一遍好不好？"
 
 
-def push_family(text):
-    """推送给家属。这里只留接口，实际用 PushPlus / 企业微信机器人。
+def push_family(text, attempts=3, timeout=10):
+    """推送给家属。PushPlus，失败会重试并落盘。
 
-    没配置就打印 —— 但请在文档里明确写：未配置推送时，本设备只有本地语音提醒。
+    为什么不能只看 HTTP 200：PushPlus 在 token 过期、当日限额、内容被拦截时
+    仍然回 200，业务码放在响应体的 `code` 里。只判状态码会把「没送到」
+    记成「已送达」——而这条路径上的下一次调用，可能是老人按了红键。
+
+    没配置 token 就打印并在文档里写明：未配置推送时，本设备只有本地语音提醒。
     不要像某些方案那样，明明没有通知动作，却播报「已通知家属」。
     """
     token = os.environ.get("PUSHPLUS_TOKEN", "").strip()
     if not token:
         print("[PUSH] %s" % text)
         return False
+
+    last = None
+    for i in range(max(1, attempts)):
+        try:
+            _push_once(token, text, timeout)
+            return True
+        except Exception as e:
+            last = e
+            if i + 1 < max(1, attempts):
+                time.sleep(2 ** i)          # 1s, 2s
+    _push_record_failure(text, last)
+    print("[PUSH] 失败（已重试 %d 次）：%s" % (max(1, attempts), last))
+    return False
+
+
+def _push_once(token, text, timeout):
     import json
     import urllib.request
 
-    body = json.dumps({"token": token, "title": "居家关怀提醒", "content": text}).encode("utf-8")
+    body = json.dumps({"token": token, "title": "居家关怀提醒",
+                       "content": text}).encode("utf-8")
     req = urllib.request.Request("https://www.pushplus.plus/send", data=body,
                                  headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        if r.status != 200:
+            raise RuntimeError("HTTP %s" % r.status)
+        raw = r.read().decode("utf-8", "replace")
+    data = json.loads(raw)
+    if int(data.get("code", -1)) != 200:
+        raise RuntimeError("业务码 %s：%s" % (data.get("code"), data.get("msg")))
+
+
+def _push_record_failure(text, err):
+    """失败落盘，供人工补发与事后取证。写失败不能再抛，否则救不了人还崩程序。"""
+    import json
+    import time as _t
+
     try:
-        with urllib.request.urlopen(req, timeout=10) as r:
-            return r.status == 200
-    except Exception as e:
-        print("[PUSH] 失败：%s" % e)
-        return False
+        path = os.path.join(os.path.dirname(AUDIO_DIR), "data", "_push_failed.jsonl")
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(json.dumps({
+                "ts": _t.strftime("%Y-%m-%d %H:%M:%S"),
+                "text": text,
+                "error": str(err),
+            }, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+

@@ -241,12 +241,14 @@ class Guardian:
             # 今天这次点名就此免掉，否则就是「刚聊完天又被问您还好吗」。
             if self.checkin_due:
                 self.checkin_due = False
-                self.counts["checkin_ok"] += 1
+                self._checkin_ok(ev)
             if self.episode in ("asking", "escalated"):
                 if self.ask_kind == "checkin":
                     # 家属端每天要看到的就是这一条「人按了、人没事」。
                     # 收不到它，说明设备本身出了问题 —— 这比报警更有用。
-                    self.counts["checkin_ok"] += 1
+                    # 注意：必须真的发出去（guardian_main 里会 push），只在计数里
+                    # 加一是不够的；否则「家属当天收不到平安就知道被拔了」是句空话。
+                    self._checkin_ok(ev)
                 self.episode = "resolved"
                 self.ask_kind = None
                 self.suppress_until = now + cfg.after_resolve_quiet
@@ -335,6 +337,17 @@ class Guardian:
         return ev
 
     # ------------------------------------------------------------------
+    def _checkin_ok(self, ev):
+        """记一次「今日平安」，并保证每次调用只产生一个事件。
+
+        两条路径会走到这里：点名那一分钟正好按了键（checkin_due 分支），
+        以及点名已经在进行中、老人隔了一分钟才按（episode 分支）。
+        两条都必须发——家属端要的是「今天有人应了」，不是「哪条路径应了」。
+        """
+        self.counts["checkin_ok"] += 1
+        if not any(k == "checkin_ok" for k, _ in ev):
+            ev.append(("checkin_ok", "今日平安：老人已按键确认。"))
+
     def counts_inc(self, k):
         self.counts[k] = self.counts.get(k, 0) + 1
 
