@@ -8,7 +8,7 @@
 |---|---|---|
 | `mock_run.mp4` / `.gif` | `Win + G` 对着屏幕录 `python src/mock_run.py` | 25 秒 |
 
-录这六行覆盖的整段（脚本的真实输出，[docs/11月展示冲刺执行手册.md](../docs/11月展示冲刺执行手册.md) 1.2 节）：
+录这六行覆盖的整段（`python src/mock_run.py` 直接能复现，不用硬件）：
 
 ```text
 [0005] startup    启动 5 秒仍未检测到人，请检查摆放位置与雷达朝向

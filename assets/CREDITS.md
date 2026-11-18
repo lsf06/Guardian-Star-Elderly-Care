@@ -20,11 +20,15 @@
 
 > 3D 模型在 `assets/js/model3d.js`，渲染库是 `assets/vendor/three.min.js`（本地引入，断网也能转）。
 
-## 二、旧版素材（`assets/` 根目录三张，已不再被引用）
+## 二、旧版素材（已删除，不再放在仓库里）
 
-这三张是改版前的首屏素材，来自 Pexels，遵循 [Pexels License](https://www.pexels.com/license/)：可免费用于商业与非商业用途、无需署名、可修改；限制是不得转售原图、不得暗示图中人物或品牌为本产品背书。
+改版前 `assets/` 根目录还有三张首屏素材，来自 Pexels，遵循 [Pexels License](https://www.pexels.com/license/)：可免费用于商业与非商业用途、无需署名、可修改；限制是不得转售原图、不得暗示图中人物或品牌为本产品背书。
 
-当前 `index.html` 已不再引用它们，保留在仓库里只为留档（如需减小体积可以删）。
+改版后 `index.html` 已全部改用 `assets/images/`，这三张**没有任何页面或文档再引用**，已于 2026-11-18 从仓库删除（省 328 KB）。如需找回，在 git 历史里搜文件名即可：
+
+```bash
+git log --oneline -- assets/hero.jpg assets/detail-button.jpg assets/detail-window.jpg
+```
 
 | 文件 | 内容 | 来源 | 尺寸 |
 | --- | --- | --- | --- |
