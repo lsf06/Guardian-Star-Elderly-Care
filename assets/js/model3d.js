@@ -9,8 +9,52 @@
   var signal = document.getElementById("model3dSignal");
   var signalTitle = document.getElementById("model3dSignalTitle");
   var signalSub = document.getElementById("model3dSignalSub");
+  var flash = document.getElementById("model3dFlash");
+  var flashWord = document.getElementById("model3dFlashWord");
   var stageCap = document.querySelector(".model-stage-3d .stage-cap");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- demo tones, muted by the global nav sound switch ---- */
+  var audioCtx = null;
+  function globalSoundOn() {
+    var btn = document.getElementById("soundBtn");
+    return !btn || btn.getAttribute("aria-pressed") !== "false";
+  }
+  function ensureAudio() {
+    if (audioCtx) return audioCtx;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    try { audioCtx = new AC(); } catch (err) { audioCtx = null; }
+    return audioCtx;
+  }
+  function tone(freq, start, dur, type, peak) {
+    var ctx = audioCtx;
+    if (!ctx) return;
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = type || "sine";
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+    var t0 = ctx.currentTime + start;
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(peak, t0 + 0.018);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(t0); osc.stop(t0 + dur + 0.02);
+  }
+  function playSound(name) {
+    if (!globalSoundOn()) return;
+    var ctx = ensureAudio();
+    if (!ctx) return;
+    if (ctx.state === "suspended") { try { ctx.resume(); } catch (err) {} }
+    if (name === "sos") {
+      tone(880, 0, 0.16, "square", 0.16);
+      tone(660, 0.2, 0.16, "square", 0.16);
+      tone(880, 0.4, 0.22, "square", 0.18);
+    } else {
+      tone(660, 0, 0.16, "sine", 0.14);
+      tone(990, 0.12, 0.26, "sine", 0.12);
+    }
+  }
 
   function fail() {
     if (canvas) canvas.style.display = "none";
@@ -254,18 +298,32 @@
   var pulse = 0, pulseType = "";
 
   function showSignal(name) {
-    if (!signal) return;
     var alarm = name === "sos";
     container.setAttribute("data-signal", alarm ? "alert" : "confirm");
-    if (signalTitle) signalTitle.textContent = alarm ? "报警 · 已发起求助" : "我没事";
-    if (signalSub) {
-      signalSub.textContent = alarm
-        ? "SOS 演示 · 本地呼救优先，远程通知待联调"
-        : "已记录一次确认 · 界面演示，不代表硬件实测";
+    if (signal) {
+      if (signalTitle) signalTitle.textContent = alarm ? "报警 · 已发起求助" : "我没事";
+      if (signalSub) {
+        signalSub.textContent = alarm
+          ? "SOS 演示 · 本地呼救优先，远程通知待联调"
+          : "已记录一次确认 · 界面演示，不代表硬件实测";
+      }
+      signal.classList.remove("is-pop");
+      void signal.offsetWidth;
+      signal.classList.add("is-pop");
     }
-    signal.classList.remove("is-pop");
-    void signal.offsetWidth;
-    signal.classList.add("is-pop");
+    if (flash) {
+      if (flashWord) flashWord.textContent = alarm ? "报警" : "我没事";
+      flash.classList.remove("flash-ok", "flash-alert", "play");
+      void flash.offsetWidth;
+      flash.classList.add(alarm ? "flash-alert" : "flash-ok", "play");
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-model-action="' + (alarm ? "sos" : "confirm") + '"]'), function (btn) {
+      btn.classList.remove("is-active");
+      void btn.offsetWidth;
+      btn.classList.add("is-active");
+      window.setTimeout(function () { btn.classList.remove("is-active"); }, 620);
+    });
+    playSound(name);
   }
 
   function setNote(name) {
