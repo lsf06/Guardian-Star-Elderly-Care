@@ -152,12 +152,12 @@
   <!-- 门磁否决 -->
   <g>
     <rect x="40" y="286" width="600" height="30" rx="4" fill="#f6f7f9" stroke="#cbd2da" stroke-width="1" stroke-dasharray="4 3"/>
-    <text x="52" y="305" font-size="9" fill="#374151">门磁否决：若这段时间内门开过 ≥ 30 s → 判为离家，整条链路不启动（离场误问候必须为 0）</text>
+    <text x="52" y="305" font-size="9" fill="#374151">门磁否决：若这段时间内门开过 ≥ 10 s → 判为离家，整条链路不启动（离场误问候必须为 0）</text>
   </g>
 
   <!-- 底部注记 -->
   <line x1="20" y1="330" x2="660" y2="330" stroke="#e5e7eb" stroke-width="1"/>
-  <text x="20" y="348" font-size="9.5" font-weight="700" fill="#b91c1c">判定看的是「窗口内无人帧占比 ≤ 20%」，不是「连续 N 秒没有帧」</text>
+  <text x="20" y="348" font-size="9.5" font-weight="700" fill="#b91c1c">判定看的是「窗口内『看得到人』的帧占比 ≤ 20%」（即无人帧 ≥ 80%），不是「连续 N 秒没有帧」</text>
   <text x="20" y="364" font-size="9.5" fill="#4b5563">上面那 5 个浅蓝杂散帧，会让「连续静默」永远无法达成 —— 实测中只要 8% 的杂散帧就能让检出率归零。</text>
   <text x="20" y="380" font-size="9.5" fill="#4b5563">改用窗口占比后，杂散帧只影响占比几个百分点，不影响结论。这一条是本项目在工程上真正踩过的坑。</text>
   <text x="20" y="396" font-size="9.5" fill="#6b7280">横轴非等比：0–90 s 段被压缩显示，实际 T 在 15–180 s 之间由 sweep.py 扫描选定工作点。</text>

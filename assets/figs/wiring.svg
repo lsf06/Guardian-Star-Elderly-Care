@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 596" width="680" height="596" font-family="'Noto Sans SC','Microsoft YaHei',-apple-system,Segoe UI,sans-serif">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+
+  <text x="20" y="26" font-size="13.5" font-weight="700" fill="#1f2328">树莓派 5 ⇄ 雷达 / 门磁 / 按键　接线示意</text>
+  <text x="20" y="42" font-size="9.5" fill="#6b7280">按 Pin 编号找针脚，不要按位置记 —— 树莓派两排针脚的编号是 zig-zag 走的</text>
+
+  <!-- 板子 -->
+  <rect x="60" y="56" width="180" height="444" rx="10" fill="#f6f7f9" stroke="#9aa4b2" stroke-width="1.2"/>
+  <text x="150" y="76" font-size="11" font-weight="700" fill="#374151" text-anchor="middle">树莓派 5</text>
+  <text x="150" y="90" font-size="9" fill="#6b7280" text-anchor="middle">40-pin GPIO</text>
+  <line x1="76" y1="98" x2="224" y2="98" stroke="#d5dae1" stroke-width="1"/>
+
+  <g font-size="9.5" fill="#374151" text-anchor="end">
+    <text x="230" y="108">Pin 2 · 5V</text>
+    <text x="230" y="130">Pin 6 · GND</text>
+    <text x="230" y="152">Pin 10 · GPIO15（RXD）</text>
+    <text x="230" y="174">Pin 8 · GPIO14（TXD）</text>
+    <text x="230" y="258">Pin 1 · 3.3V</text>
+    <text x="230" y="280">Pin 9 · GND</text>
+    <text x="230" y="302">Pin 12 · GPIO18</text>
+    <text x="230" y="368">Pin 11 · GPIO17</text>
+    <text x="230" y="390">Pin 14 · GND</text>
+    <text x="230" y="458">Pin 13 · GPIO27</text>
+    <text x="230" y="480">Pin 20 · GND</text>
+  </g>
+
+  <!-- 连线 -->
+  <g stroke-width="2.2" fill="none">
+    <line x1="240" y1="105" x2="380" y2="105" stroke="#d94b4b"/>
+    <line x1="240" y1="127" x2="380" y2="127" stroke="#8b95a3"/>
+    <line x1="240" y1="149" x2="380" y2="149" stroke="#2563eb"/>
+    <line x1="240" y1="171" x2="380" y2="171" stroke="#2563eb"/>
+    <line x1="240" y1="255" x2="380" y2="255" stroke="#d94b4b"/>
+    <line x1="240" y1="277" x2="380" y2="277" stroke="#8b95a3"/>
+    <line x1="240" y1="299" x2="380" y2="299" stroke="#2563eb"/>
+    <line x1="240" y1="365" x2="380" y2="365" stroke="#2563eb"/>
+    <line x1="240" y1="387" x2="380" y2="387" stroke="#8b95a3"/>
+    <line x1="240" y1="455" x2="380" y2="455" stroke="#2563eb"/>
+    <line x1="240" y1="477" x2="380" y2="477" stroke="#8b95a3"/>
+  </g>
+
+  <!-- 雷达 -->
+  <rect x="380" y="60" width="250" height="140" rx="8" fill="#eef4ff" stroke="#4b7bec" stroke-width="1.3"/>
+  <text x="392" y="80" font-size="11" font-weight="700" fill="#1e3a8a">LD2410C 毫米波雷达</text>
+  <text x="618" y="80" font-size="8.5" fill="#4b5563" text-anchor="end">24 GHz FMCW</text>
+  <g font-size="9.5" fill="#1f2937">
+    <text x="392" y="111">VCC</text>
+    <text x="392" y="133">GND</text>
+    <text x="392" y="155">TX</text>
+    <text x="392" y="177">RX</text>
+  </g>
+  <g font-size="8.5" fill="#6b7280" text-anchor="end">
+    <text x="618" y="111">必须 5V，不是 3.3V</text>
+    <text x="618" y="133">共地</text>
+    <text x="618" y="155">接到 Pin 10（RXD）</text>
+    <text x="618" y="177">接到 Pin 8（TXD）</text>
+  </g>
+
+  <!-- 门磁 -->
+  <rect x="380" y="215" width="250" height="95" rx="8" fill="#eef4ff" stroke="#4b7bec" stroke-width="1.3"/>
+  <text x="392" y="235" font-size="11" font-weight="700" fill="#1e3a8a">门磁 MC-38（有线干簧管）</text>
+  <g font-size="9.5" fill="#1f2937">
+    <text x="392" y="261">VCC</text>
+    <text x="392" y="283">GND</text>
+    <text x="392" y="305">DO</text>
+  </g>
+  <g font-size="8.5" fill="#6b7280" text-anchor="end">
+    <text x="618" y="261">3.3V</text>
+    <text x="618" y="283">共地</text>
+    <text x="618" y="305">开门是高还是低，要实测再填</text>
+  </g>
+
+  <!-- 绿键 -->
+  <rect x="380" y="325" width="250" height="75" rx="8" fill="#eafaf1" stroke="#2f9e63" stroke-width="1.3"/>
+  <text x="392" y="345" font-size="11" font-weight="700" fill="#14532d">绿色按键 Ø60（消解 / 聊天）</text>
+  <g font-size="9.5" fill="#1f2937">
+    <text x="392" y="371">一端</text>
+    <text x="392" y="393">另一端</text>
+  </g>
+  <g font-size="8.5" fill="#6b7280" text-anchor="end">
+    <text x="618" y="371">GPIO17，用内部上拉</text>
+    <text x="618" y="393">GND</text>
+  </g>
+
+  <!-- 红键 -->
+  <rect x="380" y="415" width="250" height="75" rx="8" fill="#fdeeee" stroke="#d94b4b" stroke-width="1.3"/>
+  <text x="392" y="435" font-size="11" font-weight="700" fill="#7f1d1d">红色按键 Ø60（SOS，优先级最高）</text>
+  <g font-size="9.5" fill="#1f2937">
+    <text x="392" y="461">一端</text>
+    <text x="392" y="483">另一端</text>
+  </g>
+  <g font-size="8.5" fill="#6b7280" text-anchor="end">
+    <text x="618" y="461">GPIO27，用内部上拉</text>
+    <text x="618" y="483">GND</text>
+  </g>
+
+  <!-- 图例 -->
+  <g font-size="9" fill="#4b5563">
+    <line x1="380" y1="516" x2="402" y2="516" stroke="#d94b4b" stroke-width="2.2"/>
+    <text x="408" y="519">电源</text>
+    <line x1="448" y1="516" x2="470" y2="516" stroke="#2563eb" stroke-width="2.2"/>
+    <text x="476" y="519">信号</text>
+    <line x1="516" y1="516" x2="538" y2="516" stroke="#8b95a3" stroke-width="2.2"/>
+    <text x="544" y="519">地</text>
+  </g>
+
+  <!-- 注记 -->
+  <line x1="20" y1="536" x2="660" y2="536" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="20" y="554" font-size="9.5" font-weight="700" fill="#b91c1c">最容易错的三条：① 雷达 VCC 必须 5V　② TX / RX 是交叉的　③ 所有模块共地</text>
+  <text x="20" y="570" font-size="9.5" fill="#4b5563">LD2410C：UART 256000 8N1 ｜ 设备名 /dev/ttyAMA0 ｜ G0/G1 静止门限出厂关闭，静止检测从 1.5 m 起</text>
+  <text x="20" y="586" font-size="9.5" fill="#4b5563">门磁「常开 / 常闭」各家标法不统一，装好后先跑 python src/test_door.py --pin 18 实测电平</text>
+</svg>
