@@ -2716,11 +2716,11 @@
       rctx.rect(rw * .3, 0, rw * .7, rh);
       rctx.clip();
 
-      /* 感应场底衬：让浅色照片上的雷达线清晰可读 */
+      /* 感应场底衬：暖褐衬底，让浅色照片上的铜色雷达线清晰可读 */
       var field = rctx.createRadialGradient(cx, cy, maxR * .04, cx, cy, maxR * 1.16);
-      field.addColorStop(0, "rgba(15,42,38,.55)");
-      field.addColorStop(.55, "rgba(15,42,38,.32)");
-      field.addColorStop(1, "rgba(15,42,38,0)");
+      field.addColorStop(0, "rgba(58,48,34,.34)");
+      field.addColorStop(.55, "rgba(58,48,34,.18)");
+      field.addColorStop(1, "rgba(58,48,34,0)");
       rctx.fillStyle = field;
       rctx.fillRect(rw * .3, 0, rw * .7, rh);
 
@@ -2728,7 +2728,7 @@
       for (var i = 1; i <= 4; i++) {
         rctx.beginPath();
         rctx.arc(cx, cy, maxR * (i / 4), 0, Math.PI * 2);
-        rctx.strokeStyle = "rgba(150,228,206," + (0.52 - i * 0.07) + ")";
+        rctx.strokeStyle = "rgba(138,89,38," + (0.55 - i * 0.07) + ")";
         rctx.lineWidth = 1.3;
         if (i === 4) rctx.setLineDash([2, 7]);
         rctx.stroke();
@@ -2736,7 +2736,7 @@
       }
 
       /* 十字与刻度 */
-      rctx.strokeStyle = "rgba(150,228,206,.34)";
+      rctx.strokeStyle = "rgba(138,89,38,.32)";
       rctx.lineWidth = 1;
       rctx.beginPath();
       rctx.moveTo(cx - maxR, cy); rctx.lineTo(cx + maxR, cy);
@@ -2747,7 +2747,7 @@
         rctx.beginPath();
         rctx.moveTo(cx + Math.cos(sa) * maxR, cy + Math.sin(sa) * maxR);
         rctx.lineTo(cx + Math.cos(sa) * (maxR + 6), cy + Math.sin(sa) * (maxR + 6));
-        rctx.strokeStyle = "rgba(150,228,206,.46)";
+        rctx.strokeStyle = "rgba(138,89,38,.45)";
         rctx.stroke();
       }
 
@@ -2757,17 +2757,17 @@
         rctx.beginPath();
         rctx.moveTo(cx, cy);
         rctx.lineTo(cx + Math.cos(a) * maxR, cy + Math.sin(a) * maxR);
-        rctx.strokeStyle = "rgba(120,214,188," + (0.55 * (1 - k / 22)) + ")";
+        rctx.strokeStyle = "rgba(180,123,60," + (0.5 * (1 - k / 22)) + ")";
         rctx.lineWidth = k < 3 ? 1.5 : .9;
         rctx.stroke();
       }
       rctx.save();
-      rctx.shadowColor = "rgba(246,200,124,.9)";
+      rctx.shadowColor = "rgba(216,169,108,.9)";
       rctx.shadowBlur = 10;
       rctx.beginPath();
       rctx.moveTo(cx, cy);
       rctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
-      rctx.strokeStyle = "rgba(246,200,124,.95)";
+      rctx.strokeStyle = "rgba(180,123,60,.95)";
       rctx.lineWidth = 1.8;
       rctx.stroke();
       rctx.restore();
@@ -2782,13 +2782,13 @@
         var x = pt.x * rw, y = pt.y * rh;
         rctx.beginPath();
         rctx.arc(x, y, pt.r + 4.5, 0, Math.PI * 2);
-        rctx.fillStyle = "rgba(246,200,124," + (alpha * .22) + ")";
+        rctx.fillStyle = "rgba(216,169,108," + (alpha * .25) + ")";
         rctx.fill();
         rctx.save();
-        if (seen) { rctx.shadowColor = "rgba(246,200,124,.9)"; rctx.shadowBlur = 9; }
+        if (seen) { rctx.shadowColor = "rgba(216,169,108,.9)"; rctx.shadowBlur = 9; }
         rctx.beginPath();
         rctx.arc(x, y, pt.r + .6, 0, Math.PI * 2);
-        rctx.fillStyle = "rgba(246,200,124," + alpha + ")";
+        rctx.fillStyle = "rgba(180,123,60," + alpha + ")";
         rctx.fill();
         rctx.restore();
       });
@@ -2796,11 +2796,11 @@
       /* 中心 */
       rctx.beginPath();
       rctx.arc(cx, cy, 2.6, 0, Math.PI * 2);
-      rctx.fillStyle = "rgba(246,200,124,.95)";
+      rctx.fillStyle = "rgba(180,123,60,.95)";
       rctx.fill();
       rctx.beginPath();
       rctx.arc(cx, cy, 10, 0, Math.PI * 2);
-      rctx.strokeStyle = "rgba(246,200,124,.5)";
+      rctx.strokeStyle = "rgba(180,123,60,.5)";
       rctx.lineWidth = 1.2;
       rctx.stroke();
       rctx.restore();
