@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>守护星 GUARDIAN STAR — 将安心，留在卧室</title>
+<title>守护星 GUARDIAN STAR — 将安心，留在客厅</title>
 <meta name="description" content="守护星是一款面向独居老人场景的居家状态确认终端概念。本页面为产品概念展示，功能状态以硬件实测核验为准。">
 <meta name="theme-color" content="#F7F2E9">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/">
-<meta property="og:title" content="守护星 GUARDIAN STAR — 将安心，留在卧室">
+<meta property="og:title" content="守护星 GUARDIAN STAR — 将安心，留在客厅">
 <meta property="og:description" content="产品概念展示：无屏幕、无摄像头、确认键 + 红色 SOS。功能状态待硬件实测核验。">
 <meta property="og:image" content="https://lsf06.github.io/Guardian-Star-Elderly-Care/assets/images/hero.jpg">
 <meta property="og:image:width" content="1600">
@@ -107,7 +107,7 @@
   /* ---------- 导航 ---------- */
   .site-nav{
     position:fixed; inset:0 0 auto 0; z-index:150;
-    background:linear-gradient(180deg, rgba(247,242,233,.62) 0%, rgba(247,242,233,.22) 56%, rgba(247,242,233,0) 100%);
+    background:linear-gradient(180deg, rgba(247,242,233,.94) 0%, rgba(247,242,233,.8) 55%, rgba(247,242,233,0) 100%);
     border-bottom:1px solid transparent;
     transition:box-shadow .45s ease, background .45s ease, border-color .45s ease,
                -webkit-backdrop-filter .45s ease, backdrop-filter .45s ease;
@@ -1206,7 +1206,7 @@
     .nav-wrap{ gap:12px; }
     .home-hero{ width:100%; height:auto; min-height:0; display:block; padding-top:0; }
     .home-bg{ position:relative; inset:auto; height:58svh; min-height:380px; }
-    .home-bg img{ object-position:70% 56%; }
+    .home-bg img{ object-position:78% 56%; }
     .home-veil{
       background:
         linear-gradient(0deg, var(--bg) 0%, rgba(247,242,233,.35) 16%, rgba(247,242,233,0) 42%),
@@ -1239,7 +1239,7 @@
       width:100%; min-height:auto; display:block; padding-top:0;
     }
     .home-bg{ position:relative; inset:auto; height:58svh; min-height:360px; }
-    .home-bg img{ object-position:70% 56%; }
+    .home-bg img{ object-position:78% 56%; }
     .home-veil{
       background:
         linear-gradient(0deg, var(--bg) 0%, rgba(247,242,233,.35) 16%, rgba(247,242,233,0) 42%),
@@ -1588,7 +1588,7 @@
   <!-- ================= #/home ================= -->
   <section class="view is-active is-intro" data-view="home" id="view-home" aria-labelledby="homeTitle">
     <div class="home-bg">
-      <img src="assets/images/hero.jpg" width="1600" height="997" alt="守护星双键概念设备置于卧室场景，中央确认键与红色 SOS 键清晰可见（概念示意，非安装位置）" fetchpriority="high" decoding="async">
+      <img src="assets/images/hero.jpg" width="1536" height="1024" alt="守护星双键概念设备置于客厅电视柜上，中央确认键与红色 SOS 键清晰可见（概念示意，非安装位置）" fetchpriority="high" decoding="async">
       <div class="home-veil" aria-hidden="true"></div>
       <canvas class="hero-radar" id="heroRadar" aria-hidden="true"></canvas>
       <p class="home-credit">场景示意 · 非安装位置 · AI 生成</p>
@@ -1597,7 +1597,7 @@
     <div class="home-hero">
       <div class="home-copy">
         <p class="eyebrow">GUARDIAN STAR · HOME CARE DEVICE</p>
-        <h1 class="home-title" id="homeTitle" tabindex="-1"><span class="line"><span>将安心，</span></span><span class="line"><span>留在卧室。</span></span></h1>
+        <h1 class="home-title" id="homeTitle" tabindex="-1"><span class="line"><span>将安心，</span></span><span class="line"><span>留在客厅。</span></span></h1>
         <p class="home-sub">让父母安心生活，让牵挂及时抵达。</p>
         <div class="home-actions">
           <a class="btn btn-primary" href="#/workflow">
@@ -1612,7 +1612,7 @@
           <span>无摄像头</span>
           <span>确认键 + SOS</span>
         </div>
-        <p class="home-placement">摆放建议：离床 2–4 m，别放床头柜 / 茶几。</p>
+        <p class="home-placement">摆放建议：电视柜 / 边几开放台面，离沙发 2–4 m，别塞进封闭柜格。</p>
       </div>
 
       <div class="home-scroll" aria-hidden="true"><span>SCROLL</span><i></i></div>
@@ -1687,7 +1687,7 @@
             </div>
           </div>
           <figure data-reveal style="--d:.08s">
-            <img src="assets/images/scene.jpg" width="1800" height="1200" alt="一位老人坐在床边，守护星概念设备置于画面桌面（情景示意，非安装位置）" decoding="async">
+            <img src="assets/images/scene.jpg" width="1536" height="1024" alt="一位老人坐在客厅沙发上看电视，守护星概念设备置于电视柜上（情景示意，非安装位置）" decoding="async">
             <figcaption>情景示意 · AI 生成，非安装示意</figcaption>
           </figure>
         </div>
@@ -1953,7 +1953,7 @@
           <p class="eyebrow">01 — 硬件</p>
           <h2>核心硬件组成：<span class="ln">树莓派5 + LD2410C</span></h2>
           <p>树莓派负责本地判断与音频播放；LD2410C 只提供目标存在与运动信息。</p>
-          <p class="placement-note">摆放建议：2–4 m、高 60–90 cm；本方案默认关闭 0–1.5 m 的静止门限，静止检测实际从 1.5 m 起；床头柜 / 茶几不适合。</p>
+          <p class="placement-note">摆放建议：2–4 m、高 60–90 cm；本方案默认关闭 0–1.5 m 的静止门限，静止检测实际从 1.5 m 起；封闭电视柜格 / 茶几不适合。</p>
           <div class="chips">
             <span class="chip">24 GHz FMCW</span>
             <span class="chip">本地音频</span>
@@ -2136,12 +2136,12 @@
           <div class="faq-item">
             <h3>
               <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA3" id="faqQ3">
-                <span>能放床头柜或茶几上吗？</span>
+                <span>能塞进电视柜格或放茶几上吗？</span>
                 <span class="faq-ic" aria-hidden="true"></span>
               </button>
             </h3>
             <div class="faq-a" id="faqA3" role="region" aria-labelledby="faqQ3">
-              <div><p>不建议。本方案默认关闭 0–1.5 m 的静止门限；床头柜、茶几通常太近，容易漏掉躺着或坐着不动的人。建议放在 2–4 m 远、离地 60–90 cm 的位置，中间不要有柜门或墙壁遮挡。</p></div>
+              <div><p>不建议。本方案默认关闭 0–1.5 m 的静止门限；封闭柜格、茶几通常太近或被遮挡，容易漏掉坐着不动的人。建议放在 2–4 m 远、离地 60–90 cm 的开放台面（如电视柜面），中间不要有柜门或墙壁遮挡。</p></div>
             </div>
           </div>
           <div class="faq-item">
@@ -2357,7 +2357,7 @@
   /* ---------- Hash 路由 ---------- */
   var ROUTES = ["home", "experience", "workflow", "technology", "app", "boundary"];
   var TITLES = {
-    home: "守护星 GUARDIAN STAR — 将安心，留在卧室",
+    home: "守护星 GUARDIAN STAR — 将安心，留在客厅",
     experience: "产品体验 · 守护星 GUARDIAN STAR",
     workflow: "产品机制 · 守护星 GUARDIAN STAR",
     technology: "硬核技术 · 守护星 GUARDIAN STAR",
