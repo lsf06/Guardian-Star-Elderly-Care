@@ -1405,6 +1405,172 @@
   }
   .js [data-reveal].in{ opacity:1; transform:none; }
 
+  /* ---------- 数据带 / 规格表 / 参数 / 图框 / 试听 / 成本 ---------- */
+  .band{ position:relative; z-index:2; padding:clamp(40px, 6vw, 80px) 0; }
+  .band-head{ max-width:800px; margin-bottom:clamp(22px, 3vw, 34px); }
+  .band-head .eyebrow{ margin-bottom:12px; }
+  .band-head h2{ font-size:clamp(1.7rem, 2.8vw, 2.5rem); line-height:1.25; margin:0 0 10px; }
+  .band-head p{ font-size:1rem; line-height:1.85; color:var(--ink-2); max-width:38em; }
+
+  .home-why{ background:var(--bg); border-top:1px solid var(--line-soft); }
+  .why-stats{
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+  }
+  .why-stats > div{ background:var(--surface); padding:clamp(18px, 2.4vw, 28px); }
+  .why-stats b{
+    display:block; font-family:var(--serif); font-weight:600; line-height:1.1;
+    font-size:clamp(1.9rem, 3.4vw, 2.9rem); color:var(--ink); letter-spacing:.01em;
+  }
+  .why-stats b small{ font-size:.42em; font-weight:600; color:var(--amber-2); margin-left:4px; letter-spacing:.06em; }
+  .why-stats span{ display:block; margin-top:8px; font-size:12.5px; line-height:1.75; color:var(--ink-2); }
+  .why-stats em{ display:block; margin-top:6px; font-style:normal; font-size:10.5px; letter-spacing:.05em; color:var(--ink-3); }
+  .why-quote{
+    margin-top:clamp(20px, 3vw, 30px); background:var(--dark); color:var(--cream);
+    border-radius:18px; padding:clamp(22px, 3vw, 34px); display:grid; gap:14px;
+  }
+  .why-quote p{ font-family:var(--serif); font-size:clamp(1.15rem, 2vw, 1.6rem); line-height:1.55; color:var(--cream); }
+  .why-quote p b{ color:#D8A96C; font-weight:600; }
+  .why-quote small{ font-size:12px; line-height:1.8; color:var(--cream-2); max-width:62em; }
+  .why-tiers{ margin-top:clamp(18px, 2.6vw, 26px); display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; }
+  .tier{ border:1px solid var(--line); border-radius:14px; background:var(--paper); padding:16px 18px; }
+  .tier.is-us{ border-color:rgba(201,130,47,.45); background:var(--amber-soft); }
+  .tier span{ display:block; font-size:10px; letter-spacing:.16em; color:var(--amber-2); margin-bottom:6px; }
+  .tier b{ display:block; font-size:13.5px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+  .tier p{ font-size:11.5px; line-height:1.7; color:var(--ink-2); }
+
+  .spec-block{ margin-block:clamp(34px, 5vw, 60px); }
+  .spec-block > .eyebrow{ margin-bottom:10px; }
+  .spec-block h2{ font-size:clamp(1.45rem, 2.3vw, 2rem); margin-bottom:6px; }
+  .spec-sub{ font-size:.9375rem; color:var(--ink-2); max-width:46em; margin-bottom:18px; line-height:1.85; }
+  .spec-sub code,.callout code,.micro code,.fig-cap code,.voice-tx code,.tier code{
+    font-family:var(--mono); font-size:.86em;
+    background:var(--bg-2); padding:1px 5px; border-radius:5px; color:var(--ink);
+  }
+  .table-scroll{
+    overflow-x:auto; border:1px solid var(--line); border-radius:14px;
+    background:
+      linear-gradient(to right, var(--surface) 30%, rgba(253,251,246,0)) left center / 42px 100% no-repeat local,
+      linear-gradient(to left, var(--surface) 30%, rgba(253,251,246,0)) right center / 42px 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, rgba(38,34,26,.17), rgba(38,34,26,0)) left center / 15px 100% no-repeat scroll,
+      radial-gradient(farthest-side at 100% 50%, rgba(38,34,26,.17), rgba(38,34,26,0)) right center / 15px 100% no-repeat scroll,
+      var(--surface);
+    scrollbar-width:thin; scrollbar-color:var(--amber) var(--bg-2);
+  }
+  .table-scroll::-webkit-scrollbar{ height:8px; }
+  .table-scroll::-webkit-scrollbar-track{ background:var(--bg-2); }
+  .table-scroll::-webkit-scrollbar-thumb{ background:var(--amber); border-radius:8px; }
+  .table-scroll::-webkit-scrollbar-thumb:hover{ background:var(--amber-2); }
+  .spec-table{ width:100%; min-width:520px; border-collapse:collapse; font-size:13px; }
+  .spec-table th,.spec-table td{ text-align:left; vertical-align:top; padding:11px 16px; border-bottom:1px solid var(--line-soft); line-height:1.7; }
+  .spec-table thead th{
+    font-size:10.5px; letter-spacing:.14em; font-weight:600; color:var(--amber-2);
+    background:var(--paper); border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  .spec-table tbody th{ font-weight:600; color:var(--ink); width:11em; }
+  .spec-table td{ color:var(--ink-2); }
+  .spec-table tbody tr:last-child th,.spec-table tbody tr:last-child td{ border-bottom:0; }
+  .spec-table tbody tr:hover{ background:rgba(201,130,47,.07); }
+  .spec-table .num{ font-variant-numeric:tabular-nums; color:var(--ink); }
+  .spec-table .wait{ color:var(--ink-3); }
+  .spec-table .no{ color:var(--amber-2); font-weight:600; }
+  .spec-table code{
+    font-family:var(--mono); font-size:12px;
+    background:var(--bg-2); padding:1px 5px; border-radius:5px; color:var(--ink);
+  }
+
+  .param-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(215px,1fr)); gap:12px; }
+  .param{
+    border:1px solid var(--line); border-radius:14px; background:var(--surface); padding:14px 16px;
+    transition:border-color .3s var(--ease), transform .3s var(--ease);
+  }
+  .param:hover{ border-color:rgba(201,130,47,.4); transform:translateY(-2px); }
+  .param span{ display:block; font-size:10.5px; letter-spacing:.1em; color:var(--ink-3); margin-bottom:6px; }
+  .param b{ display:block; font-family:var(--serif); font-size:1.35rem; font-weight:600; color:var(--amber-2); line-height:1.2; font-variant-numeric:tabular-nums; }
+  .param p{ margin-top:6px; font-size:11.5px; line-height:1.7; color:var(--ink-2); }
+
+  .fig-card{ margin:0; border:1px solid var(--line); border-radius:16px; background:#fff; overflow:hidden; box-shadow:var(--shadow-soft); }
+  .fig-card img{ width:100%; height:auto; }
+  .fig-foot{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px; padding:12px 16px; border-top:1px solid var(--line-soft); background:var(--paper); }
+  .fig-cap{ font-size:11px; line-height:1.7; color:var(--ink-3); max-width:48em; }
+  .fig-link{ font-size:11.5px; letter-spacing:.06em; color:var(--amber-2); text-decoration:none; border-bottom:1px solid rgba(154,100,20,.35); padding-bottom:1px; white-space:nowrap; }
+  .fig-link:hover{ color:var(--ink); border-bottom-color:var(--ink); }
+  .split{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:clamp(18px, 3vw, 34px); align-items:start; }
+
+  .voice-list{ display:grid; gap:8px; }
+  .voice-item{
+    display:grid; grid-template-columns:34px minmax(0,1fr) auto; align-items:center; gap:14px;
+    width:100%; text-align:left; border:1px solid var(--line); border-radius:14px;
+    background:var(--surface); padding:12px 16px; cursor:pointer;
+    transition:border-color .25s var(--ease), background .25s var(--ease), transform .25s var(--ease);
+  }
+  .voice-item:hover{ border-color:rgba(201,130,47,.45); transform:translateY(-1px); }
+  .voice-item.is-playing{ border-color:var(--amber); background:var(--amber-soft); }
+  .voice-ic{ width:34px; height:34px; border-radius:50%; border:1px solid rgba(201,130,47,.4); display:grid; place-items:center; color:var(--amber-2); }
+  .voice-ic svg{ width:13px; height:13px; }
+  .voice-item.is-playing .voice-ic{ background:var(--amber); border-color:var(--amber); color:var(--surface); }
+  .voice-eq{ display:none; align-items:flex-end; gap:2px; height:13px; }
+  .voice-eq i{ width:2.5px; background:currentColor; border-radius:1px; transform-origin:bottom; animation:eq 1s var(--ease) infinite; }
+  .voice-eq i:nth-child(1){ height:6px; }
+  .voice-eq i:nth-child(2){ height:12px; animation-delay:.18s; }
+  .voice-eq i:nth-child(3){ height:8px; animation-delay:.36s; }
+  .voice-item.is-playing .voice-play{ display:none; }
+  .voice-item.is-playing .voice-eq{ display:flex; }
+  @keyframes eq{ 0%,100%{ transform:scaleY(.45); } 50%{ transform:scaleY(1); } }
+  .voice-tx b{ display:block; font-size:13.5px; font-weight:600; color:var(--ink); line-height:1.55; }
+  .voice-tx span{ display:block; margin-top:2px; font-size:11px; letter-spacing:.04em; color:var(--ink-3); }
+  .voice-dur{ font-size:11.5px; color:var(--ink-3); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .voice-item.is-playing .voice-dur{ color:var(--amber-2); }
+
+  .cost-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; }
+  .cost-card{ border:1px solid var(--line); border-radius:16px; background:var(--surface); padding:18px 20px; }
+  .cost-card.is-key{ border-color:rgba(201,130,47,.5); background:linear-gradient(160deg, var(--amber-soft), var(--surface) 72%); }
+  .cost-card span{ display:block; font-size:10px; letter-spacing:.16em; color:var(--amber-2); margin-bottom:8px; }
+  .cost-card b{ display:block; font-family:var(--serif); font-size:clamp(1.7rem, 2.6vw, 2.3rem); font-weight:600; color:var(--ink); line-height:1.1; }
+  .cost-card b small{ font-size:.45em; color:var(--ink-3); font-weight:600; margin-left:3px; }
+  .cost-card p{ margin-top:8px; font-size:12px; line-height:1.75; color:var(--ink-2); }
+
+  .callout{ margin-top:16px; border-left:2px solid var(--amber); background:var(--paper); border-radius:0 12px 12px 0; padding:12px 16px; font-size:12.5px; line-height:1.8; color:var(--ink-2); }
+  .callout b{ color:var(--ink); }
+  .callout.is-warn{ border-left-color:var(--amber-2); background:var(--amber-soft); }
+
+  .demo-frame{ position:relative; margin:0; border-radius:16px; overflow:hidden; background:#0B0B0B; aspect-ratio:1440/770; box-shadow:0 40px 80px -50px rgba(0,0,0,.8); }
+  .demo-frame video{ width:100%; height:100%; object-fit:contain; }
+  .cmd-list{ display:grid; grid-template-columns:minmax(0,1fr); gap:8px; margin-top:16px; }
+  .cmd{ display:flex; align-items:center; gap:12px; border:1px solid rgba(246,241,231,.14); background:var(--dark); border-radius:12px; padding:10px 14px; }
+  .cmd code{
+    flex:1 1 auto; min-width:0; overflow-x:auto; white-space:nowrap;
+    font-family:var(--mono); font-size:12.5px; color:var(--cream);
+    scrollbar-width:thin; scrollbar-color:var(--amber-2) transparent;
+  }
+  .cmd code::before{ content:"$ "; color:#D8A96C; }
+  .cmd-copy{ flex:0 0 auto; border:1px solid rgba(246,241,231,.22); background:transparent; color:var(--cream-2); border-radius:8px; padding:4px 10px; font-size:11px; letter-spacing:.06em; cursor:pointer; transition:color .25s, border-color .25s, background .25s; }
+  .cmd-copy:hover{ color:var(--cream); border-color:#D8A96C; }
+  .cmd-copy.is-done{ color:var(--dark); background:#D8A96C; border-color:#D8A96C; }
+  .evidence-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+  .evidence-row span{ font-size:11.5px; letter-spacing:.04em; color:var(--ink-2); border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:5px 12px; }
+  .evidence-row b{ color:var(--amber-2); font-weight:600; }
+
+  .app-push{ width:min(100%, 680px); margin:20px auto 0; border:1px solid rgba(201,130,47,.28); border-radius:16px; background:rgba(253,251,246,.82); padding:16px 18px; text-align:left; }
+  .app-push > span{ display:block; font-size:10px; letter-spacing:.16em; color:var(--amber-2); margin-bottom:8px; }
+  .app-push p{ font-family:var(--serif); font-size:15.5px; line-height:1.8; color:var(--ink); }
+  .app-push small{ display:block; margin-top:10px; font-size:11.5px; line-height:1.8; color:var(--ink-2); }
+  .app-push small b{ color:var(--amber-2); }
+  .app-push code{ font-family:var(--mono); font-size:.9em; background:var(--bg-2); padding:1px 5px; border-radius:5px; color:var(--ink); }
+
+  @media (max-width:900px){
+    .why-stats,.why-tiers,.cost-grid,.split{ grid-template-columns:minmax(0,1fr); }
+  }
+  @media (max-width:767.98px){
+    .spec-table{ font-size:12px; min-width:460px; }
+    .spec-table th,.spec-table td{ padding:9px 12px; }
+    .param-grid{ grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); }
+    .voice-item{ grid-template-columns:30px minmax(0,1fr) auto; gap:10px; padding:10px 12px; }
+    .voice-ic{ width:30px; height:30px; }
+    .voice-tx b{ font-size:12.5px; }
+    .cmd{ flex-wrap:wrap; }
+  }
+
   /* ---------- 响应式 ---------- */
   @media (max-width: 1180px){
     .nav-links{ gap:14px; }
@@ -1733,6 +1899,31 @@
       </div>
     </section>
 
+    <section class="band home-why" aria-labelledby="whyTitle">
+      <div class="page-wrap">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow">为什么做 / WHY</p>
+          <h2 id="whyTitle">不是「没人管」，<span class="ln-m">是「太晚才知道」。</span></h2>
+          <p>出事不可控，被响应取决于被发现。我们只插进中间那一环：把「没人知道」变成「有人知道」——不做急救、不做诊断、不做预测。</p>
+        </div>
+        <div class="why-stats" data-reveal>
+          <div><b>3.23<small>亿</small></b><span>我国 60 岁及以上人口</span><em>截至 2025 年底 · 民政部口径</em></div>
+          <div><b>1.3<small>亿+</small></b><span>空巢独居老人</span><em>同上口径 · 见仓库 README 参考</em></div>
+          <div><b>2.2<small>万+</small></b><span>日本 2025 年独居者在家中去世后，逾 8 天才被发现</span><em>全年近 7.7 万名独居者家中去世</em></div>
+        </div>
+        <div class="why-quote" data-reveal style="--d:.06s">
+          <p>市面上很多设备不是坏掉的，<b>是被老人嫌烦拔掉的。</b></p>
+          <small>所以本项目不参加「识别率」竞赛，换一个目标函数：在「每天最多打扰 N 次」的约束下，能检出几成、延迟多少。报警之前先问一句、等 30 秒、给老人一个说「我没事」的机会——这一层不需要更贵的传感器，只需要一个按键和一套状态机。</small>
+        </div>
+        <div class="why-tiers" data-reveal style="--d:.1s">
+          <div class="tier"><span>150–250 元</span><b>只感知，不判断</b><p>存在传感器 / 智能家居联动件，没有任何安全判断。</p></div>
+          <div class="tier"><span>400–800 元</span><b>判断完直接报警</b><p>存在感知 + 跌倒识别 + 对讲，中间没有「先问一句」。</p></div>
+          <div class="tier is-us"><span>200–300 元 · 本项目</span><b>先确认，再决定</b><p>雷达 + 门磁 + 两个按键 + 每日点名，做报警前的确认层。</p></div>
+        </div>
+        <p class="micro" style="margin-top:14px">竞品价位为 2025 年 10 月电商页面价，仅作参照；背景数据引自仓库 docs/项目策划书.md 与 README 参考。</p>
+      </div>
+    </section>
+
     <section class="home-cta" aria-labelledby="ctaTitle">
       <p class="cta-word" aria-hidden="true">GUARDIAN</p>
       <div class="cta-inner">
@@ -1833,6 +2024,25 @@
           <p class="model-demo" id="modelDemoNote" aria-live="polite">拖动旋转，点按按键试试：界面演示，不代表硬件实测。</p>
         </div>
       </div>
+
+      <section class="spec-block" aria-labelledby="keySpecTitle" data-reveal>
+        <p class="eyebrow">04 — 按键与预留件</p>
+        <h2 id="keySpecTitle">两个键是全部交互，其余都是预留。</h2>
+        <p class="spec-sub">老人不用 App，子女不需要装任何东西。当前版本已实现的人机通道只有两个按键 + 扬声器；屏幕与指示灯留了位置，但代码尚未驱动。</p>
+        <div class="table-scroll">
+          <table class="spec-table">
+            <thead><tr><th scope="col">部件</th><th scope="col">规格 / 位置</th><th scope="col">作用</th><th scope="col">当前状态</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">确认键</th><td>Ø60 自复位 · 采购为绿色</td><td>问候时按＝「我没事」；平时按＝想聊天</td><td class="num">逻辑已实现 · 硬件待实测</td></tr>
+              <tr><th scope="row">SOS 键</th><td>Ø60 自复位 · 红色，优先级最高</td><td>任何时候按下立刻本地播报并尝试推送（须 <code>--pin-sos</code>）</td><td class="num">逻辑已实现 · 硬件待实测</td></tr>
+              <tr><th scope="row">0.96" OLED</th><td>SSD1306 · 顶盖前部</td><td>规划显示一句状态</td><td class="wait">预留 · 代码未驱动，装了也不亮</td></tr>
+              <tr><th scope="row">指示灯 ×2</th><td>按键左右</td><td>规划问候时缓慢呼吸</td><td class="wait">预留 · 代码未实现</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout"><b>一个按键两种含义怎么不打架：</b>只要处于「正在问候 / 已升级」，按键一律判为消解；只有事件结束且冷却过后，按键才唤醒聊天。老人不需要记规则。</div>
+        <p class="micro" style="margin-top:12px">页面概念图与 3D 模型为设计示意配色；实物按键颜色与尺寸以 hardware/采购申请单.md 为准（绿 / 红各一，Ø60）。「无屏幕」是当前事实，不是宣传口径。</p>
+      </section>
 
       <div class="tech-next" data-reveal>
         <p>下一步：看它怎么工作。</p>
@@ -1935,12 +2145,97 @@
         </div>
       </div>
 
+      <section class="spec-block" aria-labelledby="paramTitle" data-reveal>
+        <p class="eyebrow">默认参数 / DEFAULTS</p>
+        <h2 id="paramTitle">每一个数字，都对应一种真实的翻车方式。</h2>
+        <p class="spec-sub">以下为 <code>src/guardian.py</code> 的产品默认值（演示另用缩短参数：<code>mock_run</code> 剧本 20 s、<code>demo_keyboard</code> 12 s）。文档与代码不一致时，以代码为准。</p>
+        <div class="param-grid">
+          <div class="param"><span>观察窗口 T</span><b>90 s</b><p>窗口须基本填满（≥90%）才判定；mock_run 剧本 20 s、键盘演示 12 s。</p></div>
+          <div class="param"><span>消失判定</span><b>≤ 20%</b><p>窗口内「看得到人」的帧占比低于此值（即无人帧 ≥ 80%），不是连续 N 秒没帧。</p></div>
+          <div class="param"><span>回应窗</span><b>30 s</b><p>从第一句起算；补问不会把 30 秒拖成 45 秒。</p></div>
+          <div class="param"><span>补问时机</span><b>15 s</b><p>第一句是询问，第二句是命令——对听力差、反应慢的老人是两句不同的话。</p></div>
+          <div class="param"><span>离家确认</span><b>门开 ≥ 10 s</b><p>必须小于 T，否则问候会抢在门磁前面。</p></div>
+          <div class="param"><span>短时开关门</span><b>压制 120 s</b><p>拿一次快递，不该让系统误判一整天。</p></div>
+          <div class="param"><span>消解后安静</span><b>10 min</b><p>不是永久免疫：安静期过后仍看不到人，还是要再问一次。</p></div>
+          <div class="param"><span>同一次在家</span><b>问 2 · 推 1</b><p>锁存直到重新看到人或门开；再问也不会有新信息，只会变成骚扰。</p></div>
+          <div class="param"><span>雷达心跳</span><b>5 s</b><p>收不到任何帧判「设备异常」，不判「人消失」——线松了不该报失踪。</p></div>
+          <div class="param"><span>播报冻结</span><b>3 s</b><p>防自激；按每句录音实际时长冻结，不用拍出来的常数。</p></div>
+          <div class="param"><span>上电自检</span><b>60 s</b><p>迟迟看不到人就提示摆位，而不是安静地什么都不做。</p></div>
+          <div class="param"><span>每日点名</span><b>9:00 / 20:00</b><p>按当天时间算，重启不推后；点名升级后锁存 30 min。</p></div>
+        </div>
+        <div class="callout is-warn"><b>为什么不用「连续静默」：</b>真实雷达每隔十几秒会冒一帧误检，8% 的杂散帧就足以让连续判定的计时器永远被打断、检出率归零。改用窗口占比后，杂散帧只影响几个百分点，不影响结论。</div>
+      </section>
+
+      <section class="spec-block" aria-labelledby="timelineTitle" data-reveal>
+        <p class="eyebrow">一次事件 / LIFECYCLE</p>
+        <h2 id="timelineTitle">从最后一帧「看到人」，到只推一次。</h2>
+        <p class="spec-sub">这张图是答辩时最好讲的一张：同一个事件至多问 2 句、只推 1 次；人重新出现或门开才解锁。</p>
+        <figure class="fig-card">
+          <img src="assets/figs/silence_timeline.svg" width="680" height="404" alt="一次异常静默事件的完整生命周期时间轴：雷达帧、杂散帧、T=90s 问候、15s 补问、30s 无回应推送一次并锁存，门磁排除离家" loading="lazy" decoding="async">
+          <figcaption class="fig-foot">
+            <span class="fig-cap">仓库原图 docs/figs/silence_timeline.svg · 横轴非等比，T 在 15–180 s 之间由 sweep.py 扫描选定工作点。</span>
+            <a class="fig-link" href="assets/figs/silence_timeline.svg" target="_blank" rel="noopener">放大查看 ↗</a>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="spec-block" aria-labelledby="voiceTitle" data-reveal>
+        <p class="eyebrow">它真的会说的话 / VOICE</p>
+        <h2 id="voiceTitle">七句预录语音，点一下就能听。</h2>
+        <p class="spec-sub">全部为 16 kHz 单声道 WAV，已入库 <code>audio/</code>。安全路径 strict=True：本地文件缺失时只打印、不偷偷联网合成；点名缺 checkin.wav 会自动退回 ask.wav，不会变成哑巴。</p>
+        <div class="voice-list" id="voiceList">
+          <button class="voice-item" type="button" data-voice="assets/audio/ask.wav" aria-pressed="false">
+            <span class="voice-ic" aria-hidden="true"><svg class="voice-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span class="voice-eq"><i></i><i></i><i></i></span></span>
+            <span class="voice-tx"><b>奶奶，有一阵子没看到您了，您还好吗？</b><span>ask · 静默超阈值，第一次问候</span></span>
+            <span class="voice-dur">8.1 s</span>
+          </button>
+          <button class="voice-item" type="button" data-voice="assets/audio/ask_again.wav" aria-pressed="false">
+            <span class="voice-ic" aria-hidden="true"><svg class="voice-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span class="voice-eq"><i></i><i></i><i></i></span></span>
+            <span class="voice-tx"><b>我有点担心，您按一下手边的键好吗？</b><span>ask_again · 15 s 未按键，从询问改为指令</span></span>
+            <span class="voice-dur">6.9 s</span>
+          </button>
+          <button class="voice-item" type="button" data-voice="assets/audio/resolved.wav" aria-pressed="false">
+            <span class="voice-ic" aria-hidden="true"><svg class="voice-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span class="voice-eq"><i></i><i></i><i></i></span></span>
+            <span class="voice-tx"><b>好的，您没事就好。</b><span>resolved · 老人按键消解，本次事件结束</span></span>
+            <span class="voice-dur">5.9 s</span>
+          </button>
+          <button class="voice-item" type="button" data-voice="assets/audio/checkin.wav" aria-pressed="false">
+            <span class="voice-ic" aria-hidden="true"><svg class="voice-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span class="voice-eq"><i></i><i></i><i></i></span></span>
+            <span class="voice-tx"><b>奶奶，我来看看您。您拍一下手边的键，我就放心了。</b><span>checkin · 每天 9:00 / 20:00 点名（可选第七句）</span></span>
+            <span class="voice-dur">10.3 s</span>
+          </button>
+          <button class="voice-item" type="button" data-voice="assets/audio/away.wav" aria-pressed="false">
+            <span class="voice-ic" aria-hidden="true"><svg class="voice-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span class="voice-eq"><i></i><i></i><i></i></span></span>
+            <span class="voice-tx"><b>出门了呀，那我不打扰了。</b><span>away · 门磁判定离家，不问候不点名</span></span>
+            <span class="voice-dur">5.3 s</span>
+          </button>
+          <button class="voice-item" type="button" data-voice="assets/audio/fault.wav" aria-pressed="false">
+            <span class="voice-ic" aria-hidden="true"><svg class="voice-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span class="voice-eq"><i></i><i></i><i></i></span></span>
+            <span class="voice-tx"><b>设备好像有点问题，我让人来看看。</b><span>fault · 心跳超时 / 雷达断帧，判设备异常</span></span>
+            <span class="voice-dur">7.4 s</span>
+          </button>
+          <button class="voice-item" type="button" data-voice="assets/audio/sos.wav" aria-pressed="false">
+            <span class="voice-ic" aria-hidden="true"><svg class="voice-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span class="voice-eq"><i></i><i></i><i></i></span></span>
+            <span class="voice-tx"><b>紧急求助！请帮忙拨打 120 或联系家属！</b><span>sos · 按下红键，优先级最高</span></span>
+            <span class="voice-dur">9.2 s</span>
+          </button>
+        </div>
+        <div class="callout"><b>安全播报永远不用云 TTS。</b>三级降级里，edge-tts 只服务「陪聊」这类非安全场景；问候、消解、故障、SOS 必须走本地 WAV——用云 TTS 播报安全提示，等于把「老人有没有被问到」交给网络。</div>
+        <p class="micro" style="margin-top:12px">此处为网页试听，不代表硬件出声已验证；扬声器链路待整机实测。语音素材状态与换录流程见 audio/README.md。</p>
+      </section>
+
       <section class="wf-daily" data-reveal>
         <div>
           <p class="eyebrow">另一条兜底 / DAILY CHECK-IN</p>
           <h2>每天两次点名，防止“人还在，但动不了”。</h2>
-          <p>每天 9:00 和 20:00，设备会主动问一句。老人按一下确认键，就记一次“今日平安”；没有回应，才进入上面的核实流程。</p>
-          <p class="wf-daily-note">设计值，不是硬件实测；它和异常升级是两条不同的路径。</p>
+          <p>每天 9:00 和 20:00，设备会主动问一句。老人按一下确认键，就给家属发一条「今日平安」；没有回应，才进入上面的核实流程。</p>
+          <div class="chips" style="margin-top:14px">
+            <span class="chip">房间没人就不问</span>
+            <span class="chip">刚按过键 / 刚聊过天，这次免掉</span>
+            <span class="chip">按当天时间算，重启不推后</span>
+            <span class="chip">30 s 没按才推送</span>
+          </div>
+          <p class="wf-daily-note">设计值，不是硬件实测；它和异常升级是两条不同的路径。点名依赖老人愿意按：明确拒绝按的老人，它会退化成「每天两次提醒家属」的设备——这一条要提前跟家属说清楚。</p>
         </div>
         <div class="wf-clock" aria-hidden="true">
           <div class="clock-row"><b>09:00</b><span>上午点名</span></div>
@@ -1999,6 +2294,71 @@
         </figure>
       </div>
 
+      <section class="spec-block" aria-labelledby="specTitle" data-reveal>
+        <p class="eyebrow">规格 / SPEC</p>
+        <h2 id="specTitle">一张表说完它是什么。</h2>
+        <p class="spec-sub">原型阶段：主控复用实验室已有的树莓派 5，本次只申请外围器件。所有连接为杜邦线插接，不需要焊接。</p>
+        <div class="table-scroll">
+          <table class="spec-table">
+            <thead><tr><th scope="col">项</th><th scope="col">值</th><th scope="col">说明</th><th scope="col">状态</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">主控</th><td class="num">树莓派 5</td><td>状态机 / 语音 / 本地判定，复用已有</td><td class="num">原型</td></tr>
+              <tr><th scope="row">感知</th><td class="num">HLK-LD2410C · 24 GHz FMCW</td><td>UART 256000 8N1 · 约 10 帧/秒 · 9 个距离门 × 0.75 m</td><td class="wait">待实测</td></tr>
+              <tr><th scope="row">门磁</th><td class="num">MC-38 有线干簧管 · GPIO18</td><td>只记录开合；开门是高还是低，实测后再设 <code>OPEN_LEVEL</code></td><td class="wait">待实测</td></tr>
+              <tr><th scope="row">交互</th><td class="num">Ø60 自复位按键 ×2</td><td>GPIO17 确认 / GPIO27 SOS，内部上拉</td><td class="num">逻辑已实现</td></tr>
+              <tr><th scope="row">显示</th><td class="num">0.96" OLED / 指示灯 ×2</td><td>预留位置，代码未驱动</td><td class="no">明确不采购</td></tr>
+              <tr><th scope="row">外壳</th><td class="num">ABS 150×100×70 · 透明盖</td><td>70 mm 高才容得下 Ø60 按键与走线</td><td class="wait">待装壳</td></tr>
+              <tr><th scope="row">功耗</th><td class="num">约 3–5 W</td><td>整机含树莓派；接音箱建议 5V/5A 电源</td><td class="wait">估算</td></tr>
+              <tr><th scope="row">网络</th><td class="num">仅推送与可选陪聊</td><td>安全判定与安全播报不依赖网络</td><td class="wait">设计</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="spec-block" aria-labelledby="wiringTitle" data-reveal>
+        <p class="eyebrow">接线 / WIRING</p>
+        <h2 id="wiringTitle">按 Pin 编号找针脚，不要按位置记。</h2>
+        <p class="spec-sub">树莓派两排针脚的编号是 zig-zag 走的。下图为仓库原图 hardware/wiring.svg，含三条最容易错的接法。</p>
+        <figure class="fig-card">
+          <img src="assets/figs/wiring.svg" width="680" height="596" alt="树莓派 5 与 LD2410C 雷达、MC-38 门磁、绿色确认键、红色 SOS 键的接线示意图，标注 Pin 编号与三条易错点" loading="lazy" decoding="async">
+          <figcaption class="fig-foot">
+            <span class="fig-cap">最容易错的三条：① 雷达 VCC 必须 5V，不是 3.3V　② TX / RX 是交叉的　③ 所有模块共地。</span>
+            <a class="fig-link" href="assets/figs/wiring.svg" target="_blank" rel="noopener">放大查看 ↗</a>
+          </figcaption>
+        </figure>
+        <div class="chips">
+          <span class="chip">Pi 5 设备名 /dev/ttyAMA0</span>
+          <span class="chip">只加 dtparam=uart0=on</span>
+          <span class="chip">门磁用 gpiozero，不用 RPi.GPIO</span>
+          <span class="chip">先跑 test_door.py 实测电平</span>
+        </div>
+        <div class="callout"><b>不要加 <code>dtparam=uart0_console</code>：</b>那行会把串口变成登录控制台，正好占掉你要用的口，程序会一直报「设备被占用」。Pi 5 上 GPIO 已移到 RP1 芯片，<code>RPi.GPIO</code> 会直接崩。</div>
+      </section>
+
+      <section class="spec-block" aria-labelledby="placeTitle" data-reveal>
+        <p class="eyebrow">摆位 / PLACEMENT</p>
+        <h2 id="placeTitle">摆位不是建议，是物理限制。</h2>
+        <p class="spec-sub">LD2410 共 9 个距离门、每门 0.75 m；G0（0–0.75 m）与 G1（0.75–1.5 m）的静止门限出厂为 0，即关闭。所以静止检测实际从 1.5 m 起。</p>
+        <div class="table-scroll">
+          <table class="spec-table">
+            <thead><tr><th scope="col">位置</th><th scope="col">到常坐位置的距离</th><th scope="col">判定</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">电视柜 / 餐边柜 / 书架</th><td class="num">2–3 m · 高 60–90 cm</td><td class="no">推荐</td></tr>
+              <tr><th scope="row">沙发侧后方边几</th><td class="num">1.5–2 m</td><td class="num">可用，需标定</td></tr>
+              <tr><th scope="row">茶几</th><td class="num">0.8 m</td><td class="wait">不可用</td></tr>
+              <tr><th scope="row">床头柜</th><td class="num">0.5 m</td><td class="wait">不可用</td></tr>
+              <tr><th scope="row">空调出风口下 / 窗帘旁 / 风扇正对</th><td class="num">—</td><td class="wait">不可用</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout is-warn"><b>放茶几的后果不是「精度差一点」，是结论反了：</b>老人明明坐在 0.8 m 处，雷达报「无人」，于是设备每 T 秒对着坐在它面前的人问一次「您还好吗」。</div>
+        <div class="chips">
+          <span class="chip">雷达只朝前，开孔在顶盖前缘、上倾 10°</span>
+          <span class="chip">按键不与雷达同在前立面</span>
+          <span class="chip">喇叭与雷达不同腔，泡绵隔断</span>
+        </div>
+      </section>
+
       <section class="arch-band" aria-labelledby="archTitle" data-reveal>
         <p class="eyebrow">03 — 系统架构 · 设计</p>
         <h2 id="archTitle">从感知，到家属端。</h2>
@@ -2019,6 +2379,132 @@
         <div><span>02</span><b>本地判断</b><p>状态机在树莓派上运行；安全播报用本地预录音频，设计上断网也能播。</p></div>
         <div><span>03</span><b>云端只负责陪聊与通知</b><p>陪聊和远程通知才需要网络；安全判定不依赖云。</p></div>
       </div>
+
+      <section class="spec-block" aria-labelledby="costTitle" data-reveal>
+        <p class="eyebrow">成本 / COST</p>
+        <h2 id="costTitle">三个口径，分开说。</h2>
+        <p class="spec-sub">「120 元的盒子」不含主控，读者会当成整机价。所以这里把增量、DIY 整机、量产整机三笔账分开列，混着说就是虚报。</p>
+        <div class="cost-grid">
+          <div class="cost-card is-key">
+            <span>本次采购 · 必购</span>
+            <b>157<small>元</small></b>
+            <p>外围器件 132 元 + Ø60 金属开孔器 25 元。树莓派 5 与存储卡由实验室提供 / 自备，不在此列。单价按电商上限估，便于报销留余量。</p>
+          </div>
+          <div class="cost-card">
+            <span>可选 · 可暂缓</span>
+            <b>139<small>元</small></b>
+            <p>USB 全向麦克风 40 元（仅用于对话演示，安全功能不需要）+ 5V/5A 电源 99 元。含可选项合计 296 元。</p>
+          </div>
+          <div class="cost-card">
+            <span>量产形态 · ESP32-S3 整机</span>
+            <b>约 150<small>元</small></b>
+            <p>主控 55 + 功放 8 + 喇叭 6 + 雷达 30 + 门磁 5 + 按键 20 + 外壳 15 + 杂项 10。这是<strong>整机</strong>，不是增量，不能与左边相加。主控必须 N16R8。</p>
+          </div>
+        </div>
+        <div class="table-scroll" style="margin-top:14px">
+          <table class="spec-table">
+            <thead><tr><th scope="col">口径</th><th scope="col">金额</th><th scope="col">含什么 / 不含什么</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">外围器件增量</th><td class="num">约 100–150 元</td><td>雷达 + 门磁 + 按键 + 外壳 + 音箱 + 辅料。策划书细算 90–130、README 取 120、采购单按上限报 157，是同一笔账的三种精度。<b>不含主控。</b></td></tr>
+              <tr><th scope="row">DIY 整机（树莓派 5）</th><td class="num">约 720 元</td><td>增量 + 树莓派 5 + 存储卡 + 电源。当前原型形态，用于验证逻辑，不是量产成本。</td></tr>
+              <tr><th scope="row">量产整机（ESP32-S3）</th><td class="num">约 150 元</td><td>换主控后的整机估算。尚未采购、尚未移植，属设计估算。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout is-warn"><b>明确不买的三类：</b>OLED 屏 SSD1306（10–15 元，代码里没有屏驱动，装上就是黑屏，答辩时无法解释屏上显示什么）；ESP32 开发板（30–50 元，量产形态，现阶段不引入第二套硬件并行维护）；摄像头 / 视觉方案（200 元以上，卧室卫生间有隐私问题，且会破坏「不采集图像也能判断」这个前提）。</div>
+        <div class="table-scroll" style="margin-top:14px">
+          <table class="spec-table">
+            <thead><tr><th scope="col">市场锚点</th><th scope="col">价格</th><th scope="col">含义</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">政府采购中标清单</th><td class="num">多功能毫米波雷达 550 元/台</td><td>什邡市民政局居家适老化改造项目，2026-08，中国政府采购网。<b>含安装、平台与运维</b>的整机采购价；同清单 SOS 一键呼叫 150 元、智能语音屏 430 元。</td></tr>
+              <tr><th scope="row">电商国产 24GHz 雷达模块</th><td class="num">150–400 元</td><td>裸模块，不含算法与外壳。</td></tr>
+              <tr><th scope="row">电商成品整套</th><td class="num">最高约 1800 元</td><td>含跌倒算法与 App。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout"><b>一件不太舒服的事实：</b>B 端采购价 550 元，已经低于本方案 720 元的 DIY 整机成本。所以这个项目不能按「更便宜的设备」去卖，只能按「更清楚的承诺」去卖。这是「零售不成立」那条判断的实证依据，不是主观悲观。</div>
+        <p class="micro" style="margin-top:12px">金额引自 hardware/采购申请单.md、docs/项目策划书.md 第六节、docs/ESP32迁移指南.md 第二节。竞品只给区间不点型号单价：型号迭代快，写死一个数字容易被当场查证对不上。</p>
+      </section>
+
+      <section class="spec-block" aria-labelledby="budgetTitle" data-reveal>
+        <p class="eyebrow">打扰预算 / BUDGET</p>
+        <h2 id="budgetTitle">T 不是拍脑袋定的，是扫出来的。</h2>
+        <p class="spec-sub">同一个阈值同时决定三件事：静坐时被打扰几次、真出事时能不能发现、多久才发现。把 T 从 15 s 扫到 180 s，三条曲线一起看，才能选工作点。</p>
+        <div class="split">
+          <figure class="fig-card">
+            <img src="assets/figs/budget_curve.svg" width="720" height="420" alt="打扰预算曲线示意图：横轴为静默阈值 T（15 至 180 秒），左轴为静坐误问候次数每 24 小时，右轴为屏息检出率与平均检出延迟；图中标注示例工作点 T=60s。" loading="lazy" decoding="async">
+            <figcaption class="fig-foot">
+              <span class="fig-cap"><b>形状为示意，数值以实测为准。</b>图中示例工作点 T=60 s（约 2.2 次/天、检出 79%）只是画法演示；产品默认 T=90 s，mock_run 剧本 20 s、键盘演示 12 s。真实工作点由 <code>src/sweep.py</code> 扫描后选定。</span>
+              <a class="fig-link" href="assets/figs/budget_curve.svg" target="_blank" rel="noopener">放大查看 ↗</a>
+            </figcaption>
+          </figure>
+          <div>
+            <div class="cmd-list" style="margin-top:0">
+              <div class="cmd"><code>python src/capture.py --label sit --minutes 5</code><button class="cmd-copy" type="button">复制</button></div>
+              <div class="cmd"><code>python src/capture.py --label breathhold --minutes 3 --event-at 20</code><button class="cmd-copy" type="button">复制</button></div>
+              <div class="cmd"><code>python src/sweep.py data/guardian.csv --ts 15,30,45,60,90,120,180</code><button class="cmd-copy" type="button">复制</button></div>
+              <div class="cmd"><code>python tools/plot_sweep.py sweep_result.csv --mark 90</code><button class="cmd-copy" type="button">复制</button></div>
+            </div>
+            <div class="callout is-warn"><b>合成数据不许进报告。</b><code>data/_synthetic_demo.csv</code> 与 <code>data/_synthetic_sweep_result.csv</code> 是为跑通流程造的假数据，跑出来的「检出 100% / 误问候 0 次」没有意义。真实采集写入 <code>data/guardian.csv</code>，扫描结果落在仓库根目录 <code>sweep_result.csv</code>。</div>
+            <div class="chips">
+              <span class="chip">采集需配对：静坐组 + 屏息组</span>
+              <span class="chip">每个 T 输出三个数：误问候 / 检出率 / 延迟</span>
+              <span class="chip">指标表逐项「待填」，不预填成绩</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="spec-block" aria-labelledby="aiTitle" data-reveal>
+        <p class="eyebrow">AI 分层 / WHERE THE AI IS</p>
+        <h2 id="aiTitle">把不可解释的部分，放在不影响安全的地方。</h2>
+        <p class="spec-sub">这不是「没有 AI」，是给 AI 划了边界：一半是可以逐行验证的边缘规则，一半是不参与安全的云端模型。</p>
+        <div class="table-scroll">
+          <table class="spec-table">
+            <thead><tr><th scope="col">层</th><th scope="col">用什么</th><th scope="col">负责什么</th><th scope="col">挂了会怎样</th></tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">边缘判定层</th>
+                <td class="num">滑动窗口占比 + 门磁排除 + 按键消解的状态机<br><span class="wait">故意不用机器学习</span></td>
+                <td>静默判定、问候、升级推送、每日点名。全部在树莓派本地跑。</td>
+                <td>这一层就是安全本身，不存在「挂了还能救」的说法；所以它必须可读懂、可现场逐行验证。</td>
+              </tr>
+              <tr>
+                <th scope="row">云端陪聊层</th>
+                <td class="num">本地 Vosk 离线小模型转文字 → <code>deepseek-chat</code> 理解意图与情绪 → 合成语音播出</td>
+                <td>只负责老人按键后的倾诉与回应。<b>识别结果全程不参与静默判定与告警升级。</b></td>
+                <td>断网、模型答错、服务不可用，都不影响设备把人救出来。最多是聊得不好。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="param-grid" style="margin-top:14px">
+          <div class="param"><span>为什么边缘不用模型 · 01</span><b>没有可信数据</b><p>拿不到真实衰弱老人的训练数据。用健康年轻人的数据训出来的模型，在这个人群上不可靠。</p></div>
+          <div class="param"><span>为什么边缘不用模型 · 02</span><b>代价不对称</b><p>漏报是一条命，误报是一次骚扰。两种错的代价不在一个量级，需要每条判定都能被读懂、能在现场逐行验证。</p></div>
+          <div class="param"><span>为什么边缘不用模型 · 03</span><b>换不来可靠性</b><p>在同一颗 25 元的雷达上跑模型，只增加功耗和不可解释性，不增加信息量。</p></div>
+        </div>
+        <div class="callout"><b>两条纪律：</b>① 不把规则状态机包装成「边缘决策 AI」——严格说它是传统专家系统思路，经不起追问 loss；技术上更准确的说法是「边缘确定性逻辑 + 云端概率模型」。② 不宣称「能听懂老人说话」——离线识别有三条硬限制：<b>5 秒定长录音、需相对安静、仅对标准普通话有效</b>，方言、含糊发音、远距离讲话都会失败。</div>
+      </section>
+
+      <section class="spec-block" aria-labelledby="formTitle" data-reveal>
+        <p class="eyebrow">两种形态 / FORM FACTOR</p>
+        <h2 id="formTitle">换到 ESP32-S3，会失去什么。</h2>
+        <p class="spec-sub">量产形态已经写清买什么、接什么、改什么，但<strong>现在不做</strong>：两套代码并行维护，会让当前阶段的交付先崩。下面这张表是迁移的代价，必须写进边界。</p>
+        <div class="table-scroll">
+          <table class="spec-table">
+            <thead><tr><th scope="col">能力</th><th scope="col">树莓派 5（当前）</th><th scope="col">ESP32-S3（量产）</th><th scope="col">怎么处理</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">离线连续语音识别</th><td class="num">Vosk 可用</td><td class="wait">装不下（模型 40 MB+）</td><td>换 ESP-SR 命令词识别（「我没事」「不舒服」「救命」），或录音上传云端 ASR</td></tr>
+              <tr><th scope="row">本地 TTS</th><td class="num">edge-tts 可用</td><td class="wait">不可用</td><td>回复改云端 TTS，或只播预录 + 固定回复</td></tr>
+              <tr><th scope="row">板上跑 sweep</th><td class="num">可以</td><td class="wait">不做</td><td>原始 CSV 通过 WiFi 传回电脑，分析仍在电脑上</td></tr>
+              <tr><th scope="row">每日点名的时刻</th><td class="num">NTP</td><td class="wait">NTP，断网就漂</td><td>加 DS3231（约 5 元），或接受断网时不精确</td></tr>
+              <tr><th scope="row">安全路径依赖网络</th><td class="no">否</td><td class="no">否（更好）</td><td>本地 WAV + 本地判定，断网完全不影响</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout"><b>这不是降级，是换了一种更合适的思路。</b>老人不会说长句子，而「我没事」「不舒服」「救命」三句覆盖了绝大部分需求；命令词识别完全本地、几百 KB、不联网，不会因为网络差而失败。诚实的说法是：<b>把「听懂一切」换成「听懂三句」，但这个交换让它在断网时也不会哑。</b></div>
+        <p class="micro" style="margin-top:12px">主控必须 ESP32-S3-DevKitC-1 <b>N16R8</b>（16 MB flash + 8 MB PSRAM），N8R2 存不下音频与后续模型；功放用 MAX98357A（I2S），不要买 PAM8403（模拟输入，需要 DAC）。详见 docs/ESP32迁移指南.md。</p>
+      </section>
 
       <div class="tech-next" data-reveal>
         <p>下一步：看它验证到哪一步，或者它是怎么工作的。</p>
@@ -2047,6 +2533,10 @@
         <span>不识别跌倒</span>
         <span>断电即失效</span>
         <span>不替代急救</span>
+        <span>不输出生理参数</span>
+        <span>不宣称符合 MZ/T 238—2025</span>
+        <span>语音识别不参与安全判定</span>
+        <span>屏幕与指示灯为预留</span>
       </div>
 
       <section class="verify-block" aria-labelledby="verifyTitle" data-reveal>
@@ -2075,6 +2565,68 @@
           </article>
         </div>
         <p class="verify-note">代码存在 ≠ 软件回归 ≠ 硬件实测 ≠ 整机联调。指标定义与回归记录见 <a href="https://github.com/lsf06/Guardian-Star-Elderly-Care/tree/main/docs" target="_blank" rel="noopener">GitHub 仓库 docs/</a>。</p>
+      </section>
+
+      <section class="spec-block" aria-labelledby="metricTitle" data-reveal>
+        <p class="eyebrow">指标表 / METRICS</p>
+        <h2 id="metricTitle">「待填」留着，其他行才可信。</h2>
+        <p class="spec-sub">目标值现在就写死，实测值等硬件到货后逐项回填。最后一行「跌倒检出：不支持」故意保留——留着它，前面几行才不是宣传。</p>
+        <div class="table-scroll">
+          <table class="spec-table">
+            <thead><tr><th scope="col">指标</th><th scope="col">目标</th><th scope="col">实测</th><th scope="col">测法</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">静默检出延迟</th><td class="num">≤ T + 5 s</td><td class="wait">待填</td><td><code>mock</code> / <code>sweep</code></td></tr>
+              <tr><th scope="row">正常静坐误问候</th><td class="num">≤ 2 次 / 24 h</td><td class="wait">待填</td><td><code>sweep</code></td></tr>
+              <tr><th scope="row">开门离场误问候</th><td class="no">0</td><td class="wait">待填</td><td><code>sweep</code></td></tr>
+              <tr><th scope="row">屏息检出率</th><td class="num">≥ 80%</td><td class="wait">待填</td><td><code>sweep</code></td></tr>
+              <tr><th scope="row">消解成功率</th><td class="num">≥ 95%（问候后 30 s 内按键）</td><td class="wait">待填</td><td>真机统计</td></tr>
+              <tr><th scope="row">升级重复次数</th><td class="no">1</td><td class="wait">待填</td><td><code>mock_run</code> 回归</td></tr>
+              <tr><th scope="row">连续运行</th><td class="num">≥ 24 h 无崩溃、无内存增长</td><td class="wait">待填</td><td>压测</td></tr>
+              <tr><th scope="row">启动自检</th><td class="num">上电 60 s 无人 → 提示</td><td class="wait">待填</td><td>真机</td></tr>
+              <tr><th scope="row">最长无人知晓时间（人在场）</th><td class="no">≤ 13 h</td><td class="num">13 h · 逻辑算得，非实测</td><td><code>mock_run</code> 点名回归</td></tr>
+              <tr><th scope="row">点名检出率</th><td class="no">100% · 逻辑保证，不依赖雷达</td><td class="num">逻辑必然</td><td><code>mock_run</code> 回归</td></tr>
+              <tr><th scope="row">点名误打扰</th><td class="num">2 次 / 天，可预期</td><td class="wait">待填</td><td>真机</td></tr>
+              <tr><th scope="row">语音识别参与安全判定</th><td class="no">否（仅陪聊）</td><td class="num">否 · 代码保证</td><td>代码审查</td></tr>
+              <tr><th scope="row">跌倒检出</th><td class="wait">不支持</td><td class="wait">—</td><td class="wait">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout is-warn"><b>最该讲的是「最长无人知晓时间」这一行。</b>20:00 后出事 → 次日 9:00 点名，最坏 13 小时。它是把「不做跌倒检测」从缺陷变成可交付承诺的唯一办法：客户不接受「我不做那个」，但会接受「最坏 13 小时一定有人知道」。这个数字是逻辑推出来的，不是测出来的，报告里必须标「逻辑值」。</div>
+        <div class="callout"><b>被追问「13 小时太久了」，不辩解，直接给取舍：</b>另一条路是加跌倒识别，成本从 100 元涨到 400 元以上，误报率上去，老人嫌烦把电源拔了——那才是真正的 24 小时盲区。选的是：<b>快的那条路 2 分钟，慢的那条路 13 小时，但两条路都不会被拔掉。</b>（2 分钟与 13 小时均为设计 / 逻辑值，非实测。）</div>
+      </section>
+
+      <section class="spec-block" aria-labelledby="evidenceTitle" data-reveal>
+        <p class="eyebrow">可复现的证据 / EVIDENCE</p>
+        <h2 id="evidenceTitle">不用任何硬件，你现在就能跑一遍。</h2>
+        <p class="spec-sub">下面这段录屏是 <code>src/mock_run.py</code> 的真实终端输出：虚拟时钟跑完整剧本，约 3 秒出结果。它证明的是逻辑与协议，不是硬件。</p>
+        <div class="split">
+          <div>
+            <figure class="demo-frame">
+              <video controls preload="none" playsinline width="1440" height="770" poster="assets/video/mock-run-poster.jpg" aria-label="终端录屏：运行 mock_run.py，输出启动自检、两次问候、按键消解、离家判定、升级推送与每日点名，末尾打印统计与回归测试 PASS">
+                <source src="assets/video/mock-run.mp4" type="video/mp4">
+                您的浏览器不支持视频播放，可直接在本地运行下方命令查看同样的输出。
+              </video>
+            </figure>
+            <p class="micro" style="margin-top:10px">录屏为真实运行输出，无剪辑配音；末尾可见「统计: 问候 4 次 / 推送 1 次 / 对话 1 次」与「回归测试: PASS」。原视频无有效音轨，已去除声音。</p>
+          </div>
+          <div>
+            <div class="cmd-list" style="margin-top:0">
+              <div class="cmd"><code>python src/mock_run.py</code><button class="cmd-copy" type="button">复制</button></div>
+              <div class="cmd"><code>python src/selftest.py</code><button class="cmd-copy" type="button">复制</button></div>
+              <div class="cmd"><code>python src/preflight.py</code><button class="cmd-copy" type="button">复制</button></div>
+              <div class="cmd"><code>python src/demo_keyboard.py --no-gpio --no-audio</code><button class="cmd-copy" type="button">复制</button></div>
+            </div>
+            <div class="evidence-row">
+              <span><b>12</b> 项协议断言全通过</span>
+              <span>回归 <b>PASS</b> · 问候 4 / 推送 1 / 对话 1</span>
+              <span><b>7</b> 句预录语音已入库</span>
+              <span>语音识别链路已通 · <b>模型未装</b></span>
+              <span>硬件实测 <b>0</b> 项</span>
+            </div>
+            <div class="callout"><b>回归里锁住的是那些「改一行就翻车」的地方：</b>同一次静默只推 1 次（锁存）、播报期间按音频真实时长冻结（防自激漏报）、杂散帧不能清零计时（占比判定）、点名把 13 小时上限钉死、按键消解后有安静期但不是永久免疫；点名按键必须产生 <code>checkin_ok</code> 事件真的推出去——「今日平安」只计数不发送，会被回归直接判 FAIL。</div>
+            <div class="callout is-warn"><b>代码存在 ≠ 软件回归 ≠ 硬件实测 ≠ 整机联调。</b>这四件事在本项目里只完成了前两件。任何「已实现」的表述都指代码与回归，不指实物。</div>
+          </div>
+        </div>
       </section>
 
       <section class="audit-block" aria-labelledby="auditTitle" data-reveal>
@@ -2126,6 +2678,48 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6 21 20H3z"/><path d="M12 9.5v4.4"/><path d="M12 17.1h.01"/></svg>
           <span>本设备不具备跌倒姿态识别功能，不作为医疗诊断依据，不能替代家人照护和紧急救援。</span>
         </div>
+      </section>
+
+      <section class="spec-block" aria-labelledby="failTitle" data-reveal>
+        <p class="eyebrow">失效表现 / FAILURE MODES</p>
+        <h2 id="failTitle">最危险的失效不是报错，是「看起来在工作」。</h2>
+        <p class="spec-sub">所以它上电做一次自检，并且每 5 秒检查一次雷达心跳——收不到帧就报「设备异常」，而不是把「雷达坏了」当成「人消失了」。下面四种现象都有明确含义与处理动作。</p>
+        <div class="table-scroll">
+          <table class="spec-table">
+            <thead><tr><th scope="col">现象</th><th scope="col">含义</th><th scope="col">处理</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">播「启动 60 秒仍未检测到人，请检查摆放位置与雷达朝向」</th><td>摆位不对，或雷达没连上（mock_run 剧本为 5 秒）</td><td>挪到 2–3 m、高 60–90 cm，检查接线</td></tr>
+              <tr><th scope="row">播「设备好像有点问题，我让人来看看」</th><td class="num">5 s 内收不到任何雷达帧 → 判设备异常，不是判人消失</td><td>查 UART：波特率 256000、TX/RX 交叉、共地</td></tr>
+              <tr><th scope="row">该问候时不问候</th><td>大概率摆太近（&lt; 1.5 m），静止门限出厂关闭</td><td>见硬核技术页「摆位」表</td></tr>
+              <tr><th scope="row">反复问候坐着的人</th><td>同上，或灵敏度门限设反了</td><td>门限 100 = 该门<b>完全不识别</b>，数字越大越迟钝</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout is-warn"><b>屏幕与指示灯是预留，不是能力。</b>当前代码没有屏驱动、没有灯效实现，装上去也不会亮。已实现的人机通道只有两个按键 + 扬声器。演示时不要指着一块黑屏说「它显示状态」——被问一句「它现在显示什么」就没有退路。</div>
+      </section>
+
+      <section class="spec-block" aria-labelledby="complianceTitle" data-reveal>
+        <p class="eyebrow">标准、隐私与留痕 / COMPLIANCE</p>
+        <h2 id="complianceTitle">参照了哪些标准，没宣称哪些资质。</h2>
+        <div class="table-scroll">
+          <table class="spec-table">
+            <thead><tr><th scope="col">对象</th><th scope="col">是什么</th><th scope="col">本项目的口径</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">MZ/T 238—2025</th><td>民政部推荐性行业标准，2025-02-28 发布、2025-05-01 实施</td><td class="no">仅参照其功能框架设计，不覆盖其中的跌倒检测要求，<b>不宣称符合</b></td></tr>
+              <tr><th scope="row">《人工智能拟人化互动服务管理暂行办法》</th><td class="num">2026-07-15 施行</td><td>若对外提供拟人化情感陪伴服务，需履行标识、安全评估等义务。作为课程 / 研究原型不对外提供服务时通常不触发；演示文案不承诺任何医疗建议。</td></tr>
+              <tr><th scope="row">医疗器械</th><td>需输出可用于诊断的生理参数</td><td class="no">不输出任何生理参数，不构成医疗器械，不用于医疗诊断</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="chips">
+          <span class="chip">没有摄像头，不采集图像</span>
+          <span class="chip">本地不存储录音，播报是固定音频文件</span>
+          <span class="chip">雷达只输出有没有人 / 动不动 / 多远 / 能量</span>
+          <span class="chip">推送内容只有一句文字</span>
+          <span class="chip">陪聊与安全功能完全隔离</span>
+        </div>
+        <div class="callout"><b>过程留痕的现状：</b><code>feishu/</code> 下四张 CSV（开发日志 / 任务进度 / 物料采购 / 指标验证）是 <b>2026-11-04 的只读快照</b>；<b>2026-11-09 起已停止自动同步</b>，飞书表内容不再随仓库变化。<code>tools/feishu_sync.py</code> 与 <code>tools/feishu_export.py</code> 已停用，不要再运行，否则会覆盖快照。要看最新进度，以仓库 <code>docs/</code> 与提交记录为准。</div>
+        <p class="micro" style="margin-top:12px">边界声明引自 docs/边界与指标.md 与 docs/项目说明书.md；失效表引自说明书第七节；合规提示引自 README。标准与法规信息为文档记录口径，正式对外表述前请再核对原文。</p>
       </section>
 
       <section class="faq-block" aria-labelledby="faqTitle" data-reveal>
@@ -2219,6 +2813,50 @@
               <div><p>雷达能看见“有人”，但看不见“人能不能动”。人倒在地上但还在呼吸时，它可能仍判断有人，异常确认不会触发。每日点名把这段盲区变成有上限的承诺：没有回应，才进入待核实。</p></div>
             </div>
           </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA9" id="faqQ9">
+                <span>老人听见了，但就是不按键，怎么办？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA9" role="region" aria-labelledby="faqQ9">
+              <div><p>按键是给老人的“确认权”，不是“义务”。他不按，就按没回应处理：第一次问候后 30 秒没按键，再问一次、语气更具体（“您按一下手边的键好吗”）；还不回应才推给家属。同一次静默最多问 2 次，问完就升级，不会一直追着问。<b>但必须诚实说：“老人听见了却不按”是这个方案最大的未验证风险</b>，只能靠真人试用才知道，文档里把它列为待测项，不是已经解决了。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA10" id="faqQ10">
+                <span>你说的 AI 到底在哪？规则状态机算 AI 吗？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA10" role="region" aria-labelledby="faqQ10">
+              <div><p>分成两半：<b>不参与安全的云端大模型，和可以逐行验证的边缘规则。</b>边缘这一层故意没用机器学习——拿不到真实衰弱老人的训练数据、误判代价不对称（漏报是命、误报是骚扰）、在同一颗 25 元雷达上跑模型换不来可靠性。云端这一层是真的模型：本地转文字后进 <code>deepseek-chat</code> 做意图与情绪理解，只用于陪聊，挂了也不影响救人。严格说规则引擎不算 AI，是传统专家系统思路，所以不用“模型”这个词包装它。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA11" id="faqQ11">
+                <span>到底多少钱？为什么有 120、157、720、150 好几个数字？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA11" role="region" aria-labelledby="faqQ11">
+              <div><p>因为是三笔不同的账，不能混着说。<b>外围器件增量约 100–150 元</b>（策划书细算 90–130、README 取 120、采购单按电商上限报 157，含 25 元开孔器），不含主控；<b>DIY 整机约 720 元</b>，含树莓派 5；<b>换 ESP32-S3 的量产整机约 150 元</b>，是整机不是增量。另外政府采购的多功能毫米波雷达中标价 550 元/台（含安装、平台与运维），已经低于 720 元的 DIY 成本——所以这个项目卖的不是“更便宜”，是“更清楚的承诺”。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA12" id="faqQ12">
+                <span>现在它能听懂老人说话吗？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA12" role="region" aria-labelledby="faqQ12">
+              <div><p>不能。语音识别<b>链路已通、模型未装</b>，当前用键盘输入代替语音输入，识别模块是占位。装上 Vosk 中文小模型后也只用于陪聊，且有三条硬限制：5 秒定长录音、需相对安静、仅对标准普通话有效——方言、含糊发音、远距离讲话都会失败。识别结果全程不参与静默判定与告警升级，所以识别错了最多是聊得不好，不会漏救，也不会乱报警。这一条写在边界里，而不是演示时假装它能听懂。</p></div>
+            </div>
+          </div>
         </div>
       </section>
       <div class="tech-next" data-reveal>
@@ -2310,6 +2948,12 @@
         <div class="app-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6 21 20H3z"/><path d="M12 9.5v4.4"/><path d="M12 17.1h.01"/></svg>
           <span>概念设计演示，非真实监护结果。</span>
+        </div>
+
+        <div class="app-push">
+          <span>推送原文 / PUSH TEXT</span>
+          <p>「老人较长时间未活动且未回应问候，建议致电确认。」</p>
+          <small>这是 <code>src/guardian.py</code> 中 <code>push_text</code> 的原文，一字不改；同一次静默只推 <b>1</b> 次。推送只有一句文字，不含位置轨迹、不含录音、不含生理参数。<br>通道已写 PushPlus 接口（标题「居家关怀提醒」），企业微信机器人为备选，<b>尚未与真实家属端联调</b>。未配置 <code>PUSHPLUS_TOKEN</code> 时只在本地打印 <code>[PUSH]</code> 并返回失败——<b>此时设备只有本地语音提醒，绝不播报「已通知家属」</b>。配置后也不只看 HTTP 200：PushPlus 的业务码非 200 一律判失败，重试 3 次仍失败则落盘 <code>data/_push_failed.jsonl</code> 供人工补发。<br>另一条兜底是每日平安回执：点名按键会产生 <code>checkin_ok</code> 事件并真的推送（回归锁住），家属当天收不到「今日平安」，就知道设备可能被拔掉或坏了，该打个电话。<b>子女不需要装任何 App。</b></small>
         </div>
 
         <div class="app-guide">
@@ -2447,6 +3091,7 @@
       history.replaceState(null, "", "#/" + route);
     }
     currentRoute = route;
+    stopVoice();
     views.forEach(function(view){
       var active = view.getAttribute("data-view") === route;
       if (active) {
@@ -2847,6 +3492,74 @@
       });
     });
   }
+
+  /* ---------- 语音试听：同一时刻只播一句 ---------- */
+  var voiceBtns = Array.prototype.slice.call(document.querySelectorAll("[data-voice]"));
+  var voiceAudio = null;
+  var voiceCurrent = null;
+  function stopVoice(){
+    if (voiceAudio) voiceAudio.pause();
+    if (voiceCurrent) {
+      voiceCurrent.classList.remove("is-playing");
+      voiceCurrent.setAttribute("aria-pressed", "false");
+    }
+    voiceCurrent = null;
+  }
+  voiceBtns.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      if (voiceCurrent === btn) { stopVoice(); return; }
+      stopVoice();
+      if (!voiceAudio) {
+        voiceAudio = new Audio();
+        voiceAudio.addEventListener("ended", stopVoice);
+        voiceAudio.addEventListener("error", stopVoice);
+        voiceAudio.addEventListener("loadedmetadata", function(){
+          if (voiceCurrent && isFinite(voiceAudio.duration)) {
+            var dur = voiceCurrent.querySelector(".voice-dur");
+            if (dur) dur.textContent = voiceAudio.duration.toFixed(1) + " s";
+          }
+        });
+      }
+      voiceCurrent = btn;
+      btn.classList.add("is-playing");
+      btn.setAttribute("aria-pressed", "true");
+      voiceAudio.src = btn.getAttribute("data-voice");
+      var playing = voiceAudio.play();
+      if (playing && typeof playing.catch === "function") playing.catch(stopVoice);
+    });
+  });
+
+  /* ---------- 命令复制 ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll(".cmd-copy"), function(btn){
+    btn.addEventListener("click", function(){
+      var code = btn.parentNode.querySelector("code");
+      if (!code) return;
+      var text = code.textContent;
+      function done(ok){
+        btn.classList.toggle("is-done", ok);
+        btn.textContent = ok ? "已复制" : "复制失败";
+        window.setTimeout(function(){
+          btn.classList.remove("is-done");
+          btn.textContent = "复制";
+        }, 1600);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(false); });
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+        document.body.removeChild(ta);
+        done(ok);
+      }
+    });
+  });
 
   /* ---------- 启动路由 ---------- */
   Array.prototype.forEach.call(routeLinks, function(link){
