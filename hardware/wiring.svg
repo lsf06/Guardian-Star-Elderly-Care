@@ -107,6 +107,6 @@
   <!-- 注记 -->
   <line x1="20" y1="536" x2="660" y2="536" stroke="#e5e7eb" stroke-width="1"/>
   <text x="20" y="554" font-size="9.5" font-weight="700" fill="#b91c1c">最容易错的三条：① 雷达 VCC 必须 5V　② TX / RX 是交叉的　③ 所有模块共地</text>
-  <text x="20" y="570" font-size="9.5" fill="#4b5563">LD2410C：UART 256000 8N1 ｜ 设备名 /dev/ttyAMA0 ｜ G0/G1 静止门限出厂关闭，静止检测从 1.5 m 起</text>
+  <text x="20" y="570" font-size="9.5" fill="#4b5563">LD2410C：UART 256000 8N1 ｜ 设备名 /dev/ttyAMA0 ｜ 探测 0.75–6 m，9 门出厂全开（灵敏度 20/25）</text>
   <text x="20" y="586" font-size="9.5" fill="#4b5563">门磁「常开 / 常闭」各家标法不统一，装好后先跑 python src/test_door.py --pin 18 实测电平</text>
 </svg>

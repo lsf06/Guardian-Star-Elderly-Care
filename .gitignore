@@ -34,3 +34,6 @@ Thumbs.db
 # lark-cli 读表时会落临时文件到当前目录，防止误提交
 *.ndjson
 *.manifest.json
+
+# 官方参考资料（PDF 与抽取出的文本，体积大且可重新下载）
+data/refs/*.txt

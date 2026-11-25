@@ -39,17 +39,27 @@ def decode(payload):
             return None
         return _basic(payload, gates=None)
 
-    if t == 0x01:                       # 工程模式帧：尾部是光照 + OUT，门能量从尾部反推
-        if len(payload) < 11 + 2 * MAX_GATES + 2:
+    if t == 0x01:
+        # 工程模式帧：基本目标数据（11B）+ 最大运动门 + 最大静止门（2B）
+        #              + 运动门能量 ×9 + 静止门能量 ×9 + 光敏 + OUT + 0x55 0x00
+        # 总长 35 = 0x23，官方 V1.09 文档 2.3 节示例逐字节对上。
+        #
+        # 曾在这里踩过坑：旧实现从帧尾反推（static_start = len-2-9），
+        # 只扣了尾部 0x55 0x00 两字节，漏掉「光敏 + OUT」两字节，
+        # 于是两组门能量整体前移 2 字节，解出来的值全是错的。
+        # 正确做法是从**帧头往后**定位置：门能量紧跟在两个最大门之后。
+        if len(payload) < 11 + 2 + 2 * MAX_GATES + 2:
             return None
-        static_start = len(payload) - 2 - MAX_GATES
-        motion_start = static_start - MAX_GATES
-        return _basic(payload, gates=(motion_start, static_start))
+        motion_start = 13               # payload[11]=最大运动门, [12]=最大静止门
+        static_start = motion_start + MAX_GATES
+        return _basic(payload, gates=(motion_start, static_start),
+                      light=payload[static_start + MAX_GATES],
+                      out=payload[static_start + MAX_GATES + 1])
 
     return None
 
 
-def _basic(p, gates):
+def _basic(p, gates, light=None, out=None):
     d = {
         "type": p[0],
         "state": p[2],
@@ -60,6 +70,8 @@ def _basic(p, gates):
         "detect_dist": p[9] | (p[10] << 8),
         "gates_motion": None,
         "gates_static": None,
+        "light": light,          # 光敏，仅工程模式有
+        "out": out,              # OUT 脚状态：0 无人 / 1 有人，仅工程模式有
     }
     if gates:
         m, s = gates
