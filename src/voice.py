@@ -153,33 +153,88 @@ def chat(text, timeout=20):
         return "我这边有点听不清，您再说一遍好不好？"
 
 
+def _push_channels():
+    """按优先级列出已配置的通道。两条都配就都发——报警场景宁可重复一条。
+
+    ① WECOM_WEBHOOK —— 企业微信群机器人。官方接口、完全免费、无日限额
+       （每分钟 20 条）。家属用个人微信扫码绑定「微信插件」即可收，
+       不需要装企业微信。**这是首选**。
+    ② PUSHPLUS_TOKEN —— PushPlus 转微信服务号。免费版 200 条/天、
+       同内容 1 小时最多 3 条。作为备选，或在只配了它时使用。
+
+    两个环境变量都没有时，只打印。不假装送到。
+    """
+    chans = []
+    hook = os.environ.get("WECOM_WEBHOOK", "").strip()
+    if hook:
+        chans.append(("wecom", hook))
+    token = os.environ.get("PUSHPLUS_TOKEN", "").strip()
+    if token:
+        chans.append(("pushplus", token))
+    return chans
+
+
 def push_family(text, attempts=3, timeout=10):
-    """推送给家属。PushPlus，失败会重试并落盘。
+    """推送给家属。按已配置的通道逐个发，任一成功即算送达。
 
     为什么不能只看 HTTP 200：PushPlus 在 token 过期、当日限额、内容被拦截时
-    仍然回 200，业务码放在响应体的 `code` 里。只判状态码会把「没送到」
-    记成「已送达」——而这条路径上的下一次调用，可能是老人按了红键。
+    仍然回 200，业务码放在响应体的 `code` 里；企业微信同理，errcode 才是结论。
+    只判状态码会把「没送到」记成「已送达」——而这条路径上的下一次调用，
+    可能是老人按了红键。
 
-    没配置 token 就打印并在文档里写明：未配置推送时，本设备只有本地语音提醒。
+    没配置任何通道就打印，并在文档里写明：此时本设备只有本地语音提醒。
     不要像某些方案那样，明明没有通知动作，却播报「已通知家属」。
     """
-    token = os.environ.get("PUSHPLUS_TOKEN", "").strip()
-    if not token:
+    chans = _push_channels()
+    if not chans:
         print("[PUSH] %s" % text)
         return False
 
-    last = None
-    for i in range(max(1, attempts)):
-        try:
-            _push_once(token, text, timeout)
-            return True
-        except Exception as e:
-            last = e
-            if i + 1 < max(1, attempts):
-                time.sleep(2 ** i)          # 1s, 2s
-    _push_record_failure(text, last)
-    print("[PUSH] 失败（已重试 %d 次）：%s" % (max(1, attempts), last))
+    errors = []
+    for kind, key in chans:
+        last = None
+        for i in range(max(1, attempts)):
+            try:
+                if kind == "wecom":
+                    _push_wecom(key, text, timeout)
+                else:
+                    _push_once(key, text, timeout)
+                return True                 # 任一通道成功就算送达
+            except Exception as e:
+                last = e
+                if i + 1 < max(1, attempts):
+                    time.sleep(2 ** i)      # 1s, 2s
+        errors.append("%s: %s" % (kind, last))
+
+    _push_record_failure(text, "; ".join(errors))
+    print("[PUSH] 全部通道失败（各重试 %d 次）：%s"
+          % (max(1, attempts), "; ".join(errors)))
     return False
+
+
+def _push_wecom(hook, text, timeout):
+    """企业微信群机器人。返回体 errcode != 0 即失败。
+
+    注意：webhook 的 key 等于群钥匙，泄露了谁都能往群里发消息。
+    只从环境变量读，不写进仓库、不打印完整 URL。
+    """
+    import json
+    import urllib.request
+
+    body = json.dumps({
+        "msgtype": "text",
+        "text": {"content": "【守护星】%s" % text},
+    }, ensure_ascii=False).encode("utf-8")
+    req = urllib.request.Request(hook, data=body,
+                                 headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        if r.status != 200:
+            raise RuntimeError("HTTP %s" % r.status)
+        raw = r.read().decode("utf-8", "replace")
+    data = json.loads(raw)
+    code = int(data.get("errcode", -1))
+    if code != 0:
+        raise RuntimeError("errcode %s：%s" % (code, data.get("errmsg")))
 
 
 def _push_once(token, text, timeout):
