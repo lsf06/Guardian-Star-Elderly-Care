@@ -1624,7 +1624,7 @@
         <p class="home-promise-sub">有上限的守护：最坏情况下，多久一定有人知道。</p>
       </div>
       <div class="home-strip-inner">
-        <div><span class="strip-num">01 · 人从雷达里消失，门没开</span><b>约 2 分钟</b><p>先开口问一句，无人应答再升级。</p></div>
+        <div><span class="strip-num">01 · 人从雷达里消失，门没开</span><b>约 2 分钟</b><p>先开口问一句，无人应答就自动升级——老人不用按任何键。</p></div>
         <div><span class="strip-num">02 · 人在场但不应答</span><b>约 13 小时</b><p>每日点名兜底，不让沉默持续太久。</p></div>
         <div><span class="strip-num">03 · 设备掉线 / 被拔掉</span><b>当天</b><p>状态回执缺失，家属当天可发现。</p></div>
       </div>
@@ -1889,7 +1889,7 @@
           <p class="wf-summary">它说的是“状态待核实”，不是“出事了”。</p>
           <div class="wf-cols">
             <div class="wf-col"><span class="wf-k">设备 / 硬件</span><p>Wi-Fi 通信（设计）。</p></div>
-            <div class="wf-col"><span class="wf-k">系统动作</span><p>再提醒一次；仍然没有回应，就把这件事标成“待家属核实”。</p></div>
+            <div class="wf-col"><span class="wf-k">系统动作</span><p>再提醒一次；仍然没有回应，就把这件事标成“待家属核实”。整个过程不需要老人按任何键：30 秒到点自动升级。</p></div>
             <div class="wf-col"><span class="wf-k">家属端 / 结果</span><p>家属端显示“状态待核实”，请先打电话确认；通知链路待联调。</p></div>
           </div>
         </div>
@@ -2197,6 +2197,17 @@
             </h3>
             <div class="faq-a" id="faqA8" role="region" aria-labelledby="faqQ8">
               <div><p>雷达能看见“有人”，但看不见“人能不能动”。人倒在地上但还在呼吸时，它可能仍判断有人，异常确认不会触发。每日点名把这段盲区变成有上限的承诺：没有回应，才进入待核实。</p></div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3>
+              <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA9" id="faqQ9">
+                <span>老人昏迷、按不了键怎么办？</span>
+                <span class="faq-ic" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div class="faq-a" id="faqA9" role="region" aria-labelledby="faqQ9">
+              <div><p>不需要按键。问候之后 30 秒内没有按键，设备就自动升级、推送家属——按键只是“提前消音”，不是前置条件。如果人还在、只是不动，雷达看到的仍是“有人”，这类盲区靠每天 9:00 / 20:00 的点名兜底：没有回应就进入待核实，最长 13 小时一定有人知道（设计值，非实测）。</p></div>
             </div>
           </div>
         </div>
