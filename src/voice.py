@@ -154,15 +154,21 @@ def chat(text, timeout=20):
 
 
 def _push_channels():
-    """按优先级列出已配置的通道。两条都配就都发——报警场景宁可重复一条。
+    """按优先级列出已配置的通道。配几个发几个——报警场景宁可重复一条。
 
-    ① WECOM_WEBHOOK —— 企业微信群机器人。官方接口、完全免费、无日限额
-       （每分钟 20 条）。家属用个人微信扫码绑定「微信插件」即可收，
-       不需要装企业微信。**这是首选**。
-    ② PUSHPLUS_TOKEN —— PushPlus 转微信服务号。免费版 200 条/天、
-       同内容 1 小时最多 3 条。作为备选，或在只配了它时使用。
+    ① WECOM_WEBHOOK —— 企业微信群机器人（官方叫「消息推送」）。
+       20 条/分钟，官方未公布日上限。限制：只能加内部群，家属必须先成为
+       企业成员（再用个人微信关注「微信插件」接收）。适合自家/课程试点。
+    ② PUSHPLUS_TOKEN —— PushPlus 转微信服务号。200 条/天、同内容 1 小时
+       最多 3 条，且**必须实名**否则返回 code=905。任何微信都能收，
+       是「卖给陌生家庭」唯一现成可行的路。
+    ③ WXPUSHER_SPT / WXPUSHER_APPTOKEN —— WxPusher。免费、无需实名，
+       扫码即得 SPT（极简模式，一个 GET 请求）。同样任何微信都能收。
+       成功码是 code==1000（不是 200，容易写错）。
+    ④ SERVERCHAN_SENDKEY —— Server酱。免费只有 5 条/天，够测试不够日常，
+       仅作最后兜底。
 
-    两个环境变量都没有时，只打印。不假装送到。
+    一个都没配时只打印。不假装送到。
     """
     chans = []
     hook = os.environ.get("WECOM_WEBHOOK", "").strip()
@@ -171,6 +177,17 @@ def _push_channels():
     token = os.environ.get("PUSHPLUS_TOKEN", "").strip()
     if token:
         chans.append(("pushplus", token))
+    spt = os.environ.get("WXPUSHER_SPT", "").strip()
+    if spt:
+        chans.append(("wxpusher_spt", spt))
+    else:
+        app = os.environ.get("WXPUSHER_APPTOKEN", "").strip()
+        uids = os.environ.get("WXPUSHER_UID", "").strip()
+        if app and uids:
+            chans.append(("wxpusher", "%s|%s" % (app, uids)))
+    key = os.environ.get("SERVERCHAN_SENDKEY", "").strip()
+    if key:
+        chans.append(("serverchan", key))
     return chans
 
 
@@ -197,6 +214,13 @@ def push_family(text, attempts=3, timeout=10):
             try:
                 if kind == "wecom":
                     _push_wecom(key, text, timeout)
+                elif kind == "wxpusher_spt":
+                    _push_wxpusher_spt(key, text, timeout)
+                elif kind == "wxpusher":
+                    app, uids = key.split("|", 1)
+                    _push_wxpusher(app, uids, text, timeout)
+                elif kind == "serverchan":
+                    _push_serverchan(key, text, timeout)
                 else:
                     _push_once(key, text, timeout)
                 return True                 # 任一通道成功就算送达
@@ -252,6 +276,81 @@ def _push_once(token, text, timeout):
     data = json.loads(raw)
     if int(data.get("code", -1)) != 200:
         raise RuntimeError("业务码 %s：%s" % (data.get("code"), data.get("msg")))
+
+
+def _push_wxpusher_spt(spt, text, timeout):
+    """WxPusher 极简模式：一个 GET 请求，不需要建应用。
+
+    扫码就能拿到 SPT，是最省事的接入方式。代价是内容放在 URL 里，
+    长消息会被截断——本项目推送都在 100 字以内，够用。
+
+    成功码是 code == 1000（不是 200）。文档原文：「1000 表示发送任务
+    创建成功，不代表消息已送达」——所以它和企微一样，只是受理。
+    """
+    import json
+    import urllib.parse
+    import urllib.request
+
+    url = "https://wxpusher.zjiecode.com/api/send/message/%s/%s" % (
+        urllib.parse.quote(spt, safe=""),
+        urllib.parse.quote(text, safe=""),
+    )
+    with urllib.request.urlopen(url, timeout=timeout) as r:
+        if r.status != 200:
+            raise RuntimeError("HTTP %s" % r.status)
+        raw = r.read().decode("utf-8", "replace")
+    data = json.loads(raw)
+    if int(data.get("code", -1)) != 1000:
+        raise RuntimeError("code %s：%s" % (data.get("code"), data.get("msg")))
+
+
+def _push_wxpusher(app_token, uids, text, timeout):
+    """WxPusher 标准模式：appToken + UID 列表，POST 发送。"""
+    import json
+    import urllib.request
+
+    body = json.dumps({
+        "appToken": app_token,
+        "content": "【守护星】%s" % text,
+        "contentType": 1,
+        "uids": [u.strip() for u in uids.split(",") if u.strip()],
+    }, ensure_ascii=False).encode("utf-8")
+    req = urllib.request.Request(
+        "https://wxpusher.zjiecode.com/api/send/message", data=body,
+        headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        if r.status != 200:
+            raise RuntimeError("HTTP %s" % r.status)
+        raw = r.read().decode("utf-8", "replace")
+    data = json.loads(raw)
+    if int(data.get("code", -1)) != 1000:
+        raise RuntimeError("code %s：%s" % (data.get("code"), data.get("msg")))
+
+
+def _push_serverchan(sendkey, text, timeout):
+    """Server酱。免费只有 5 条/天——够验证链路，不够日常用。
+
+    成功码是 code == 0（又是另一个数字，三个平台三种约定：
+    企微 errcode==0、PushPlus code==200、WxPusher code==1000、Server酱 code==0）。
+    """
+    import json
+    import urllib.parse
+    import urllib.request
+
+    body = urllib.parse.urlencode({
+        "title": "守护星提醒",
+        "desp": text,
+    }).encode("utf-8")
+    url = "https://sctapi.ftqq.com/%s.send" % sendkey
+    req = urllib.request.Request(url, data=body,
+                                 headers={"Content-Type": "application/x-www-form-urlencoded"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        if r.status != 200:
+            raise RuntimeError("HTTP %s" % r.status)
+        raw = r.read().decode("utf-8", "replace")
+    data = json.loads(raw)
+    if int(data.get("code", -1)) != 0:
+        raise RuntimeError("code %s：%s" % (data.get("code"), data.get("message")))
 
 
 def _push_record_failure(text, err):
